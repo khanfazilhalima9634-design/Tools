@@ -615,4 +615,123 @@
         });
     </script>
 </body>
-</html>
+</html><!-- Paste this AFTER your existing script (or replace it) -->
+<script>
+/* === Small helpers to sanitize numeric inputs (strip commas/spaces) === */
+function numericValue(el) {
+  if (!el) return 0;
+  // get the raw value (for <input type="number"> this should be numeric string)
+  const v = (el.value || '').toString().trim();
+  // remove commas and non-numeric except dot and minus
+  const cleaned = v.replace(/[^0-9.-]+/g, '');
+  const n = parseFloat(cleaned);
+  return isFinite(n) ? n : 0;
+}
+
+/* === Attach missing listeners, make calculate/reset/print work === */
+(function attachListeners() {
+  // Find controls (re-query to be safe)
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const printBtn = document.getElementById('print-btn');
+
+  // If any are missing, no-op safely
+  if (calculateBtn) {
+    calculateBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Ensure input values are numeric (avoid commas)
+      loanAmountInput.value = numericValue(loanAmountInput);
+      interestRateInput.value = numericValue(interestRateInput);
+      loanTermInput.value = Math.max(1, parseInt(numericValue(loanTermInput)) || 1);
+      // recalc
+      calculateEMI();
+    });
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      resetForm();
+      // scroll to calculator
+      document.getElementById('calculator')?.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  if (printBtn) {
+    printBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      printResults();
+    });
+  }
+
+  // Make sure sliders reflect initial values (in case inputs were prefilled)
+  updateSliderValues();
+
+  // Re-bind slider/input sync (in case script order differs)
+  // Note: these listeners already exist in your original file; this code is idempotent.
+  loanAmountInput?.addEventListener('input', function() {
+    loanAmountSlider.value = this.value;
+    updateSliderValues();
+  });
+  loanAmountSlider?.addEventListener('input', function() {
+    loanAmountInput.value = this.value;
+    updateSliderValues();
+  });
+  interestRateInput?.addEventListener('input', function() {
+    interestRateSlider.value = this.value;
+    updateSliderValues();
+  });
+  interestRateSlider?.addEventListener('input', function() {
+    interestRateInput.value = this.value;
+    updateSliderValues();
+  });
+  loanTermInput?.addEventListener('input', function() {
+    loanTermSlider.value = this.value;
+    updateSliderValues();
+  });
+  loanTermSlider?.addEventListener('input', function() {
+    loanTermInput.value = this.value;
+    updateSliderValues();
+  });
+
+  // Ensure calculate runs once after everything initializes so user sees data
+  // but don't spam — only run if required
+  // (comment out if you don't want auto-calc on page load)
+  calculateEMI();
+})();
+
+/* === Minor robustness: make calculateEMI use numericValue sanitizer === */
+const origCalculate = calculateEMI;
+function calculateEMI_sanitized() {
+  // sanitize inputs before computing
+  loanAmountInput.value = numericValue(loanAmountInput);
+  interestRateInput.value = numericValue(interestRateInput);
+  loanTermInput.value = Math.max(1, parseInt(numericValue(loanTermInput)) || 1);
+  // call the original function (if present)
+  if (typeof origCalculate === 'function') {
+    origCalculate();
+  } else {
+    // fallback: replicate minimal EMI calc if original not present
+    const principal = numericValue(loanAmountInput);
+    const annualInterestRate = numericValue(interestRateInput);
+    const loanTermYears = parseInt(loanTermInput.value) || 0;
+    if (principal <= 0 || loanTermYears <= 0) return;
+    const monthlyInterestRate = annualInterestRate / 100 / 12;
+    const numberOfPayments = loanTermYears * 12;
+    let emi = 0;
+    if (monthlyInterestRate === 0) emi = principal / numberOfPayments;
+    else emi = principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+    // update outputs (simple)
+    monthlyPaymentEl.textContent = formatCurrency(emi);
+    const totalPayment = emi * numberOfPayments;
+    totalPaymentEl.textContent = formatCurrency(totalPayment);
+    totalInterestEl.textContent = formatCurrency(totalPayment - principal);
+  }
+}
+// If original exists, replace it to sanitized wrapper
+if (typeof calculateEMI === 'function') {
+  // override global calculateEMI name so future clicks call sanitized version
+  window.calculateEMI = calculateEMI_sanitized;
+}
+</script>
+
