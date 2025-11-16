@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- Primary SEO -->
+  <title>GlobalLoanCalc — Free Multi-Currency Loan & EMI Calculator</title>
+  <meta name="description" content="GlobalLoanCalc — Free, private, and accurate loan & EMI calculator. Multi-currency and multi-language support. Calculate monthly payments, total interest, payoff date and download amortization schedules.">
+  <meta name="keywords" content="loan calculator, EMI calculator, monthly payment calculator, amortization schedule, multi-currency loan calculator, multilingual loan tool">
+  <link rel="canonical" href="https://www.yourwebsite.com/">
+  <meta name="robots" content="index, follow, max-snippet:200, max-image-preview:large">
+
+  <!-- Social / Open Graph -->
+  <meta property="og:locale" content="en_US">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="GlobalLoanCalc — Free Multi-Currency Loan & EMI Calculator">
+  <meta property="og:description" content="Free, private loan & EMI calculator with multi-currency and multi-language support. Get instant monthly payment estimates, interest breakdowns and downloadable amortization schedules.">
+  <meta property="og:url" content="https://www.yourwebsite.com/">
+  <meta property="og:image" content="https://www.yourwebsite.com/assets/og-preview.png">
+  <meta property="og:image:alt" content="GlobalLoanCalc preview — loan calculator dashboard">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GlobalLoanCalc — Loan & EMI Calculator">
+  <meta name="twitter:description" content="Calculate EMIs, total interest and amortization schedules for loans in any currency. Private & easy to use.">
+  <meta name="twitter:image" content="https://www.yourwebsite.com/assets/og-preview.png">
+
+  <!-- Hreflang (example entries) -->
+  <link rel="alternate" href="https://www.yourwebsite.com/" hreflang="en" />
+  <link rel="alternate" href="https://www.yourwebsite.com/es/" hreflang="es" />
+
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Structured Data: Organization, WebSite, Breadcrumbs, FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://www.yourwebsite.com/#org",
+        "name": "GlobalLoanCalc",
+        "url": "https://www.yourwebsite.com/",
+        "logo": "https://www.yourwebsite.com/assets/logo.png",
+        "sameAs": ["https://www.facebook.com/yourpage","https://twitter.com/yourprofile"]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://www.yourwebsite.com/#website",
+        "url": "https://www.yourwebsite.com/",
+        "name": "GlobalLoanCalc",
+        "publisher": {"@id": "https://www.yourwebsite.com/#org"},
+        "potentialAction": {"@type": "SearchAction","target": "https://www.yourwebsite.com/?q={search_term_string}","query-input":"required name=search_term_string"}
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://www.yourwebsite.com/"},
+          {"@type":"ListItem","position":2,"name":"Calculator","item":"https://www.yourwebsite.com/global-loan-calculator.html"}
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {"@type":"Question","name":"What is an EMI?","acceptedAnswer":{"@type":"Answer","text":"EMI stands for Equated Monthly Installment — the fixed monthly payment that covers interest and principal."}},
+          {"@type":"Question","name":"How is EMI calculated?","acceptedAnswer":{"@type":"Answer","text":"EMI is calculated using the standard formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1), where r is monthly interest rate."}}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- Styles (kept inline for speed; move to external CSS for large projects) -->
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#94a3b8;--accent:#7c3aed;--accent-2:#06b6d4}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:0;color:#e6eef8;background:linear-gradient(180deg,#071022 0%,#081328 50%,#0b1220 100%)}
+    .container{max-width:1200px;margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:800;font-size:1.1rem}
+    .logo i{background:linear-gradient(90deg,var(--accent),var(--accent-2));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:1.6rem}
+    nav ul{list-style:none;display:flex;gap:18px;margin:0;padding:0}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600}
+    nav a:hover{color:#fff}
+
+    main{padding-top:12px}
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:36px;align-items:center;padding:40px 0}
+    .super{font-family:'DM Serif Display',serif;color:var(--accent);font-size:0.95rem;margin-bottom:10px}
+    h1{font-size:2.1rem;line-height:1.05;margin:0 0 12px;color:#fff}
+    h1 .accent{background:linear-gradient(90deg,var(--accent),#9b5cf6);-webkit-background-clip:text;color:transparent}
+    p.lead{color:var(--muted);margin:0 0 18px;font-size:1.02rem;max-width:62ch}
+    .ctas{display:flex;gap:12px}
+    .btn{padding:12px 18px;border-radius:12px;border:none;cursor:pointer;font-weight:700}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#9b5cf6);color:white;box-shadow:0 10px 30px rgba(124,58,237,0.12)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));padding:22px;border-radius:14px;border:1px solid rgba(255,255,255,0.04)}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+    .feature{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);display:flex;gap:12px}
+    .feature i{font-size:1.4rem;color:#9b5cf6}
+    .feature h4{margin:0 0 6px;color:#fff}
+    .feature p{margin:0;color:var(--muted)}
+
+    .how{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:16px;border-radius:12px}
+    .testimonials{display:flex;gap:14px;margin-top:26px}
+    .testimonial{flex:1;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px}
+
+    footer{margin-top:36px;padding:26px 0;color:var(--muted);border-top:1px solid rgba(255,255,255,0.02)}
+
+    @media(max-width:980px){.hero{grid-template-columns:1fr;}.feature-grid{grid-template-columns:repeat(2,1fr)}.how{grid-template-columns:1fr}}
+    @media(max-width:560px){.feature-grid{grid-template-columns:1fr}}
+
+    /* Accessibility helpers */
+    a:focus{outline:3px solid rgba(124,58,237,0.2);outline-offset:3px}
+  </style>
+</head>
+<body>
+  <header class="container" role="banner">
+    <div class="logo" aria-label="GlobalLoanCalc logo"><i class="fas fa-globe-americas" aria-hidden></i><span>GlobalLoanCalc</span></div>
+    <nav role="navigation" aria-label="Main navigation">
+      <!-- Added direct hyperlink to Loan & EMI main calculator page -->
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><!-- 🔗 MAIN WEBSITE LINK PLACEHOLDER → Replace YOUR-WEBSITE.com with your domain -->
+        <a href="https://YOUR-WEBSITE.com/global-loan-calculator.html">Calculator</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container" role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="super">Instant • Private • Accurate</div>
+        <h1 id="hero-title"><span class="accent">GlobalLoanCalc</span> — Free Multi-Currency Loan &amp; EMI Calculator</h1>
+        <p class="lead">Use our fast, browser-based loan calculator to estimate monthly payments, total interest, payoff date, and download a printable amortization schedule. No signup required — your inputs stay private.</p>
+
+        <div class="ctas">
+          <a class="btn btn-primary" href="/global-loan-calculator.html" aria-label="Open the calculator">Open Calculator</a>
+          <!-- Added Main Loan & EMI Page Link -->
+          <!-- 🔗 MAIN WEBSITE LINK PLACEHOLDER → Replace YOUR-WEBSITE.com with your domain -->
+          <a class="btn btn-ghost" href="https://YOUR-WEBSITE.com/global-loan-calculator.html" aria-label="Go to main Loan & EMI Calculator Page">Loan & EMI Page</a>
+          <a class="btn btn-ghost" href="#how" aria-label="Learn how it works">How it works</a>
+        </div>
+
+        <div id="features" class="feature-grid" aria-hidden="false">
+          <div class="feature" role="article"><i class="fas fa-money-bill-wave" aria-hidden></i><div><h4>Multi-Currency</h4><p>Accurate currency formatting and locales for major global currencies.</p></div></div>
+          <div class="feature" role="article"><i class="fas fa-language" aria-hidden></i><div><h4>Multi-Language</h4><p>Easy language switch with RTL support to reach global users.</p></div></div>
+          <div class="feature" role="article"><i class="fas fa-user-shield" aria-hidden></i><div><h4>Privacy First</h4><p>All calculations run locally in your browser — no server uploads.</p></div></div>
+        </div>
+      </div>
+
+      <aside class="card" aria-label="Quick estimate card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-weight:700;color:#fff">Quick Estimate</div>
+          <div style="color:var(--muted);font-size:0.9rem">Sample values</div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+          <div>
+            <div style="font-size:1.2rem;font-weight:800;color:#fff">$501.00 <span style="font-weight:600;color:var(--muted);font-size:0.9rem">/ month</span></div>
+            <div style="color:var(--muted);margin-top:8px">Total Interest: $5,060 • Total Payment: $30,060</div>
+          </div>
+          <div style="background:linear-gradient(180deg,#071127,#062033);padding:10px;border-radius:10px;color:var(--muted)">
+            <div style="font-size:0.8rem">Loan</div>
+            <div style="font-weight:800;font-size:1.05rem">25,000</div>
+            <div style="font-size:0.7rem;color:var(--muted);margin-top:8px">7.5% • 5 yrs</div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;display:flex;gap:8px">
+          <a class="btn btn-primary" href="/global-loan-calculator.html">Try Now</a>
+          <a class="btn btn-ghost" href="#how">Learn More</a>
+        </div>
+
+        <!-- AdSense placeholder — replace client & slot with your values -->
+        <div style="margin-top:16px;border-radius:10px;overflow:hidden">
+          <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX" data-ad-format="auto"></ins>
+        </div>
+      </aside>
+    </section>
+
+    <section class="how" id="how" aria-labelledby="how-title">
+      <div class="panel">
+        <h3 id="how-title">How it works</h3>
+        <ol>
+          <li>Enter loan amount, interest rate and loan term.</li>
+          <li>Choose currency and language for localized formatting.</li>
+          <li>View EMI, total interest, payoff date and amortization schedule. Download or print if needed.</li>
+        </ol>
+      </div>
+
+      <div class="panel">
+        <h3>Benefits</h3>
+        <ul>
+          <li>Instant, private calculations — no account needed.</li>
+          <li>SEO-friendly content and structured data to improve discoverability.</li>
+          <li>Simple AdSense placeholders for easy monetization.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="testimonials" aria-label="User testimonials">
+      <div class="testimonial">
+        <strong>Jane D.</strong>
+        <p style="color:var(--muted)">"Very easy to use — helped me plan my car loan payments precisely."</p>
+      </div>
+      <div class="testimonial">
+        <strong>Mohammed A.</strong>
+        <p style="color:var(--muted)">"Multi-currency support saved me time while comparing loan offers abroad."</p>
+      </div>
+    </section>
+
+    <section id="contact" style="margin-top:24px">
+      <div class="panel">
+        <h3>Contact &amp; Legal</h3>
+        <p style="color:var(--muted)">Email: <a href="mailto:info@globalloancalc.com">info@globalloancalc.com</a> • Phone: +1 (555) 123-4567</p>
+        <p style="color:var(--muted);margin-top:8px">Privacy Policy • <a href="/terms" style="color:var(--muted)">Terms of Service</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer role="contentinfo">
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>
+        <div style="font-weight:800;color:#fff">GlobalLoanCalc</div>
+        <div style="color:var(--muted);margin-top:6px">© 2025 GlobalLoanCalc — All rights reserved.</div>
+      </div>
+      <div style="color:var(--muted)">Built for accessibility, SEO & fast performance. Host on GitHub Pages.</div>
+    </div>
+  </footer>
+
+  <!-- Defer AdSense push until after load -->
+  <script defer>
+    window.addEventListener('load', function(){
+      try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){console.warn('AdSense not configured', e)}
+    });
+  </script>
+</body>
+</html>
+
