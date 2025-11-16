@@ -90,8 +90,6 @@
 
     <!-- Top leaderboard ad placeholder -->
     <div class="ad-top card" id="ad-top">
-      <!-- If ADSENSE_CONFIG.client is set this will become a real AdSense slot;
-           otherwise this shows placeholder text. Fill ADSENSE_CONFIG.client and slots below. -->
       <div id="ad-top-inner">Ad Space — Leaderboard (728x90 or responsive)</div>
     </div>
 
@@ -173,7 +171,14 @@
             <div class="amort-wrap card" aria-live="polite">
               <table id="amort-table" aria-label="Amortization schedule">
                 <thead>
-                  <tr><th>Month</th><th>Payment</th><th>Principal</th><th>Interest</th><th>Balance</th></tr>
+                  <!-- NOTE: EMI column added -->
+                  <tr>
+                    <th>Month</th>
+                    <th>EMI</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Balance</th>
+                  </tr>
                 </thead>
                 <tbody id="amort-body"></tbody>
               </table>
@@ -215,10 +220,10 @@
     /**************************************************************************
      * CONFIG: Paste your AdSense IDs here (ONLY ONE PLACE)
      *
-     * - ADSENSE_CLIENT: your AdSense publisher id, e.g. "ca-pub-1234567890123456"
-     * - ADSENSE_SLOTS: set slot ids for the ad placeholders (strings).
+     * - ADSENSE_CONFIG.client: your AdSense publisher id, e.g. "ca-pub-1234567890123456"
+     * - ADSENSE_CONFIG.slots.top | sidebar_large | sidebar_small: ad unit ids
      *
-     * If ADSENSE_CLIENT is empty the page will not load AdSense (safe for testing).
+     * Leave empty for testing to keep placeholders visible.
      **************************************************************************/
     const ADSENSE_CONFIG = {
       client: '', // <-- Replace with 'ca-pub-XXXXXXXXXXXX' to enable ads
@@ -356,6 +361,7 @@
         const principalPayment = Math.min(emi - interestPayment, balance);
         balance = Math.max(0, balance - principalPayment);
         if (m <= 12 || m > n - 5){
+          // Now include EMI column explicitly
           html += `<tr>
             <td>${m}</td>
             <td>${formatCurrency(emi)}</td>
@@ -373,11 +379,7 @@
     }
 
     // Attach button events
-    calcBtn.addEventListener('click', (e)=>{ e.preventDefault(); // sanitize numeric characters
-      // allow typed values like "25,000" or "25 000"
-      loanInput.value = String(loanInput.value).replace(/,/g,'').trim();
-      calculateEMI();
-    });
+    calcBtn.addEventListener('click', (e)=>{ e.preventDefault(); loanInput.value = String(loanInput.value).replace(/,/g,'').trim(); calculateEMI(); });
     resetBtn.addEventListener('click', (e)=>{ e.preventDefault(); resetForm(); });
     printBtn.addEventListener('click', (e)=>{ e.preventDefault(); window.print(); });
 
