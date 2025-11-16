@@ -7,9 +7,16 @@
     <meta name="description" content="Free online Loan EMI Calculator - Calculate your Equated Monthly Installment (EMI) for home loans, car loans, personal loans with flexible currency options.">
     <meta name="keywords" content="loan calculator, EMI calculator, home loan, car loan, personal loan, currency converter">
     <meta name="author" content="Loan Calculator">
+    
+    <!-- ========== GOOGLE ADSENSE CODE - PLACE YOUR SITE-WIDE CODE HERE ========== -->
+    <!-- Replace the entire script tag below with your AdSense code -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <!-- ========== END GOOGLE ADSENSE SITE-WIDE CODE ========== -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* All the CSS styles from the previous code remain the same */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a0ca3;
@@ -445,6 +452,11 @@
             border-radius: var(--radius);
             padding: 1.5rem;
             border: 2px dashed var(--gray-light);
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .ad-label {
@@ -461,6 +473,27 @@
             padding: 3rem 1rem;
             color: var(--gray);
             font-weight: 500;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* In-content ad styles */
+        .in-content-ad {
+            margin: 1.5rem 0;
+            text-align: center;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 1rem;
+            border: 2px dashed var(--gray-light);
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         /* Footer */
@@ -675,14 +708,29 @@
     <main class="container">
         <h1 class="page-title">Calculate Your <span>Loan EMI</span> in Seconds</h1>
 
-        <!-- Ad Space 1 -->
+        <!-- ========== AD SPACE 1 - HEADER BANNER ========== -->
         <div class="ad-container">
             <div class="ad-label">Advertisement</div>
             <div class="ad-placeholder">
-                <!-- Replace with your Google AdSense code -->
+                <!-- ========== GOOGLE ADSENSE CODE - HEADER BANNER ========== -->
+                <!-- Replace this section with your AdSense banner code -->
+                <!-- Example: -->
+                <!--
+                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="XXXXXXXXXX"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+                -->
                 <i class="fas fa-ad" style="font-size: 2rem; margin-bottom: 10px;"></i>
                 <p>Ad Space - 728 x 90</p>
                 <p>Google AdSense Unit</p>
+                <!-- ========== END ADSENSE HEADER BANNER ========== -->
             </div>
         </div>
 
@@ -734,6 +782,29 @@
                 <button id="calculate-btn" class="btn btn-block">
                     <i class="fas fa-calculator"></i> Calculate EMI
                 </button>
+                
+                <!-- ========== IN-CONTENT AD 1 ========== -->
+                <div class="in-content-ad">
+                    <div class="ad-label">Advertisement</div>
+                    <!-- ========== GOOGLE ADSENSE CODE - IN-CONTENT ========== -->
+                    <!-- Replace this section with your AdSense in-content code -->
+                    <!-- Example: -->
+                    <!--
+                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                         data-ad-slot="XXXXXXXXXX"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                    -->
+                    <i class="fas fa-ad" style="font-size: 1.5rem; margin-bottom: 5px;"></i>
+                    <p>In-content Ad</p>
+                    <!-- ========== END ADSENSE IN-CONTENT ========== -->
+                </div>
             </div>
 
             <div class="calculator-card currency-converter">
@@ -783,6 +854,16 @@
                     <div class="conversion-amount" id="converted-amount">$12.05</div>
                     <div class="conversion-rate" id="conversion-rate">1 INR = 0.01205 USD</div>
                 </div>
+                
+                <!-- ========== IN-CONTENT AD 2 ========== -->
+                <div class="in-content-ad">
+                    <div class="ad-label">Advertisement</div>
+                    <!-- ========== GOOGLE ADSENSE CODE - IN-CONTENT ========== -->
+                    <!-- Replace this section with your AdSense in-content code -->
+                    <i class="fas fa-ad" style="font-size: 1.5rem; margin-bottom: 5px;"></i>
+                    <p>In-content Ad</p>
+                    <!-- ========== END ADSENSE IN-CONTENT ========== -->
+                </div>
             </div>
         </div>
 
@@ -822,14 +903,16 @@
             </div>
         </div>
 
-        <!-- Ad Space 2 -->
+        <!-- ========== AD SPACE 2 - MIDDLE BANNER ========== -->
         <div class="ad-container">
             <div class="ad-label">Advertisement</div>
             <div class="ad-placeholder">
-                <!-- Replace with your Google AdSense code -->
+                <!-- ========== GOOGLE ADSENSE CODE - MIDDLE BANNER ========== -->
+                <!-- Replace this section with your AdSense banner code -->
                 <i class="fas fa-ad" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                <p>Ad Space - 300 x 250</p>
+                <p>Ad Space - 728 x 90</p>
                 <p>Google AdSense Unit</p>
+                <!-- ========== END ADSENSE MIDDLE BANNER ========== -->
             </div>
         </div>
     </main>
@@ -866,6 +949,20 @@
                     <p><i class="fas fa-map-marker-alt"></i> Address: 123 Finance Street, Money City</p>
                 </div>
             </div>
+            
+            <!-- ========== AD SPACE 3 - FOOTER BANNER ========== -->
+            <div class="ad-container" style="margin: 2rem 0;">
+                <div class="ad-label">Advertisement</div>
+                <div class="ad-placeholder">
+                    <!-- ========== GOOGLE ADSENSE CODE - FOOTER BANNER ========== -->
+                    <!-- Replace this section with your AdSense banner code -->
+                    <i class="fas fa-ad" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>Ad Space - 728 x 90</p>
+                    <p>Google AdSense Unit</p>
+                    <!-- ========== END ADSENSE FOOTER BANNER ========== -->
+                </div>
+            </div>
+            
             <div class="copyright">
                 <p>&copy; 2023 Loan & EMI Calculator. All rights reserved.</p>
             </div>
@@ -879,6 +976,7 @@
     </div>
 
     <script>
+        // All the JavaScript code from the previous implementation remains the same
         // DOM Elements
         const calculateBtn = document.getElementById('calculate-btn');
         const convertBtn = document.getElementById('convert-btn');
@@ -1162,6 +1260,10 @@
             
             // Set up currency conversion with default values
             convertCurrency();
+            
+            // ========== INITIALIZE ADSENSE ADS ==========
+            // This script will push AdSense ads after they are inserted
+            // (adsbygoogle = window.adsbygoogle || []).push({});
         });
     </script>
 </body>
