@@ -3,633 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GlobalLoanCalc - Homepage</title>
-    <link rel="stylesheet" href="global-loan-calculator.html">
+    <title>Loan Calculator - Home</title>
+
     <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #7209b7;
-            --accent: #f72585;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4cc9f0;
-            --card-bg: #ffffff;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            --radius: 16px;
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-            color: var(--dark);
-            line-height: 1.6;
-            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            padding: 0;
+            margin: 0;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: #3b5bdb;
+            padding: 15px;
             color: white;
-            padding: 1.2rem 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            font-weight: 800;
-        }
-
-        .logo i {
-            color: var(--accent);
-            font-size: 2rem;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 1.8rem;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            padding: 8px 12px;
-            border-radius: 8px;
-        }
-
-        nav ul li a:hover {
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .hero {
             text-align: center;
-            padding: 6rem 0 4rem;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            line-height: 1.2;
-        }
-
-        .hero p {
-            font-size: 1.4rem;
-            max-width: 700px;
-            margin: 0 auto 3rem;
-            color: #5a5a5a;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 1.2rem 2.5rem;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: var(--transition);
-            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(67, 97, 238, 0.4);
-        }
-
-        .features {
-            padding: 5rem 0;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .section-title p {
-            font-size: 1.2rem;
-            color: #6c757d;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-            background: rgba(67, 97, 238, 0.1);
-            width: 80px;
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            margin: 0 auto 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .feature-card p {
-            color: #6c757d;
-            line-height: 1.7;
-        }
-
-        .calculator-preview {
-            background: white;
-            padding: 5rem 0;
-            border-radius: var(--radius);
-            margin: 3rem 0;
-            box-shadow: var(--shadow);
-        }
-
-        .preview-content {
-            display: flex;
-            align-items: center;
-            gap: 4rem;
-        }
-
-        .preview-text {
-            flex: 1;
-        }
-
-        .preview-text h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--dark);
-        }
-
-        .preview-text p {
-            font-size: 1.2rem;
-            color: #6c757d;
-            margin-bottom: 2rem;
-            line-height: 1.7;
-        }
-
-        .preview-image {
-            flex: 1;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            border-radius: var(--radius);
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6c757d;
-            font-size: 1.2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .testimonials {
-            padding: 5rem 0;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .testimonial-card {
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-        }
-
-        .testimonial-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .testimonial-text {
-            font-style: italic;
-            color: #6c757d;
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .author-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            font-size: 1.6rem;
             font-weight: bold;
         }
-
-        .author-info h4 {
-            color: var(--dark);
-            margin-bottom: 0.2rem;
-        }
-
-        .author-info p {
-            color: #6c757d;
-            font-size: 0.9rem;
-        }
-
-        .stats {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 5rem 0;
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
             text-align: center;
+            padding: 20px;
         }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
+        h1 {
+            font-size: 2.4rem;
+            color: #333;
         }
-
-        .stat-item h3 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-item p {
+        p {
+            color: #555;
             font-size: 1.2rem;
-            opacity: 0.9;
+            margin-bottom: 25px;
         }
-
-        footer {
-            background: linear-gradient(135deg, var(--dark), #343a40);
+        a.main-btn {
+            display: inline-block;
+            padding: 15px 25px;
+            background: #3b5bdb;
             color: white;
-            padding: 4rem 0 2rem;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.4rem;
-            color: var(--success);
-        }
-
-        .footer-section p, .footer-section a {
-            color: #adb5bd;
             text-decoration: none;
-            margin-bottom: 0.8rem;
-            display: block;
-            transition: var(--transition);
+            font-size: 1.2rem;
+            border-radius: 10px;
+            transition: 0.3s;
         }
-
-        .footer-section a:hover {
-            color: white;
-            transform: translateX(5px);
+        a.main-btn:hover {
+            background: #334ab7;
         }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        .copyright {
+        footer {
+            margin-top: 40px;
+            padding: 15px;
+            background: #eee;
             text-align: center;
-            padding-top: 2.5rem;
-            border-top: 1px solid #495057;
-            color: #adb5bd;
-            font-size: 0.95rem;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .preview-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .hero h1 {
-                font-size: 3rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 1rem;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            nav ul li {
-                margin: 0.5rem;
-            }
-            
-            .hero {
-                padding: 4rem 0 3rem;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .feature-card, .testimonial-card {
-                padding: 2rem 1.5rem;
-            }
-            
-            .preview-image {
-                height: 300px;
-            }
+            color: #777;
         }
     </style>
 </head>
+
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <i class="fas fa-globe-americas"></i>
-                    <span>GlobalLoanCalc</span>
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
-                        <li><a href="#testimonials"><i class="fas fa-comments"></i> Testimonials</a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Smart Loan Calculations Made Simple</h1>
-            <p>Calculate your loan payments, EMI, and interest rates with our advanced financial tools. Plan your finances with confidence using our accurate and easy-to-use calculator.</p>
-            <!-- PRIMARY CTA BUTTON - Links to your calculator -->
-            <a href="loan-calculator.html" class="cta-button">
-                <i class="fas fa-calculator"></i> Use Loan Calculator
-            </a>
-        </div>
-    </section>
+<header>
+    GlobalLoanCalc - Loan Tools
+</header>
 
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Choose Our Calculator?</h2>
-                <p>We provide the most accurate and user-friendly loan calculation tools with advanced features</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Multi-Currency Support</h3>
-                    <p>Calculate loans in any currency with real-time exchange rates and proper formatting for your region.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-language"></i>
-                    </div>
-                    <h3>Multi-Language Interface</h3>
-                    <p>Use our calculator in your preferred language with full translation support for global users.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Advanced Analytics</h3>
-                    <p>Get detailed amortization schedules, payment breakdowns, and visual charts for better financial planning.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="container">
+    <h1>Welcome to GlobalLoanCalc</h1>
+    <p>Use our smart loan & EMI calculator to estimate monthly payments, interest, and loan schedules.</p>
 
-    <section class="calculator-preview">
-        <div class="container">
-            <div class="preview-content">
-                <div class="preview-text">
-                    <h2>Advanced Loan Calculator</h2>
-                    <p>Our powerful loan calculator helps you understand exactly how much you'll pay over the life of your loan. Get detailed breakdowns of principal, interest, and monthly payments for any type of loan.</p>
-                    <p>Whether you're planning for a home, car, education, or personal loan, our calculator provides accurate results with comprehensive payment schedules.</p>
-                    <!-- SECONDARY CTA - Also links to your calculator -->
-                    <a href="loan-calculator.html" class="cta-button">
-                        <i class="fas fa-calculator"></i> Try Calculator Now
-                    </a>
-                </div>
-                <div class="preview-image">
-                    <div>
-                        <i class="fas fa-calculator" style="font-size: 4rem; margin-bottom: 1rem;"></i>
-                        <p>Loan Calculator Preview</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- ⭐⭐ CHANGE ONLY THIS LINK ⭐⭐ -->
+    <a class="main-btn" href="/Tools/global-loan-calculator.html">
+        👉 Open Loan & EMI Calculator
+    </a>
+    <!-- ⭐⭐ REPLACE YOUR-LINK.html with: global-loan-calculator.html ⭐⭐ -->
+</div>
 
-    <section class="testimonials" id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>What Our Users Say</h2>
-                <p>Thousands of users trust our calculator for their financial planning</p>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        "This loan calculator saved me hours of manual calculations. The amortization schedule helped me understand exactly how much I would pay in interest over time."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">JS</div>
-                        <div class="author-info">
-                            <h4>John Smith</h4>
-                            <p>Home Buyer</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        "As an international student, I needed to calculate my education loan in different currencies. This tool made it so easy with its multi-currency support."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">MJ</div>
-                        <div class="author-info">
-                            <h4>Maria Johnson</h4>
-                            <p>Student</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-text">
-                        "The detailed payment breakdown helped me choose the right car loan option. I could compare different scenarios quickly and make an informed decision."
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">RW</div>
-                        <div class="author-info">
-                            <h4>Robert Williams</h4>
-                            <p>Car Buyer</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<footer>
+    © 2025 GlobalLoanCalc — All Rights Reserved.
+</footer>
 
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>50,000+</h3>
-                    <p>Users Worldwide</p>
-                </div>
-                <div class="stat-item">
-                    <h3>15+</h3>
-                    <p>Supported Currencies</p>
-                </div>
-                <div class="stat-item">
-                    <h3>10+</h3>
-                    <p>Language Options</p>
-                </div>
-                <div class="stat-item">
-                    <h3>99.9%</h3>
-                    <p>Calculation Accuracy</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>About GlobalLoanCalc</h3>
-                    <p>We provide free, accurate loan calculation tools to help people make informed financial decisions. Our mission is to make complex loan calculations simple and accessible to everyone.</p>
-                    <div class="social-links">
-                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <!-- QUICK LINKS - All pointing to your calculator -->
-                    <a href="loan-calculator.html"><i class="fas fa-chevron-right"></i> Loan Calculator</a>
-                    <a href="loan-calculator.html"><i class="fas fa-chevron-right"></i> Home Loan Calculator</a>
-                    <a href="loan-calculator.html"><i class="fas fa-chevron-right"></i> Car Loan Calculator</a>
-                    <a href="loan-calculator.html"><i class="fas fa-chevron-right"></i> Personal Loan Calculator</a>
-                    <a href="loan-calculator.html"><i class="fas fa-chevron-right"></i> Education Loan Calculator</a>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact Us</h3>
-                    <p><i class="fas fa-envelope"></i> info@globalloancalc.com</p>
-                    <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Finance Street, New York, NY</p>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2023 GlobalLoanCalc. All rights reserved. | <a href="#" style="color: #adb5bd;">Privacy Policy</a> | <a href="#" style="color: #adb5bd;">Terms of Service</a></p>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
+
