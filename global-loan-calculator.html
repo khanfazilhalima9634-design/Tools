@@ -1,38 +1,71 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>GlobalLoanCalc — Loan & EMI Calculator</title>
-  <meta name="description" content="Free Loan & EMI calculator with multi-currency support, EMI column in amortization schedule, and AdSense placeholders." />
-  <meta name="robots" content="index, follow" />
+  <meta name="description" content="Free online loan and EMI calculator with multi-currency and multi-language support. Calculate monthly payments, interest breakdowns and amortization schedules.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.yourwebsite.com/global-loan-calculator.html">
 
-  <!-- Fonts + Icons -->
+  <!-- AdSense config (ONLY change values here) -->
+  <script>
+    // Replace these values with your AdSense IDs to enable ads.
+    // Example client: 'ca-pub-1234567890123456'
+    // Example slot: '1234567890'
+    window.ADSENSE_CONFIG = {
+      client: '', // e.g. 'ca-pub-XXXXXXXXXXXXXXX'
+      slots: {
+        top: '',          // leaderboard slot id
+        sidebar_large: '',// 300x600 slot id
+        sidebar_small: '' // 300x250 slot id
+      }
+    };
+  </script>
+
+  <!-- Load AdSense script dynamically only if configured -->
+  <script>
+    (function(){
+      const cfg = window.ADSENSE_CONFIG || {};
+      if (!cfg.client || !cfg.client.startsWith('ca-pub-')) return;
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(cfg.client);
+      s.crossOrigin = 'anonymous';
+      document.head.appendChild(s);
+    })();
+  </script>
+
+  <!-- Fonts + icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     :root{
-      --bg:#f4f7fb; --card:#fff; --muted:#6b7280; --accent:#5b21b6; --accent-2:#06b6d4;
-      --radius:12px; --shadow:0 12px 30px rgba(16,24,40,0.06);
-      --max-width:1100px;
+      --bg: linear-gradient(180deg,#f8fbff 0,#eef6ff 100%);
+      --card: #fff;
+      --muted: #64748b;
+      --accent: #4f46e5;
+      --accent-2: #06b6d4;
+      --radius: 12px;
+      --shadow: 0 12px 30px rgba(16,24,40,0.06);
     }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:linear-gradient(180deg,#f8fbff 0,#eef6ff 100%);color:#0f1724}
-    .container{max-width:var(--max-width);margin:0 auto;padding:20px}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#0f1724}
+    .container{max-width:1100px;margin:0 auto;padding:20px}
     header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
     .brand{display:flex;gap:12px;align-items:center}
     .logo{width:48px;height:48px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
     nav ul{display:flex;gap:12px;list-style:none;margin:0;padding:0}
     nav a{color:#0f1724;text-decoration:none;font-weight:600}
     .ad-top{margin:12px 0;border-radius:12px;overflow:hidden;min-height:90px;background:#fff;border:1px dashed rgba(15,23,42,0.06);display:flex;align-items:center;justify-content:center}
-    main{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
-    @media(max-width:960px){main{grid-template-columns:1fr}}
+    main{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+    @media(max-width:980px){main{grid-template-columns:1fr}}
     .card{background:var(--card);padding:16px;border-radius:var(--radius);box-shadow:var(--shadow)}
     .title{font-size:1.4rem;margin:0 0 8px 0}
     label{display:block;font-weight:700;margin-bottom:6px}
     input[type=text], input[type=number], select{width:100%;padding:10px;border-radius:8px;border:1px solid #eef2ff;background:#fbfdff;font-size:15px}
-    .field-symbol{position:relative}
+    .field-with-symbol{position:relative}
     .currency-symbol{position:absolute;left:12px;top:12px;color:var(--muted);font-weight:700}
     .slider{width:100%;margin-top:8px}
     .slider-value{text-align:right;color:var(--accent);font-weight:700;margin-top:6px}
@@ -50,10 +83,15 @@
     th,td{padding:10px;border-bottom:1px solid #f1f5f9;text-align:left;font-size:14px}
     th{background:linear-gradient(90deg,var(--accent),#8b5cf6);color:white;position:sticky;top:0}
     .sidebar{display:flex;flex-direction:column;gap:12px}
-    .ad-box{min-height:250px;border-radius:8px;border:1px dashed rgba(15,23,42,0.06);display:flex;align-items:center;justify-content:center;background:#fff}
+    .ad-box{min-height:250px;border-radius:8px;border:1px dashed rgba(15,23,42,0.06);display:flex;align-items:center;justify-content:center;background:#fff;padding:12px}
     footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px}
     .small{font-size:13px;color:var(--muted)}
-    .toggle-full { margin-left:8px; font-size:13px; }
+    .dropdown{position:absolute;top:100%;right:0;background:white;border-radius:8px;box-shadow:var(--shadow);padding:0.5rem 0;min-width:200px;max-height:260px;overflow:auto;display:none;z-index:10}
+    .dropdown-item{padding:0.6rem 0.9rem;cursor:pointer;display:flex;align-items:center;gap:10px;color:#0f1724}
+    .dropdown-item:hover{background:#f8f9fa}
+    .selector-btn{background:rgba(255,255,255,0.12);border:none;color:white;padding:8px 10px;border-radius:8px;display:flex;align-items:center;gap:8px;cursor:pointer}
+    .header-controls{display:flex;gap:10px;align-items:center}
+    header .header-controls .selector-btn{background:transparent;color:#fff}
   </style>
 </head>
 <body>
@@ -66,330 +104,493 @@
           <div class="small">Loan & EMI Tools</div>
         </div>
       </div>
-      <nav aria-label="main">
-        <ul>
-          <li><a href="#calculator">Calculator</a></li>
-          <li><a href="#faq">FAQ</a></li>
-        </ul>
-      </nav>
+
+      <div class="header-controls" aria-hidden>
+        <!-- Language selector -->
+        <div style="position:relative;">
+          <button id="language-btn" class="selector-btn" aria-haspopup="listbox" aria-expanded="false">
+            <i class="fas fa-language" aria-hidden></i> <span id="current-language">English</span> <i class="fas fa-chevron-down"></i>
+          </button>
+          <div id="language-dropdown" class="dropdown" role="listbox" aria-label="Choose language"></div>
+        </div>
+
+        <!-- Currency selector -->
+        <div style="position:relative;">
+          <button id="currency-btn" class="selector-btn" aria-haspopup="listbox" aria-expanded="false">
+            <i class="fas fa-money-bill-wave" aria-hidden></i> <span id="current-currency">USD</span> <i class="fas fa-chevron-down"></i>
+          </button>
+          <div id="currency-dropdown" class="dropdown" role="listbox" aria-label="Choose currency"></div>
+        </div>
+      </div>
     </header>
 
-    <!-- Top ad placeholder -->
-    <div id="ad-top" class="ad-top card"><div id="ad-top-inner">Ad Space — Leaderboard (configure AdSense in ADSENSE_CONFIG)</div></div>
+    <!-- Top Ad placeholder -->
+    <div id="ad-top" class="ad-top card"><div id="ad-top-inner">Ad Space — Leaderboard (configure in ADSENSE_CONFIG)</div></div>
 
     <main>
-      <!-- Calculator column -->
-      <section id="calculator" class="card" aria-labelledby="calcTitle">
-        <h2 id="calcTitle" class="title">Loan & EMI Calculator</h2>
-        <p class="small">Enter loan amount, interest rate and term. Inputs accept large numbers (no strict maximum). Calculations happen locally in your browser.</p>
+      <!-- main calculator -->
+      <section class="card" id="main-card" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="title" data-translate="hero_title">Global Loan & EMI Calculator</h1>
+        <p class="small" data-translate="hero_description">Plan your finances with our advanced loan calculator. Get accurate monthly payment estimates, interest breakdowns, and amortization schedules for personal, home, car, and education loans in any currency.</p>
 
         <div style="margin-top:12px;display:grid;gap:12px">
-          <div style="display:flex;gap:10px;align-items:center">
-            <label style="margin:0 8px 0 0">Currency</label>
-            <select id="currency" aria-label="Currency">
-              <option value="USD" data-locale="en-US" data-symbol="$">USD — $</option>
-              <option value="EUR" data-locale="de-DE" data-symbol="€">EUR — €</option>
-              <option value="INR" data-locale="en-IN" data-symbol="₹">INR — ₹</option>
-              <option value="GBP" data-locale="en-GB" data-symbol="£">GBP — £</option>
-            </select>
-            <div style="flex:1"></div>
-            <label class="small" style="margin:0">Show full schedule</label>
-            <input id="show-full" type="checkbox" class="toggle-full" title="Show every month in amortization table">
+          <!-- Currency & language visible fallback for non-js environments -->
+          <div style="display:flex;gap:8px;align-items:center">
+            <label class="small">Currency</label>
+            <div id="current-currency-display" class="small" style="margin-left:6px">USD</div>
           </div>
 
+          <!-- Loan amount -->
           <div>
-            <label for="loan-amount">Loan Amount</label>
-            <div class="field-symbol">
-              <span id="currency-symbol" class="currency-symbol">$</span>
-              <input id="loan-amount" type="text" inputmode="numeric" placeholder="e.g. 25000 or 2.5e4" value="25000" aria-label="Loan amount">
+            <label for="loan-amount" data-translate="loan_amount">Loan Amount</label>
+            <div class="field-with-symbol">
+              <span id="loan-currency-symbol" class="currency-symbol">$</span>
+              <input id="loan-amount" type="text" inputmode="numeric" placeholder="25000" value="25000" aria-label="Loan amount">
             </div>
-            <input id="loan-slider" class="slider" type="range" min="100" max="1000000" step="100" value="25000" aria-hidden="true">
-            <div class="slider-value" id="loan-display"></div>
+            <input id="loan-amount-slider" class="slider" type="range" min="100" max="1000000" step="100" value="25000" aria-hidden="true">
+            <div class="slider-value" id="loan-amount-value">$25,000.00</div>
           </div>
 
+          <!-- rate + term -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div>
-              <label for="rate">Interest Rate (annual %)</label>
-              <input id="rate" type="number" step="0.01" value="7.5" aria-label="Interest rate">
-              <input id="rate-slider" class="slider" type="range" min="0" max="100" step="0.01" value="7.5" aria-hidden="true">
-              <div class="slider-value" id="rate-display"></div>
+              <label for="interest-rate" data-translate="interest_rate">Interest Rate (annual %)</label>
+              <input id="interest-rate" type="number" step="0.01" value="7.5" aria-label="Interest rate">
+              <input id="interest-rate-slider" class="slider" type="range" min="0" max="100" step="0.01" value="7.5" aria-hidden="true">
+              <div class="slider-value" id="interest-rate-value">7.5%</div>
             </div>
 
             <div>
-              <label for="term">Loan Term (years)</label>
-              <input id="term" type="number" step="1" min="1" value="5" aria-label="Loan term">
-              <input id="term-slider" class="slider" type="range" min="1" max="50" step="1" value="5" aria-hidden="true">
-              <div class="slider-value" id="term-display"></div>
+              <label for="loan-term" data-translate="loan_term">Loan Term (years)</label>
+              <input id="loan-term" type="number" step="1" min="1" value="5" aria-label="Loan term">
+              <input id="loan-term-slider" class="slider" type="range" min="1" max="50" step="1" value="5" aria-hidden="true">
+              <div class="slider-value" id="loan-term-value">5 Years</div>
             </div>
           </div>
 
+          <!-- loan type -->
           <div>
-            <label for="loan-type">Loan Type</label>
-            <select id="loan-type">
-              <option>Personal</option>
-              <option>Home</option>
-              <option>Car</option>
-              <option>Education</option>
-              <option>Business</option>
+            <label for="loan-type" data-translate="loan_type">Loan Type</label>
+            <select id="loan-type" aria-label="Loan type">
+              <option value="personal" data-translate="personal_loan">Personal Loan</option>
+              <option value="home" data-translate="home_loan">Home Loan</option>
+              <option value="car" data-translate="car_loan">Car Loan</option>
+              <option value="education" data-translate="education_loan">Education Loan</option>
+              <option value="business" data-translate="business_loan">Business Loan</option>
             </select>
           </div>
 
+          <!-- controls -->
           <div class="controls">
-            <button id="btn-calc" class="btn btn-primary"><i class="fas fa-calculator"></i> Calculate EMI</button>
-            <button id="btn-reset" class="btn btn-ghost"><i class="fas fa-redo"></i> Reset</button>
-            <button id="btn-print" class="btn btn-ghost"><i class="fas fa-print"></i> Print</button>
+            <button id="calculate-btn" class="btn btn-primary"><i class="fas fa-calculator"></i> <span data-translate="calculate_emi">Calculate EMI</span></button>
+            <button id="reset-btn" class="btn btn-ghost"><i class="fas fa-redo"></i> <span data-translate="reset">Reset</span></button>
+            <button id="print-btn" class="btn btn-ghost"><i class="fas fa-print"></i> <span data-translate="print_results">Print</span></button>
           </div>
 
-          <!-- Results -->
-          <div id="results" class="results" aria-live="polite">
-            <div class="grid-3">
-              <div class="result-card"><div class="small">Monthly Payment</div><div class="value" id="emi-val">$0.00</div></div>
-              <div class="result-card"><div class="small">Total Interest</div><div class="value" id="total-interest">$0.00</div></div>
-              <div class="result-card"><div class="small">Total Payment</div><div class="value" id="total-payment">$0.00</div></div>
+          <!-- results -->
+          <div id="results-container" class="results" aria-live="polite">
+            <h2 data-translate="results">Loan Calculation Results</h2>
+            <div class="grid-3" style="margin-top:8px">
+              <div class="result-card"><div class="small" data-translate="monthly_payment">Monthly Payment</div><div class="value emi-value" id="monthly-payment">$0.00</div></div>
+              <div class="result-card"><div class="small" data-translate="total_interest">Total Interest</div><div class="value" id="total-interest">$0.00</div></div>
+              <div class="result-card"><div class="small" data-translate="total_payment">Total Payment</div><div class="value" id="total-payment">$0.00</div></div>
             </div>
 
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
-              <div class="small">Payoff:</div>
-              <div id="payoff" class="small">—</div>
+            <div style="margin-top:12px">
+              <div class="small">Payoff Date</div>
+              <div id="payoff-date" class="small">—</div>
             </div>
 
-            <div class="amort-wrap" style="margin-top:10px">
-              <table id="amort-table" aria-label="Amortization schedule">
+            <div class="amort-wrap" style="margin-top:12px">
+              <table id="amortization-table" aria-label="Amortization schedule">
                 <thead>
-                  <tr><th>Month</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th></tr>
+                  <tr>
+                    <th data-translate="month">Month</th>
+                    <th data-translate="payment">EMI</th>
+                    <th data-translate="principal">Principal</th>
+                    <th data-translate="interest">Interest</th>
+                    <th data-translate="balance">Balance</th>
+                  </tr>
                 </thead>
-                <tbody id="amort-body"></tbody>
+                <tbody id="amortization-body"></tbody>
               </table>
             </div>
           </div>
         </div>
+
+        <!-- FAQ snippet (keeps SEO friendly content) -->
+        <section style="margin-top:14px" class="card">
+          <h3 data-translate="faq_title">Frequently Asked Questions</h3>
+          <div style="margin-top:8px">
+            <strong data-translate="faq1_question">What is an EMI?</strong>
+            <p class="small" data-translate="faq1_answer">EMI stands for Equated Monthly Installment — the fixed monthly payment covering principal and interest.</p>
+          </div>
+        </section>
       </section>
 
-      <!-- Sidebar -->
+      <!-- sidebar (ads + info) -->
       <aside class="sidebar">
         <div class="card">
           <div style="font-weight:800">Why GlobalLoanCalc?</div>
           <ul class="small" style="margin-top:8px">
-            <li>Private — calculations in your browser</li>
-            <li>Unlimited numeric input (very large loans supported)</li>
-            <li>Designed for SEO & fast performance</li>
+            <li>Private, client-side calculations</li>
+            <li>Multi-currency formatting</li>
+            <li>SEO-friendly markup & structured data</li>
           </ul>
         </div>
 
-        <div id="ad-side-large" class="ad-box card"><div id="ad-side-large-inner">Ad Space — 300×600 (configure AdSense)</div></div>
-        <div id="ad-side-small" class="ad-box card"><div id="ad-side-small-inner">Ad Space — 300×250 (configure AdSense)</div></div>
+        <!-- sidebar ad placeholders -->
+        <div class="ad-box card" id="ad-slot-sidebar-large"><div id="ad-slot-sidebar-large-inner">Ad Space — 300×600 (configure ADSENSE_CONFIG)</div></div>
+        <div class="ad-box card" id="ad-slot-sidebar-small"><div id="ad-slot-sidebar-small-inner">Ad Space — 300×250 (configure ADSENSE_CONFIG)</div></div>
       </aside>
     </main>
 
     <footer>
-      <div class="small">© 2025 GlobalLoanCalc — Built with privacy in mind</div>
+      <div class="small">© 2025 GlobalLoanCalc • Privacy-first • Built for performance</div>
     </footer>
   </div>
 
-  <!-- ================= SCRIPT: Calculator + Ads ================= -->
+  <!-- ====== SCRIPT: UI logic, calculation, language & currency, ads ====== -->
   <script>
-  /**************************************************************************
-   * Single AdSense configuration
-   * - Set ADSENSE.client to 'ca-pub-XXXXXXXXXXXX' to enable AdSense.
-   * - Set ADSENSE.slots.top / side_large / side_small with your ad unit IDs.
-   * If left blank, placeholders show guidance.
-   **************************************************************************/
-  const ADSENSE = {
-    client: '', // e.g. 'ca-pub-1234567890123456'
-    slots: {
-      top: '',         // e.g. '1111111111'
-      side_large: '',  // e.g. '2222222222'
-      side_small: ''   // e.g. '3333333333'
-    }
+  // --- Data (currencies + languages + translations) ---
+  const currencies = [
+    { code: 'USD', name: 'US Dollar', symbol: '$', locale: 'en-US' },
+    { code: 'EUR', name: 'Euro', symbol: '€', locale: 'de-DE' },
+    { code: 'GBP', name: 'British Pound', symbol: '£', locale: 'en-GB' },
+    { code: 'INR', name: 'Indian Rupee', symbol: '₹', locale: 'en-IN' },
+    { code: 'JPY', name: 'Japanese Yen', symbol: '¥', locale: 'ja-JP' }
+  ];
+
+  const languages = [
+    { code: 'en', nativeName: 'English', dir: 'ltr' },
+    { code: 'es', nativeName: 'Español', dir: 'ltr' },
+    { code: 'fr', nativeName: 'Français', dir: 'ltr' },
+    { code: 'ar', nativeName: 'العربية', dir: 'rtl' }
+  ];
+
+  const translations = {
+    en: {
+      home:"Home", calculator:"Calculator", about:"About", contact:"Contact",
+      financial_tools:"Financial Tools", loan_calculator:"Loan Calculator",
+      hero_title:"Global Loan & EMI Calculator", hero_description:"Plan your finances with our advanced loan calculator. Get accurate monthly payment estimates, interest breakdowns, and amortization schedules for personal, home, car, and education loans in any currency.",
+      loan_amount:"Loan Amount", interest_rate:"Interest Rate", loan_term:"Loan Term",
+      years:"Years", loan_type:"Loan Type", personal_loan:"Personal Loan", home_loan:"Home Loan",
+      car_loan:"Car Loan", education_loan:"Education Loan", business_loan:"Business Loan",
+      calculate_emi:"Calculate EMI", reset:"Reset", results:"Loan Calculation Results",
+      print_results:"Print", monthly_payment:"Monthly Payment", total_interest:"Total Interest",
+      total_payment:"Total Payment", payoff_date:"Payoff Date", loan_breakdown:"Loan Payment Breakdown Chart",
+      principal_vs_interest:"(Principal vs Interest)", amortization_schedule:"Amortization Schedule",
+      month:"Month", payment:"Payment", principal:"Principal", interest:"Interest", balance:"Balance",
+      faq_title:"Frequently Asked Questions", faq1_question:"What is an EMI?", faq1_answer:"EMI stands for Equated Monthly Installment — the fixed monthly payment that covers interest and principal."
+    },
+    es: {
+      hero_title:"Calculadora Global de Préstamos y EMI",
+      hero_description:"Planifique sus finanzas con nuestra calculadora avanzada. Obtenga estimaciones de pagos mensuales, desgloses de intereses y calendarios de amortización.",
+      calculate_emi:"Calcular EMI", reset:"Reiniciar", monthly_payment:"Pago Mensual", total_interest:"Interés Total",
+      total_payment:"Pago Total", faq_title:"Preguntas Frecuentes", faq1_question:"¿Qué es un EMI?", faq1_answer:"EMI significa Cuota Mensual Equivalente: el pago mensual fijo que cubre interés y capital."
+    },
+    fr: { /* minimal FR translations for demo */ hero_title:"Calculateur Global de Prêt et EMI", calculate_emi:"Calculer EMI", reset:"Réinitialiser" },
+    ar: { hero_title:"آلة حاسبة القروض EMI", calculate_emi:"احسب EMI", reset:"إعادة تعيين", faq_title:"الأسئلة الشائعة", faq1_question:"ما هو EMI؟", faq1_answer:"EMI هو القسط الشهري المتساوي الذي يغطي الفائدة والمبلغ الأساسي." }
   };
 
-  // Utility: parse numeric string (allow commas, spaces, scientific notation)
+  // --- DOM references ---
+  const loanAmountInput = document.getElementById('loan-amount');
+  const loanAmountSlider = document.getElementById('loan-amount-slider');
+  const loanAmountValue = document.getElementById('loan-amount-value');
+  const loanCurrencySymbol = document.getElementById('loan-currency-symbol');
+
+  const interestRateInput = document.getElementById('interest-rate');
+  const interestRateSlider = document.getElementById('interest-rate-slider');
+  const interestRateValue = document.getElementById('interest-rate-value');
+
+  const loanTermInput = document.getElementById('loan-term');
+  const loanTermSlider = document.getElementById('loan-term-slider');
+  const loanTermValue = document.getElementById('loan-term-value');
+
+  const calculateBtn = document.getElementById('calculate-btn');
+  const resetBtn = document.getElementById('reset-btn');
+  const printBtn = document.getElementById('print-btn');
+
+  const resultsContainer = document.getElementById('results-container');
+  const monthlyPaymentEl = document.getElementById('monthly-payment');
+  const totalInterestEl = document.getElementById('total-interest');
+  const totalPaymentEl = document.getElementById('total-payment');
+  const payoffDateEl = document.getElementById('payoff-date');
+  const amortizationBody = document.getElementById('amortization-body');
+
+  // language & currency controls
+  const languageBtn = document.getElementById('language-btn');
+  const languageDropdown = document.getElementById('language-dropdown');
+  const currentLanguageEl = document.getElementById('current-language');
+
+  const currencyBtn = document.getElementById('currency-btn');
+  const currencyDropdown = document.getElementById('currency-dropdown');
+  const currentCurrencyEl = document.getElementById('current-currency');
+  const currentCurrencyDisplay = document.getElementById('current-currency-display');
+
+  // defaults
+  let currentLanguage = 'en';
+  let currentCurrency = 'USD';
+
+  // --- Helpers ---
+  function safeTranslation(key) {
+    return (translations[currentLanguage] && translations[currentLanguage][key]) || (translations['en'] && translations['en'][key]) || '';
+  }
+
+  // populate dropdowns
+  function initializeDropdowns(){
+    // languages
+    languageDropdown.innerHTML = '';
+    languages.forEach(lang => {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.setAttribute('data-lang', lang.code);
+      item.textContent = lang.nativeName + ' · ' + lang.code;
+      languageDropdown.appendChild(item);
+    });
+
+    // currencies
+    currencyDropdown.innerHTML = '';
+    currencies.forEach(c => {
+      const item = document.createElement('div');
+      item.className = 'dropdown-item';
+      item.setAttribute('data-currency', c.code);
+      item.textContent = `${c.code} — ${c.name} (${c.symbol})`;
+      currencyDropdown.appendChild(item);
+    });
+
+    // set UI text
+    currentLanguageEl.textContent = languages.find(l=>l.code===currentLanguage).nativeName;
+    currentCurrencyEl.textContent = currentCurrency;
+    currentCurrencyDisplay.textContent = currentCurrency;
+    updateCurrencySymbol();
+  }
+
+  function updateCurrencySymbol(){
+    const c = currencies.find(x=>x.code===currentCurrency) || currencies[0];
+    loanCurrencySymbol.textContent = c.symbol || c.code;
+    currentCurrencyEl.textContent = c.code;
+    currentCurrencyDisplay.textContent = c.code + ' ' + (c.symbol || '');
+  }
+
+  function formatCurrency(value){
+    const c = currencies.find(x=>x.code===currentCurrency) || currencies[0];
+    try {
+      return new Intl.NumberFormat(c.locale || 'en-US', { style: 'currency', currency: c.code, minimumFractionDigits: 2 }).format(value);
+    } catch (e) {
+      return (c.symbol || c.code) + ' ' + Number(value).toLocaleString();
+    }
+  }
+
+  // parse flexible numeric strings (commas allowed)
   function parseNumber(v){
     if (v == null) return 0;
-    const s = String(v).trim().replace(/,/g,'').replace(/\s+/g,'');
+    const s = String(v).replace(/,/g,'').trim();
     const n = Number(s);
     return Number.isFinite(n) ? n : 0;
   }
 
-  // Elements
-  const loanInput = document.getElementById('loan-amount');
-  const loanSlider = document.getElementById('loan-slider');
-  const loanDisplay = document.getElementById('loan-display');
-
-  const rateInput = document.getElementById('rate');
-  const rateSlider = document.getElementById('rate-slider');
-  const rateDisplay = document.getElementById('rate-display');
-
-  const termInput = document.getElementById('term');
-  const termSlider = document.getElementById('term-slider');
-  const termDisplay = document.getElementById('term-display');
-
-  const currencySelect = document.getElementById('currency');
-  const currencySymbol = document.getElementById('currency-symbol');
-
-  const btnCalc = document.getElementById('btn-calc');
-  const btnReset = document.getElementById('btn-reset');
-  const btnPrint = document.getElementById('btn-print');
-
-  const results = document.getElementById('results');
-  const emiVal = document.getElementById('emi-val');
-  const totalInterestVal = document.getElementById('total-interest');
-  const totalPaymentVal = document.getElementById('total-payment');
-  const payoffEl = document.getElementById('payoff');
-  const amortBody = document.getElementById('amort-body');
-  const showFull = document.getElementById('show-full');
-
-  // Format currency using Intl with sensible fallback
-  function formatCurrency(amount){
-    const code = currencySelect.value || 'USD';
-    const locale = currencySelect.selectedOptions[0]?.dataset.locale || 'en-US';
-    try {
-      return new Intl.NumberFormat(locale, { style: 'currency', currency: code, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
-    } catch(e){
-      return (currencySelect.selectedOptions[0]?.dataset.symbol || code) + ' ' + Number(amount).toLocaleString();
-    }
+  function updateSliderValues(){
+    loanAmountValue.textContent = formatCurrency(parseNumber(loanAmountInput.value || 0));
+    interestRateValue.textContent = parseFloat(interestRateInput.value || 0).toFixed(2) + '%';
+    loanTermValue.textContent = parseInt(loanTermInput.value || 0) + ' ' + (safeTranslation('years') || 'Years');
   }
 
-  function updateCurrencySymbol(){
-    currencySymbol.textContent = currencySelect.selectedOptions[0]?.dataset.symbol || currencySelect.value;
-  }
-
-  // Update display fields
-  function updateDisplays(){
-    loanDisplay.textContent = formatCurrency(parseNumber(loanInput.value));
-    rateDisplay.textContent = parseNumber(rateInput.value).toFixed(2) + '%';
-    termDisplay.textContent = parseNumber(termInput.value) + ' Years';
-  }
-
-  // Slider sync (slider is convenience; input allows unlimited range)
-  loanInput.addEventListener('input', ()=> {
-    const n = parseNumber(loanInput.value);
-    // keep slider in-range for convenience but don't constrain input
-    if (loanSlider) loanSlider.value = Math.max(Number(loanSlider.min), Math.min(Number(loanSlider.max), n || 0));
-    updateDisplays();
+  // sync controls
+  loanAmountInput.addEventListener('input', () => {
+    const n = parseNumber(loanAmountInput.value);
+    if (loanAmountSlider) loanAmountSlider.value = Math.max(Number(loanAmountSlider.min), Math.min(Number(loanAmountSlider.max), n || 0));
+    updateSliderValues();
   });
-  if (loanSlider) loanSlider.addEventListener('input', ()=> { loanInput.value = loanSlider.value; updateDisplays(); });
+  loanAmountSlider.addEventListener('input', () => { loanAmountInput.value = loanAmountSlider.value; updateSliderValues(); });
 
-  rateInput.addEventListener('input', ()=> { if (rateSlider) rateSlider.value = rateInput.value; updateDisplays(); });
-  if (rateSlider) rateSlider.addEventListener('input', ()=> { rateInput.value = rateSlider.value; updateDisplays(); });
+  interestRateInput.addEventListener('input', () => { if (interestRateSlider) interestRateSlider.value = interestRateInput.value; updateSliderValues(); });
+  interestRateSlider.addEventListener('input', () => { interestRateInput.value = interestRateSlider.value; updateSliderValues(); });
 
-  termInput.addEventListener('input', ()=> { if (termSlider) termSlider.value = termInput.value; updateDisplays(); });
-  if (termSlider) termSlider.addEventListener('input', ()=> { termInput.value = termSlider.value; updateDisplays(); });
+  loanTermInput.addEventListener('input', () => { if (loanTermSlider) loanTermSlider.value = loanTermInput.value; updateSliderValues(); });
+  loanTermSlider.addEventListener('input', () => { loanTermInput.value = loanTermSlider.value; updateSliderValues(); });
 
-  currencySelect.addEventListener('change', ()=> { updateCurrencySymbol(); updateDisplays(); if (results.classList.contains('active')) runCalculate(); });
+  // calculation
+  function calculateEMI(){
+    const principal = parseNumber(loanAmountInput.value);
+    const annualInterestRate = parseNumber(interestRateInput.value);
+    const years = Math.max(1, Math.floor(parseNumber(loanTermInput.value)));
 
-  // Calculation core
-  function runCalculate(){
-    const P = parseNumber(loanInput.value);
-    const annualRate = parseNumber(rateInput.value);
-    const years = Math.max(1, Math.floor(parseNumber(termInput.value)));
-
-    if (P <= 0 || years <= 0){
-      alert('Please enter a valid loan amount and term.');
+    if (!principal || !years || annualInterestRate < 0) {
+      alert('Please enter valid loan amount, interest and term.');
       return;
     }
 
-    const monthlyRate = annualRate / 100 / 12;
-    const n = years * 12;
-
+    const monthlyRate = annualInterestRate / 100 / 12;
+    const numberOfPayments = years * 12;
     let emi;
-    if (monthlyRate === 0) emi = P / n;
-    else emi = P * monthlyRate * Math.pow(1 + monthlyRate, n) / (Math.pow(1 + monthlyRate, n) - 1);
+    if (monthlyRate === 0) emi = principal / numberOfPayments;
+    else emi = principal * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
 
-    const total = emi * n;
-    const totalInterest = total - P;
+    const totalPayment = emi * numberOfPayments;
+    const totalInterest = totalPayment - principal;
 
-    emiVal.textContent = formatCurrency(emi);
-    totalInterestVal.textContent = formatCurrency(totalInterest);
-    totalPaymentVal.textContent = formatCurrency(total);
-
+    // payoff date: end month of payments
     const now = new Date();
-    const payoff = new Date(now.getFullYear(), now.getMonth() + n - 1, 1);
-    payoffEl.textContent = payoff.toLocaleDateString(undefined, { month: 'short', year: 'numeric' });
+    const payoff = new Date(now.getFullYear(), now.getMonth() + numberOfPayments - 1, 1);
+    const payoffFormatted = payoff.toLocaleDateString(currentLanguage, { month: 'short', year: 'numeric' });
 
-    // build amortization (EMI column explicitly)
-    buildAmortization(P, annualRate, years, emi);
+    monthlyPaymentEl.textContent = formatCurrency(emi);
+    totalInterestEl.textContent = formatCurrency(totalInterest);
+    totalPaymentEl.textContent = formatCurrency(totalPayment);
+    payoffDateEl.textContent = payoffFormatted;
 
-    results.classList.add('active');
-    results.scrollIntoView({ behavior: 'smooth' });
+    generateAmortizationSchedule(principal, annualInterestRate, years, emi);
+
+    resultsContainer.classList.add('active');
+    resultsContainer.scrollIntoView({ behavior: 'smooth' });
   }
 
-  function buildAmortization(P, annualRate, years, emi){
-    const r = annualRate / 100 / 12;
-    const n = years * 12;
-    let balance = P;
-    let html = '';
+  function generateAmortizationSchedule(principal, annualInterestRate, years, emi){
+    const monthlyInterestRate = annualInterestRate / 100 / 12;
+    const numberOfPayments = years * 12;
+    let balance = principal;
+    let rows = '';
 
-    const showAll = showFull.checked;
+    for (let m = 1; m <= numberOfPayments; m++){
+      const interestPayment = balance * monthlyInterestRate;
+      const principalPayment = Math.min(emi - interestPayment, balance);
+      balance = Math.max(0, balance - principalPayment);
 
-    for (let m = 1; m <= n; m++){
-      const interest = balance * r;
-      const principal = Math.min(emi - interest, balance);
-      balance = Math.max(0, balance - principal);
-
-      if (showAll || m <= 12 || m > n - 5) {
-        html += `<tr>
+      // show first 12 and last 5 as compact
+      if (m <= 12 || m > numberOfPayments - 5) {
+        rows += `<tr>
           <td>${m}</td>
           <td>${formatCurrency(emi)}</td>
-          <td>${formatCurrency(principal)}</td>
-          <td>${formatCurrency(interest)}</td>
+          <td>${formatCurrency(principalPayment)}</td>
+          <td>${formatCurrency(interestPayment)}</td>
           <td>${formatCurrency(balance)}</td>
         </tr>`;
+        if (m === 12 && numberOfPayments > 17) {
+          rows += `<tr><td colspan="5" style="text-align:center;background:#f8f9fa;color:#6c757d;font-style:italic">... ${numberOfPayments - 17} months omitted ...</td></tr>`;
+        }
       }
-
-      if (m === 12 && !showAll && n > 17) {
-        html += `<tr><td colspan="5" style="text-align:center;color:${getComputedStyle(document.body).getPropertyValue('--muted') || '#6b7280'};font-style:italic">... ${n - 17} months omitted ...</td></tr>`;
-      }
-
       if (balance <= 0) break;
     }
-
-    amortBody.innerHTML = html;
+    amortizationBody.innerHTML = rows;
   }
 
-  // Buttons
-  btnCalc.addEventListener('click', (e)=> { e.preventDefault(); // sanitize comma separators
-    loanInput.value = String(loanInput.value).replace(/,/g,'').trim();
-    runCalculate();
-  });
+  // reset
+  function resetForm(){
+    loanAmountInput.value = '25000'; loanAmountSlider.value = 25000;
+    interestRateInput.value = '7.5'; interestRateSlider.value = 7.5;
+    loanTermInput.value = '5'; loanTermSlider.value = 5;
+    updateSliderValues();
+    resultsContainer.classList.remove('active');
+    amortizationBody.innerHTML = '';
+    monthlyPaymentEl.textContent = formatCurrency(0);
+    totalInterestEl.textContent = formatCurrency(0);
+    totalPaymentEl.textContent = formatCurrency(0);
+    payoffDateEl.textContent = '—';
+  }
 
-  btnReset.addEventListener('click', (e)=> { e.preventDefault();
-    loanInput.value = '25000'; rateInput.value = '7.5'; termInput.value = '5';
-    if (loanSlider) loanSlider.value = 25000;
-    if (rateSlider) rateSlider.value = 7.5;
-    if (termSlider) termSlider.value = 5;
-    updateCurrencySymbol(); updateDisplays();
-    results.classList.remove('active'); amortBody.innerHTML = ''; emiVal.textContent = formatCurrency(0); totalInterestVal.textContent = formatCurrency(0); totalPaymentVal.textContent = formatCurrency(0); payoffEl.textContent = '—';
-  });
+  // change language: replace text nodes with translations
+  function changeLanguage(code){
+    currentLanguage = code;
+    document.documentElement.lang = code;
+    const lang = languages.find(l=>l.code===code);
+    document.documentElement.dir = lang && lang.dir ? lang.dir : 'ltr';
+    currentLanguageEl.textContent = lang ? lang.nativeName : code;
 
-  btnPrint.addEventListener('click', (e)=> { e.preventDefault(); window.print(); });
+    // update all translatable text
+    document.querySelectorAll('[data-translate]').forEach(el => {
+      const key = el.getAttribute('data-translate');
+      const txt = safeTranslation(key);
+      if (txt) el.textContent = txt;
+    });
 
-  // Initialize displays
-  updateCurrencySymbol();
-  updateDisplays();
+    // refresh displays/currency formatting
+    updateSliderValues();
+    if (resultsContainer.classList.contains('active')) calculateEMI();
+  }
 
-  // Toggle: rebuild amortization when showFull changed and results visible
-  showFull.addEventListener('change', ()=> { if (results.classList.contains('active')) runCalculate(); });
+  // change currency
+  function changeCurrency(code){
+    currentCurrency = code;
+    updateCurrencySymbol();
+    updateSliderValues();
+    currentCurrencyEl.textContent = code;
+    currentCurrencyDisplay.textContent = code;
+    if (resultsContainer.classList.contains('active')) calculateEMI();
+  }
 
-  /* ================= AdSense injection (single place edits) ================= */
-  (function configureAds(){
-    const cfg = ADSENSE;
-    // if not configured, show guidance
-    if (!cfg.client || !cfg.client.startsWith('ca-pub-')) {
-      document.getElementById('ad-top-inner').textContent = 'Ad Space — Leaderboard (configure ADSENSE.client in script)';
-      document.getElementById('ad-side-large-inner').textContent = 'Ad Space — 300x600 (configure ADSENSE)';
-      document.getElementById('ad-side-small-inner').textContent = 'Ad Space — 300x250 (configure ADSENSE)';
+  // document click handlers for dropdowns and selection
+  document.addEventListener('click', (e) => {
+    // open/close language dropdown
+    if (e.target.closest('#language-btn')) {
+      e.stopPropagation();
+      languageDropdown.style.display = languageDropdown.style.display === 'block' ? 'none' : 'block';
+      return;
+    }
+    if (e.target.closest('#currency-btn')) {
+      e.stopPropagation();
+      currencyDropdown.style.display = currencyDropdown.style.display === 'block' ? 'none' : 'block';
       return;
     }
 
-    // load AdSense script
-    const s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(cfg.client);
-    s.crossOrigin = 'anonymous';
-    document.head.appendChild(s);
+    // language item clicked
+    const langItem = e.target.closest('.dropdown-item[data-lang]');
+    if (langItem) {
+      changeLanguage(langItem.getAttribute('data-lang'));
+      languageDropdown.style.display = 'none';
+      return;
+    }
 
-    function makeIns(slot){
+    // currency item clicked
+    const curItem = e.target.closest('.dropdown-item[data-currency]');
+    if (curItem) {
+      changeCurrency(curItem.getAttribute('data-currency'));
+      currencyDropdown.style.display = 'none';
+      return;
+    }
+
+    // close dropdowns if click outside
+    languageDropdown.style.display = 'none';
+    currencyDropdown.style.display = 'none';
+  });
+
+  // enable clicking on items by setting data attributes when building dropdowns
+  function wireDropdownItems(){
+    // add data attributes for easier delegation
+    languageDropdown.querySelectorAll('.dropdown-item').forEach(item => {
+      const code = item.textContent.split('·').pop().trim();
+      item.setAttribute('data-lang', code);
+    });
+    currencyDropdown.querySelectorAll('.dropdown-item').forEach((item, idx) => {
+      const c = currencies[idx];
+      if (c) item.setAttribute('data-currency', c.code);
+    });
+  }
+
+  // attach UI events
+  calculateBtn.addEventListener('click', (e) => { e.preventDefault(); loanAmountInput.value = String(loanAmountInput.value).replace(/,/g,'').trim(); calculateEMI(); });
+  resetBtn.addEventListener('click', (e) => { e.preventDefault(); resetForm(); });
+  printBtn.addEventListener('click', (e) => { e.preventDefault(); window.print(); });
+
+  // initialize page
+  initializeDropdowns();
+  wireDropdownItems();
+  updateSliderValues();
+  resetForm(); // sets initial displays
+
+  // load AdSense ad units into placeholders if configured
+  (function loadAds(){
+    const cfg = window.ADSENSE_CONFIG || {};
+    if (!cfg.client || !cfg.client.startsWith('ca-pub-')) {
+      // show hints in placeholders
+      document.getElementById('ad-top-inner').textContent = 'Ad Space — Leaderboard (configure ADSENSE_CONFIG.client)';
+      document.getElementById('ad-slot-sidebar-large-inner').textContent = 'Ad Space — 300x600 (configure ADSENSE_CONFIG)';
+      document.getElementById('ad-slot-sidebar-small-inner').textContent = 'Ad Space — 300x250 (configure ADSENSE_CONFIG)';
+      return;
+    }
+
+    // create ins nodes for each slot and request ad render (AdSense must be allowed by account)
+    function makeIns(slot) {
       const ins = document.createElement('ins');
       ins.className = 'adsbygoogle';
       ins.style.display = 'block';
@@ -400,22 +601,22 @@
       return ins;
     }
 
-    // top
-    const top = document.getElementById('ad-top-inner');
-    top.innerHTML = '';
-    if (cfg.slots.top) top.appendChild(makeIns(cfg.slots.top)); else top.textContent = 'Ad slot not set (top)';
+    // inject for each configured slot
+    try {
+      if (cfg.slots.top) {
+        const topInner = document.getElementById('ad-top-inner'); topInner.innerHTML = ''; topInner.appendChild(makeIns(cfg.slots.top));
+      }
+      if (cfg.slots.sidebar_large) {
+        const s = document.getElementById('ad-slot-sidebar-large-inner'); s.innerHTML = ''; s.appendChild(makeIns(cfg.slots.sidebar_large));
+      }
+      if (cfg.slots.sidebar_small) {
+        const s2 = document.getElementById('ad-slot-sidebar-small-inner'); s2.innerHTML = ''; s2.appendChild(makeIns(cfg.slots.sidebar_small));
+      }
 
-    const sideLarge = document.getElementById('ad-side-large-inner');
-    sideLarge.innerHTML = '';
-    if (cfg.slots.side_large) sideLarge.appendChild(makeIns(cfg.slots.side_large)); else sideLarge.textContent = 'Ad slot not set (side large)';
-
-    const sideSmall = document.getElementById('ad-side-small-inner');
-    sideSmall.innerHTML = '';
-    if (cfg.slots.side_small) sideSmall.appendChild(makeIns(cfg.slots.side_small)); else sideSmall.textContent = 'Ad slot not set (side small)';
-
-    window.addEventListener('load', ()=> {
-      try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) { console.warn('ads push failed', e); }
-    });
+      window.addEventListener('load', function(){ try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e){ console.warn('AdSense push failed', e); }});
+    } catch (e){
+      console.warn('Ads injection failed', e);
+    }
   })();
 
   </script>
