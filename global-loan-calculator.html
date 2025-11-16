@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online loan and EMI calculator tool with multi-currency and multi-language support. Calculate monthly payments, interest rates, and amortization schedules.">
+    <meta name="keywords" content="loan calculator, EMI calculator, monthly payment, interest rate, amortization schedule, multi-currency, multi-language, personal loan, home loan, car loan">
+    <meta name="author" content="GlobalLoanCalculator">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Global Loan & EMI Calculator | Multi-Currency & Multi-Language">
+    <meta property="og:description" content="Free online loan calculator with support for all currencies and languages. Calculate monthly payments, interest breakdowns, and amortization schedules.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.yourwebsite.com/loan-calculator">
+    <meta property="og:image" content="https://www.yourwebsite.com/loan-calculator-preview.jpg">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.yourwebsite.com/loan-calculator">
+
+    <!-- Hreflang for SEO (example entries; add more matching your translations) -->
+    <link rel="alternate" href="https://www.yourwebsite.com/loan-calculator" hreflang="en" />
+    <link rel="alternate" href="https://www.yourwebsite.com/es/calculadora" hreflang="es" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FinancialService",
+      "name": "GlobalLoanCalculator",
+      "description": "Free online loan and EMI calculator tool with multi-currency and multi-language support",
+      "url": "https://www.yourwebsite.com",
+      "logo": "https://www.yourwebsite.com/logo.png",
+      "areaServed": "Worldwide",
+      "serviceType": "Financial Calculator",
+      "sameAs": [
+        "https://www.facebook.com/yourpage",
+        "https://twitter.com/yourprofile"
+      ]
+    }
+    </script>
+
+    <title>Global Loan & EMI Calculator | Multi-Currency & Multi-Language Support</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!--
+      AdSense integration notes:
+      - Replace AD_CLIENT_ID with your publisher ID (ca-pub-XXXXXXXXXXXXX).
+      - Replace AD_SLOT_1, AD_SLOT_2, etc. with your ad unit slot IDs.
+      - You can also leave them blank and fill on your dashboard later.
+    -->
+    <script>
+      // Easy AdSense configuration (replace with your values)
+      window.ADSENSE_CONFIG = {
+        client: 'ca-pub-XXXXXXXXXXXXXXX', // <-- Replace with your AdSense client ID
+        slots: {
+          sidebar_large: 'XXXXXXXXXX',     // 300x600
+          sidebar_small: 'YYYYYYYYYY',     // 300x250
+          header_leaderboard: 'ZZZZZZZZZZ' // example
+        }
+      };
+    </script>
+
+    <!-- Load AdSense after a short delay to avoid blocking, but you can move it inline if preferred -->
+    <script>
+      (function loadAdsense(){
+        var cfg = window.ADSENSE_CONFIG || {};
+        if (!cfg.client || cfg.client.indexOf('ca-pub-') !== 0) return; // don't load if not configured
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=' + encodeURIComponent(cfg.client);
+        s.crossorigin = 'anonymous';
+        document.head.appendChild(s);
+      })();
+    </script>
+
+    <style>
+        /* --- same styles as original (trimmed for brevity in this preview) --- */
+        :root { --primary: #4361ee; --primary-dark: #3a56d4; --secondary: #7209b7; --accent: #f72585; --light: #f8f9fa; --dark: #212529; --success: #4cc9f0; --card-bg: #ffffff; --shadow: 0 10px 30px rgba(0, 0, 0, 0.08); --radius: 16px; --transition: all 0.3s ease; }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,-apple-system,sans-serif}
+        body{background:linear-gradient(135deg,#f5f7fa 0%,#e4e8f0 100%);color:var(--dark);line-height:1.6;min-height:100vh}
+        .container{max-width:1200px;margin:0 auto;padding:0 20px}
+        header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;padding:1.2rem 0;box-shadow:0 4px 12px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
+        .header-content{display:flex;justify-content:space-between;align-items:center}
+        .logo{display:flex;align-items:center;gap:10px;font-size:1.8rem;font-weight:800}
+        .logo i{color:var(--accent);font-size:2rem}
+        .header-controls{display:flex;gap:1rem;align-items:center}
+        .selector-btn{background:rgba(255,255,255,0.15);border:none;color:white;padding:0.5rem 1rem;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:var(--transition)}
+        .dropdown{position:absolute;top:100%;right:0;background:white;border-radius:8px;box-shadow:var(--shadow);padding:0.5rem 0;min-width:200px;max-height:300px;overflow-y:auto;display:none;z-index:10}
+        .dropdown.active{display:block}
+        .dropdown-item{padding:0.7rem 1rem;cursor:pointer;display:flex;align-items:center;gap:10px;transition:var(--transition);color:var(--dark)}
+        .dropdown-item:hover{background:#f8f9fa}
+        .dropdown-item.active{background:rgba(67,97,238,0.1);color:var(--primary)}
+        nav ul{display:flex;list-style:none}
+        nav ul li{margin-left:1.8rem}
+        nav ul li a{color:white;text-decoration:none;font-weight:500;transition:var(--transition);padding:8px 12px;border-radius:8px}
+        .hero{text-align:center;padding:4rem 0 3rem}
+        .hero h1{font-size:3.2rem;margin-bottom:1.2rem;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.2}
+        .calculator-card{background:var(--card-bg);padding:2.5rem;border-radius:var(--radius);box-shadow:var(--shadow)}
+        .input-with-icon i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#6c757d;font-size:1.2rem}
+        .input-with-icon input,.input-with-icon select{width:100%;padding:1rem 1rem 1rem 3rem;border:2px solid #e9ecef;border-radius:12px;font-size:1.1rem;background:#fafbfc}
+        .slider{width:100%;height:10px;-webkit-appearance:none;background:#e9ecef;border-radius:10px;outline:none}
+        .btn{padding:1.1rem 2rem;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer}
+        .results-container{background:var(--card-bg);padding:2.5rem;border-radius:var(--radius);box-shadow:var(--shadow);margin-top:2.5rem;display:none}
+        .results-container.active{display:block}
+        table{width:100%;border-collapse:collapse;background:white}
+        table th,table td{padding:1rem;border-bottom:1px solid #e9ecef;text-align:left}
+        table th{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;position:sticky;top:0}
+        /* responsive tweaks omitted for brevity */
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo" aria-hidden>
+                    <i class="fas fa-globe-americas"></i>
+                    <span>GlobalLoanCalc</span>
+                </div>
+                <div class="header-controls">
+                    <div class="language-selector" style="position:relative;">
+                        <button class="selector-btn" id="language-btn" aria-haspopup="listbox" aria-expanded="false">
+                            <i class="fas fa-language" aria-hidden></i>
+                            <span id="current-language">English</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown" id="language-dropdown" role="listbox" aria-label="Choose language">
+                            <!-- Languages will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="currency-selector" style="position:relative;">
+                        <button class="selector-btn" id="currency-btn" aria-haspopup="listbox" aria-expanded="false">
+                            <i class="fas fa-money-bill-wave" id="currency-icon" aria-hidden></i>
+                            <span id="current-currency">USD</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown" id="currency-dropdown" role="listbox" aria-label="Choose currency">
+                            <!-- Currencies will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> <span data-translate="home">Home</span></a></li>
+                        <li><a href="#"><i class="fas fa-calculator"></i> <span data-translate="calculator">Calculator</span></a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> <span data-translate="about">About</span></a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> <span data-translate="contact">Contact</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container" id="main">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="#" data-translate="home">Home</a> &gt; <a href="#" data-translate="financial_tools">Financial Tools</a> &gt; <span data-translate="loan_calculator">Loan Calculator</span>
+        </nav>
+
+        <section class="hero" aria-labelledby="hero-title">
+            <h1 id="hero-title" data-translate="hero_title">Global Loan & EMI Calculator</h1>
+            <p data-translate="hero_description">Plan your finances with our advanced loan calculator. Get accurate monthly payment estimates, interest breakdowns, and amortization schedules for personal, home, car, and education loans in any currency.</p>
+        </section>
+
+        <div class="main-content" style="display:grid;grid-template-columns:1fr 320px;gap:2.5rem;">
+            <div class="calculator-section">
+                <div class="calculator-card">
+                    <div class="card-header">
+                        <i class="fas fa-calculator" aria-hidden></i>
+                        <h2 data-translate="loan_calculator">Loan Calculator</h2>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loan-amount" data-translate="loan_amount">Loan Amount</label>
+                        <div class="input-with-icon" style="position:relative;">
+                            <i id="loan-currency-symbol" class="fas fa-dollar-sign" aria-hidden></i>
+                            <input type="number" id="loan-amount" min="100" max="100000000" value="25000" aria-label="Loan amount">
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="loan-amount-slider" class="slider" min="100" max="100000000" value="25000" step="100">
+                        </div>
+                        <div class="slider-value" id="loan-amount-value">$25,000.00</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="interest-rate" data-translate="interest_rate">Interest Rate</label>
+                        <div class="input-with-icon" style="position:relative;">
+                            <i class="fas fa-percent" aria-hidden></i>
+                            <input type="number" id="interest-rate" min="0.01" max="100" value="7.5" step="0.01" aria-label="Interest rate">
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="interest-rate-slider" class="slider" min="0.01" max="100" value="7.5" step="0.01">
+                        </div>
+                        <div class="slider-value" id="interest-rate-value">7.5%</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loan-term" data-translate="loan_term">Loan Term</label>
+                        <div class="input-with-icon" style="position:relative;">
+                            <i class="fas fa-calendar-alt" aria-hidden></i>
+                            <input type="number" id="loan-term" min="1" max="50" value="5" aria-label="Loan term in years">
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" id="loan-term-slider" class="slider" min="1" max="50" value="5">
+                        </div>
+                        <div class="slider-value" id="loan-term-value" data-translate="years">5 Years</div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loan-type" data-translate="loan_type">Loan Type</label>
+                        <div class="input-with-icon" style="position:relative;">
+                            <i class="fas fa-hand-holding-usd" aria-hidden></i>
+                            <select id="loan-type" aria-label="Loan type">
+                                <option value="personal" data-translate="personal_loan">Personal Loan</option>
+                                <option value="home" data-translate="home_loan">Home Loan</option>
+                                <option value="car" data-translate="car_loan">Car Loan</option>
+                                <option value="education" data-translate="education_loan">Education Loan</option>
+                                <option value="business" data-translate="business_loan">Business Loan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="btn-group" style="display:flex;gap:1.2rem;margin-top:2.5rem;">
+                        <button class="btn btn-primary" id="calculate-btn">
+                            <i class="fas fa-calculator"></i> <span data-translate="calculate_emi">Calculate EMI</span>
+                        </button>
+                        <button class="btn btn-secondary" id="reset-btn">
+                            <i class="fas fa-redo"></i> <span data-translate="reset">Reset</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="results-container" id="results-container" aria-live="polite">
+                    <div class="results-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                        <h2 data-translate="results">Loan Calculation Results</h2>
+                        <button class="btn btn-secondary" id="print-btn"><i class="fas fa-print"></i> <span data-translate="print_results">Print Results</span></button>
+                    </div>
+
+                    <div class="results-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.8rem;margin-bottom:1.5rem;">
+                        <div class="result-card"><h3 data-translate="monthly_payment">Monthly Payment</h3><div class="value emi-value" id="monthly-payment">$501.00</div></div>
+                        <div class="result-card"><h3 data-translate="total_interest">Total Interest</h3><div class="value" id="total-interest">$5,060.00</div></div>
+                        <div class="result-card"><h3 data-translate="total_payment">Total Payment</h3><div class="value" id="total-payment">$30,060.00</div></div>
+                        <div class="result-card"><h3 data-translate="payoff_date">Payoff Date</h3><div class="value" id="payoff-date">Jun 2028</div></div>
+                    </div>
+
+                    <div class="chart-container"><div class="chart-placeholder"><i class="fas fa-chart-pie"></i><p data-translate="loan_breakdown">Loan Payment Breakdown Chart</p><p data-translate="principal_vs_interest">(Principal vs Interest)</p></div></div>
+
+                    <div class="schedule-container">
+                        <h3><i class="fas fa-table"></i> <span data-translate="amortization_schedule">Amortization Schedule</span></h3>
+                        <div class="table-container">
+                            <table id="amortization-table">
+                                <thead>
+                                    <tr>
+                                        <th data-translate="month">Month</th>
+                                        <th data-translate="payment">Payment</th>
+                                        <th data-translate="principal">Principal</th>
+                                        <th data-translate="interest">Interest</th>
+                                        <th data-translate="balance">Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="amortization-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="faq-section" style="margin-top:1.5rem;">
+                    <h2 data-translate="faq_title">Frequently Asked Questions About Loan Calculators</h2>
+                    <div class="faq-item"><div class="faq-question" data-translate="faq1_question">What is an EMI? <i class="fas fa-chevron-down"></i></div><div class="faq-answer" data-translate="faq1_answer">EMI stands for Equated Monthly Installment...</div></div>
+                    <div class="faq-item"><div class="faq-question" data-translate="faq2_question">How is EMI calculated? <i class="fas fa-chevron-down"></i></div><div class="faq-answer" data-translate="faq2_answer">EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n - 1) ...</div></div>
+                </section>
+            </div>
+
+            <aside class="ad-section" aria-label="Advertisement slots">
+                <div class="ad-container" id="ad-slot-1">
+                    <h3 data-translate="advertisement">Advertisement</h3>
+                    <div class="ad-placeholder">
+                        <i class="fas fa-ad"></i>
+                        <p>Ad Space (300x600)</p>
+                        <!-- AdSense unit: easy to configure via ADSENSE_CONFIG at top -->
+                        <ins class="adsbygoogle"
+                            style="display:block"
+                            data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+                            data-ad-slot="XXXXXXXXXX"
+                            data-ad-format="auto"
+                            data-full-width-responsive="true"></ins>
+                    </div>
+                </div>
+
+                <div class="ad-container" id="ad-slot-2">
+                    <h3 data-translate="advertisement">Advertisement</h3>
+                    <div class="ad-placeholder">
+                        <i class="fas fa-ad"></i>
+                        <p>Ad Space (300x250)</p>
+                        <ins class="adsbygoogle"
+                            style="display:block"
+                            data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+                            data-ad-slot="YYYYYYYYYY"
+                            data-ad-format="auto"></ins>
+                    </div>
+                </div>
+
+                <div class="ad-container">
+                    <h3 data-translate="why_choose">Why Choose Our Calculator?</h3>
+                    <div class="ad-placeholder"><i class="fas fa-star"></i><p data-translate="feature1">Fast & Accurate Calculations</p><p data-translate="feature2">User-Friendly Interface</p></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2.5rem;">
+                <div class="footer-section"><h3 data-translate="about_us">About GlobalLoanCalc</h3><p data-translate="about_description">Our free online loan calculator helps you estimate your monthly payments...</p></div>
+                <div class="footer-section"><h3 data-translate="quick_links">Quick Links</h3><a href="#"><i class="fas fa-chevron-right"></i> <span data-translate="home">Home</span></a></div>
+                <div class="footer-section"><h3 data-translate="contact_us">Contact Us</h3><p><i class="fas fa-envelope"></i> info@globalloancalc.com</p></div>
+            </div>
+            <div class="copyright" style="text-align:center;padding-top:2.5rem;border-top:1px solid #495057;margin-top:2.5rem;color:#adb5bd;font-size:0.95rem;">
+                <p>&copy; 2025 GlobalLoanCalc. <span data-translate="all_rights_reserved">All rights reserved.</span> | <a href="#" style="color:#adb5bd;" data-translate="privacy_policy">Privacy Policy</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data ---
+        const currencies = [
+            { code: 'USD', name: 'US Dollar', symbol: '$', locale: 'en-US' },
+            { code: 'EUR', name: 'Euro', symbol: '€', locale: 'de-DE' },
+            { code: 'GBP', name: 'British Pound', symbol: '£', locale: 'en-GB' },
+            { code: 'JPY', name: 'Japanese Yen', symbol: '¥', locale: 'ja-JP' },
+            { code: 'INR', name: 'Indian Rupee', symbol: '₹', locale: 'en-IN' },
+            { code: 'AUD', name: 'Australian Dollar', symbol: 'A$', locale: 'en-AU' },
+            { code: 'CAD', name: 'Canadian Dollar', symbol: 'C$', locale: 'en-CA' }
+            // ... add more as needed
+        ];
+
+        const languages = [
+            { code: 'en', name: 'English', nativeName: 'English', dir: 'ltr' },
+            { code: 'es', name: 'Spanish', nativeName: 'Español', dir: 'ltr' },
+            { code: 'fr', name: 'French', nativeName: 'Français', dir: 'ltr' },
+            { code: 'de', name: 'German', nativeName: 'Deutsch', dir: 'ltr' },
+            { code: 'ar', name: 'Arabic', nativeName: 'العربية', dir: 'rtl' }
+            // ... add more as needed
+        ];
+
+        const translations = {
+            en: { /* same translation keys as original - trimmed for brevity */
+                home: "Home", calculator: "Calculator", about: "About", contact: "Contact", financial_tools: "Financial Tools", loan_calculator: "Loan Calculator", hero_title: "Global Loan & EMI Calculator", hero_description: "Plan your finances with our advanced loan calculator.", loan_amount: "Loan Amount", interest_rate: "Interest Rate", loan_term: "Loan Term", years: "Years", loan_type: "Loan Type", personal_loan: "Personal Loan", home_loan: "Home Loan", car_loan: "Car Loan", education_loan: "Education Loan", business_loan: "Business Loan", calculate_emi: "Calculate EMI", reset: "Reset", results: "Loan Calculation Results", print_results: "Print Results", monthly_payment: "Monthly Payment", total_interest: "Total Interest", total_payment: "Total Payment", payoff_date: "Payoff Date", loan_breakdown: "Loan Payment Breakdown Chart", principal_vs_interest: "(Principal vs Interest)", amortization_schedule: "Amortization Schedule", month: "Month", payment: "Payment", principal: "Principal", interest: "Interest", balance: "Balance", faq_title: "Frequently Asked Questions About Loan Calculators", faq1_question: "What is an EMI?", faq1_answer: "EMI stands for Equated Monthly Installment...", faq2_question: "How is EMI calculated?", faq2_answer: "EMI is calculated using the formula...", advertisement: "Advertisement", insert_adsense: "Insert AdSense Ad Unit ID here", why_choose: "Why Choose Our Calculator?", feature1: "Fast & Accurate Calculations", feature2: "User-Friendly Interface", about_us: "About GlobalLoanCalc", about_description: "Our free online loan calculator helps you estimate your monthly payments...", quick_links: "Quick Links", contact_us: "Contact Us", address: "123 Finance Street, New York, NY", all_rights_reserved: "All rights reserved.", privacy_policy: "Privacy Policy", terms_of_service: "Terms of Service"
+            },
+            es: { /* Spanish translations (trimmed) */ home: "Inicio", calculator: "Calculadora", about: "Acerca de", contact: "Contacto", financial_tools: "Herramientas Financieras", loan_calculator: "Calculadora de Préstamos", hero_title: "Calculadora Global de Préstamos y EMI", hero_description: "Planifique sus finanzas...", loan_amount: "Monto del Préstamo", interest_rate: "Tasa de Interés", loan_term: "Plazo del Préstamo", years: "Años", calculate_emi: "Calcular EMI", reset: "Reiniciar", results: "Resultados del Cálculo del Préstamo", monthly_payment: "Pago Mensual", total_interest: "Interés Total", total_payment: "Pago Total", payoff_date: "Fecha de Pago Final", advertisement: "Anuncio", why_choose: "¿Por Qué Elegir Nuestra Calculadora?", feature1: "Cálculos Rápidos y Precisos", feature2: "Interfaz Amigable", about_us: "Acerca de GlobalLoanCalc", about_description: "Nuestra calculadora de préstamos en línea gratuita...", all_rights_reserved: "Todos los derechos reservados.", privacy_policy: "Política de Privacidad" }
+        };
+
+        // --- DOM Elements ---
+        const loanAmountInput = document.getElementById('loan-amount');
+        const loanAmountSlider = document.getElementById('loan-amount-slider');
+        const loanAmountValue = document.getElementById('loan-amount-value');
+        const loanCurrencySymbol = document.getElementById('loan-currency-symbol');
+
+        const interestRateInput = document.getElementById('interest-rate');
+        const interestRateSlider = document.getElementById('interest-rate-slider');
+        const interestRateValue = document.getElementById('interest-rate-value');
+
+        const loanTermInput = document.getElementById('loan-term');
+        const loanTermSlider = document.getElementById('loan-term-slider');
+        const loanTermValue = document.getElementById('loan-term-value');
+
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const printBtn = document.getElementById('print-btn');
+
+        const resultsContainer = document.getElementById('results-container');
+        const monthlyPaymentEl = document.getElementById('monthly-payment');
+        const totalInterestEl = document.getElementById('total-interest');
+        const totalPaymentEl = document.getElementById('total-payment');
+        const payoffDateEl = document.getElementById('payoff-date');
+        const amortizationBody = document.getElementById('amortization-body');
+
+        const languageBtn = document.getElementById('language-btn');
+        const languageDropdown = document.getElementById('language-dropdown');
+        const currentLanguageEl = document.getElementById('current-language');
+        const currencyBtn = document.getElementById('currency-btn');
+        const currencyDropdown = document.getElementById('currency-dropdown');
+        const currentCurrencyEl = document.getElementById('current-currency');
+        const currencyIconEl = document.getElementById('currency-icon');
+
+        // Current settings
+        let currentLanguage = 'en';
+        let currentCurrency = 'USD';
+
+        // --- Utilities ---
+        function safeTranslation(key) {
+            return (translations[currentLanguage] && translations[currentLanguage][key]) || (translations['en'] && translations['en'][key]) || '';
+        }
+
+        function initializeDropdowns() {
+            languageDropdown.innerHTML = '';
+            currencyDropdown.innerHTML = '';
+
+            languages.forEach(lang => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                if (lang.code === currentLanguage) item.classList.add('active');
+                item.setAttribute('data-lang', lang.code);
+                item.setAttribute('role', 'option');
+                item.innerHTML = `${lang.nativeName} <span style="margin-left:auto;color:#6c757d;font-size:0.9rem">${lang.code}</span>`;
+                languageDropdown.appendChild(item);
+            });
+
+            currencies.forEach(currency => {
+                const item = document.createElement('div');
+                item.className = 'dropdown-item';
+                if (currency.code === currentCurrency) item.classList.add('active');
+                item.setAttribute('data-currency', currency.code);
+                item.setAttribute('role', 'option');
+                item.innerHTML = `${currency.code} - ${currency.name} <span style="margin-left:auto;color:#6c757d;font-size:0.9rem">${currency.symbol}</span>`;
+                currencyDropdown.appendChild(item);
+            });
+
+            const currentLang = languages.find(l => l.code === currentLanguage) || languages[0];
+            currentLanguageEl.textContent = currentLang.nativeName;
+            document.documentElement.lang = currentLang.code;
+            document.documentElement.dir = currentLang.dir || 'ltr';
+
+            currentCurrencyEl.textContent = currentCurrency;
+            updateCurrencySymbol();
+        }
+
+        function updateCurrencySymbol() {
+            const currency = currencies.find(c => c.code === currentCurrency);
+            if (currency) {
+                // set a textual symbol or fall back to currency code
+                loanCurrencySymbol.className = '';
+                loanCurrencySymbol.textContent = currency.symbol || currency.code;
+                // small visual icon fallback
+                loanCurrencySymbol.style.fontFamily = 'inherit';
+            }
+        }
+
+        // Robust currency formatting using Intl; fall back if unsupported
+        function formatCurrency(amount) {
+            const currency = currencies.find(c => c.code === currentCurrency);
+            if (!currency) return amount.toFixed(2);
+            try {
+                return new Intl.NumberFormat(currency.locale || 'en-US', {
+                    style: 'currency',
+                    currency: currency.code,
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(amount);
+            } catch (e) {
+                // graceful fallback
+                return (currency.symbol || currency.code) + ' ' + Number(amount).toLocaleString();
+            }
+        }
+
+        function updateSliderValues() {
+            loanAmountValue.textContent = formatCurrency(parseFloat(loanAmountInput.value || 0));
+            interestRateValue.textContent = `${parseFloat(interestRateInput.value || 0)}%`;
+            loanTermValue.textContent = `${parseInt(loanTermInput.value || 0)} ${safeTranslation('years') || 'Years'}`;
+        }
+
+        // Sync inputs and sliders
+        loanAmountInput.addEventListener('input', function() { loanAmountSlider.value = this.value; updateSliderValues(); });
+        loanAmountSlider.addEventListener('input', function() { loanAmountInput.value = this.value; updateSliderValues(); });
+        interestRateInput.addEventListener('input', function() { interestRateSlider.value = this.value; updateSliderValues(); });
+        interestRateSlider.addEventListener('input', function() { interestRateInput.value = this.value; updateSliderValues(); });
+        loanTermInput.addEventListener('input', function() { loanTermSlider.value = this.value; updateSliderValues(); });
+        loanTermSlider.addEventListener('input', function() { loanTermInput.value = this.value; updateSliderValues(); });
+
+        // Calculate EMI
+        function calculateEMI() {
+            const principal = parseFloat(loanAmountInput.value) || 0;
+            const annualInterestRate = parseFloat(interestRateInput.value) || 0;
+            const loanTermYears = parseInt(loanTermInput.value) || 0;
+            if (principal <= 0 || loanTermYears <= 0) return;
+
+            const monthlyInterestRate = annualInterestRate / 100 / 12;
+            const numberOfPayments = loanTermYears * 12;
+
+            let emi;
+            if (monthlyInterestRate === 0) {
+                emi = principal / numberOfPayments;
+            } else {
+                emi = principal * monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments) / (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+            }
+
+            const totalPayment = emi * numberOfPayments;
+            const totalInterest = totalPayment - principal;
+
+            // Payoff date calculation (use end of term month)
+            const currentDate = new Date();
+            const payoffDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + numberOfPayments - 1, 1);
+            const payoffDateFormatted = payoffDate.toLocaleDateString(currentLanguage, { month: 'short', year: 'numeric' });
+
+            monthlyPaymentEl.textContent = formatCurrency(emi);
+            totalInterestEl.textContent = formatCurrency(totalInterest);
+            totalPaymentEl.textContent = formatCurrency(totalPayment);
+            payoffDateEl.textContent = payoffDateFormatted;
+
+            generateAmortizationSchedule(principal, annualInterestRate, loanTermYears, emi);
+
+            resultsContainer.classList.add('active');
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Amortization schedule generation (shows first 12 and last 5 rows)
+        function generateAmortizationSchedule(principal, annualInterestRate, loanTermYears, emi) {
+            const monthlyInterestRate = annualInterestRate / 100 / 12;
+            const numberOfPayments = loanTermYears * 12;
+            let balance = principal;
+            let html = '';
+
+            for (let month = 1; month <= numberOfPayments; month++) {
+                const interestPayment = balance * monthlyInterestRate;
+                const principalPayment = Math.min(emi - interestPayment, balance);
+                balance = Math.max(0, balance - principalPayment);
+
+                if (month <= 12 || month > numberOfPayments - 5) {
+                    html += `<tr><td>${month}</td><td>${formatCurrency(emi)}</td><td>${formatCurrency(principalPayment)}</td><td>${formatCurrency(interestPayment)}</td><td>${formatCurrency(balance)}</td></tr>`;
+                    if (month === 12 && numberOfPayments > 17) {
+                        html += `<tr><td colspan="5" style="text-align:center;background:#f8f9fa;color:#6c757d;font-style:italic">... ${numberOfPayments - 17} months omitted ...</td></tr>`;
+                    }
+                }
+                if (balance <= 0) break;
+            }
+            amortizationBody.innerHTML = html;
+        }
+
+        // Reset
+        function resetForm() {
+            loanAmountInput.value = 25000; loanAmountSlider.value = 25000;
+            interestRateInput.value = 7.5; interestRateSlider.value = 7.5;
+            loanTermInput.value = 5; loanTermSlider.value = 5;
+            updateSliderValues(); resultsContainer.classList.remove('active');
+        }
+
+        function printResults() { window.print(); }
+
+        // Language & currency logic
+        function changeLanguage(lang) {
+            const langObj = languages.find(l => l.code === lang) || languages[0];
+            currentLanguage = langObj.code;
+            document.documentElement.lang = langObj.code;
+            document.documentElement.dir = langObj.dir || 'ltr';
+            currentLanguageEl.textContent = langObj.nativeName;
+
+            // Update text
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                el.textContent = safeTranslation(key);
+            });
+
+            // accessibility
+            languageDropdown.classList.remove('active');
+            languageBtn.setAttribute('aria-expanded','false');
+
+            // refresh displayed values
+            updateSliderValues();
+            if (resultsContainer.classList.contains('active')) calculateEMI();
+        }
+
+        function changeCurrency(currency) {
+            currentCurrency = currency;
+            currentCurrencyEl.textContent = currency;
+            updateCurrencySymbol();
+            updateSliderValues();
+            currencyDropdown.classList.remove('active');
+            currencyBtn.setAttribute('aria-expanded','false');
+            if (resultsContainer.classList.contains('active')) calculateEMI();
+        }
+
+        // Dropdown / selection events (single document listener to avoid conflicts)
+        document.addEventListener('click', (e) => {
+            // Language dropdown toggle
+            if (e.target.closest('#language-btn')) {
+                e.stopPropagation(); languageDropdown.classList.toggle('active'); currencyDropdown.classList.remove('active');
+                languageBtn.setAttribute('aria-expanded', String(languageDropdown.classList.contains('active')));
+                return;
+            }
+            if (e.target.closest('#currency-btn')) {
+                e.stopPropagation(); currencyDropdown.classList.toggle('active'); languageDropdown.classList.remove('active');
+                currencyBtn.setAttribute('aria-expanded', String(currencyDropdown.classList.contains('active')));
+                return;
+            }
+
+            // Select a language
+            const langItem = e.target.closest('.dropdown-item[data-lang]');
+            if (langItem) { changeLanguage(langItem.getAttribute('data-lang')); document.querySelectorAll('#language-dropdown .dropdown-item').forEach(i=>i.classList.remove('active')); langItem.classList.add('active'); return; }
+
+            // Select a currency
+            const currencyItem = e.target.closest('.dropdown-item[data-currency]');
+            if (currencyItem) { changeCurrency(currencyItem.getAttribute('data-currency')); document.querySelectorAll('#currency-dropdown .dropdown-item').forEach(i=>i.classList.remove('active')); currencyItem.classList.add('active'); return; }
+
+            // Click outside closes dropdowns
+            languageDropdown.classList.remove('active'); currencyDropdown.classList.remove('active');
+            languageBtn.setAttribute('aria-expanded','false'); currencyBtn.setAttribute('aria-expanded','false');
+        });
+
+        // FAQ toggle
+        document.addEventListener('click',(e)=>{
+            const q = e.target.closest('.faq-question');
+            if (!q) return; const a = q.nextElementSibling; a.classList.toggle('active'); const icon = q.querySelector('i'); if(icon){ icon.classList.toggle('fa-chevron-down'); icon.classList.toggle('fa-chevron-up'); }
+        });
+
+        // Initialize
+        initializeDropdowns(); updateSliderValues(); calculateEMI();
+
+        // Attempt to render ads if AdSense loaded
+        function tryPushAds(){
+            try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) { /* ignore - AdSense not configured */ }
+        }
+        window.addEventListener('load', ()=>{
+            // push ads after load
+            setTimeout(tryPushAds, 800);
+        });
+    </script>
+</body>
+</html>
