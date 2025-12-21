@@ -569,6 +569,16 @@ ar_ae: {
     - Provide unique title & meta descriptions per language and currency landing pages.
     - Use server-provided exchange rates for accuracy; client-side rates aren't indexed reliably.
   -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".ads-placeholder").forEach(function (ad) {
+    if (!ad.innerHTML.trim()) {
+      const card = ad.closest(".card");
+      if (card) card.remove();
+    }
+  });
+});
+</script>
 
 </body>
 </html>
