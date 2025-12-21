@@ -274,15 +274,15 @@
 
     // --- Default data ---
     const currencies = [
-      {code:'USD',symbol:'$',name:'US Dollar'},
-      {code:'EUR',symbol:'€',name:'Euro'},
-      {code:'INR',symbol:'₹',name:'Indian Rupee'},
-      {code:'GBP', symbol:'£', name:'British Pound'},
-      {code:'AUD', symbol:'A$', name:'Australian Dollar'},
-      {code:'CAD', symbol:'C$', name:'Canadian Dollar'},
-      {code:'AED', symbol:'د.إ', name:'UAE Dirham'},
+  { code: 'USD', symbol: '$', name: 'US Dollar', rate: 1 },
+  { code: 'EUR', symbol: '€', name: 'Euro', rate: 0.92 },
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee', rate: 83 },
+  { code: 'GBP', symbol: '£', name: 'British Pound', rate: 0.78 },
+  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar', rate: 1.52 },
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar', rate: 1.36 },
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', rate: 3.67 }
+];
 
-    ];
 
     // Simple i18n dictionary. You can add more languages via the editor.
     const langStore = {
@@ -303,31 +303,31 @@
         label_tenure: 'अवधि (वर्ष)',
         label_interest: 'वार्षिक ब्याज (%)',
         label_payments: 'वर्ष में भुगतान'
-      }
+      },
       de: {
   label_principal: 'Darlehensbetrag',
   label_tenure: 'Laufzeit (Jahre)',
   label_interest: 'Zinssatz (jährlich %)',
   label_payments: 'Zahlungen pro Jahr'
-}
+},
 en_au: {
   label_principal: 'Loan amount',
   label_tenure: 'Loan term (years)',
   label_interest: 'Interest rate (per annum %)',
   label_payments: 'Repayments per year'
-}
+},
 en_gb: {
   label_principal: 'Loan amount',
   label_tenure: 'Loan term (years)',
   label_interest: 'Annual interest rate (%)',
   label_payments: 'Payments per year'
-}
+},
 en_ca: {
   label_principal: 'Loan amount',
   label_tenure: 'Loan duration (years)',
   label_interest: 'Interest rate (annual %)',
   label_payments: 'Payments per year'
-}
+},
 ar_ae: {
   label_principal: 'مبلغ القرض',
   label_tenure: 'مدة القرض (بالسنوات)',
@@ -379,7 +379,48 @@ ar_ae: {
       const curCode = currencyEl.value;
       const cur = currencies.find(c => c.code === curCode) || currencies[0];
 
-      const res = calculateEMI(P, annualRate, years, paymentsPerYear);
+      // convert entered amount to base currency (USD)
+const baseAmount = P / cur.rate;
+
+// calculate EMI in base currency
+calcBtn.addEventListener('click', () => {
+  const P = parseFloat(principalEl.value) || 0;
+  const annualRate = parseFloat(interestEl.value) || 0;
+  const years = parseFloat(tenureEl.value) || 0;
+  const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
+
+  const curCode = currencyEl.value;
+  const cur = currencies.find(c => c.code === curCode) || currencies[0];
+
+  // 🔥 Convert entered amount to base currency (USD)
+  const baseAmount = P / cur.rate;
+
+  // Calculate EMI in USD
+  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+
+  // 🔥 Convert result back to selected currency
+  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
+  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
+  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+
+  // Amortization table
+  amortBody.innerHTML = '';
+  res.schedule.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${row.paymentNo}</td>
+      <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
+    `;
+    amortBody.appendChild(tr);
+  });
+});
+
+// convert results back to selected currency
+emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
+totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
+totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+
       emiValueEl.textContent = formatMoney(res.emi, cur.symbol);
       totalPaymentEl.textContent = formatMoney(res.totalPayment, cur.symbol);
       totalInterestEl.textContent = formatMoney(res.totalInterest, cur.symbol);
