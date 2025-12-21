@@ -280,8 +280,8 @@
   { code: 'GBP', symbol: '£', name: 'British Pound', rate: 0.78 },
   { code: 'AUD', symbol: 'A$', name: 'Australian Dollar', rate: 1.52 },
   { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar', rate: 1.36 },
-  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', rate: 3.67 },
-  { code: 'AED', symbol: 'د.إ', name: 'Dírham de los Emiratos Árabes Unidos', rate: 3.67 }
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', rate: 3.67 }
+  
 
 ];
 
@@ -335,13 +335,7 @@ ar_ae: {
   label_tenure: 'مدة القرض (بالسنوات)',
   label_interest: 'سعر الفائدة السنوي (%)',
   label_payments: 'عدد الدفعات في السنة'
-},es: {
-  label_principal: 'Monto del préstamo',
-  label_tenure: 'Duración del préstamo (años)',
-  label_interest: 'Tasa de interés (anual %)',
-  label_payments: 'Pagos por año'
 }
-
 
     };
 
@@ -379,19 +373,8 @@ ar_ae: {
     }
 
     // --- Event handlers ---
-    calcBtn.addEventListener('click', ()=>{
-      const P = parseFloat(principalEl.value) || 0;
-      const annualRate = parseFloat(interestEl.value) || 0;
-      const years = parseFloat(tenureEl.value) || 0;
-      const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
-      const curCode = currencyEl.value;
-      const cur = currencies.find(c => c.code === curCode) || currencies[0];
-
-      // convert entered amount to base currency (USD)
-const baseAmount = P / cur.rate;
-
-// calculate EMI in base currency
-calcBtn.addEventListener('click', () => {
+    calcBtn.addEventListener('click', () => {
+  // 1. Read inputs
   const P = parseFloat(principalEl.value) || 0;
   const annualRate = parseFloat(interestEl.value) || 0;
   const years = parseFloat(tenureEl.value) || 0;
@@ -400,18 +383,18 @@ calcBtn.addEventListener('click', () => {
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
 
-  // 🔥 Convert entered amount to base currency (USD)
+  // 2. Convert entered amount to base currency (USD)
   const baseAmount = P / cur.rate;
 
-  // Calculate EMI in USD
+  // 3. Calculate EMI in USD
   const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
 
-  // 🔥 Convert result back to selected currency
+  // 4. Convert results back to selected currency
   emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
   totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
   totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
 
-  // Amortization table
+  // 5. Amortization table
   amortBody.innerHTML = '';
   res.schedule.forEach(row => {
     const tr = document.createElement('tr');
@@ -419,30 +402,14 @@ calcBtn.addEventListener('click', () => {
       <td>${row.paymentNo}</td>
       <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
       <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
     `;
     amortBody.appendChild(tr);
   });
 });
 
-// convert results back to selected currency
-emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
-totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
-totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
-
-      emiValueEl.textContent = formatMoney(res.emi, cur.symbol);
-      totalPaymentEl.textContent = formatMoney(res.totalPayment, cur.symbol);
-      totalInterestEl.textContent = formatMoney(res.totalInterest, cur.symbol);
-
-      // populate amortization
-      amortBody.innerHTML = '';
-      res.schedule.forEach(row=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${row.paymentNo}</td><td>${formatMoney(row.payment, cur.symbol)}</td><td>${formatMoney(row.principal, cur.symbol)}</td><td>${formatMoney(row.interest, cur.symbol)}</td><td>${formatMoney(row.balance, cur.symbol)}</td>`;
-        amortBody.appendChild(tr);
-      });
-    });
-
-    resetBtn.addEventListener('click', ()=>{
+   resetBtn.addEventListener('click', ()=>{
       principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
       emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
     });
