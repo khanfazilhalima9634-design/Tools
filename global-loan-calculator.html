@@ -43,7 +43,17 @@
     .container{max-width:var(--max-width);margin:28px auto;padding:18px}
     header{display:flex;gap:12px;align-items:center;justify-content:space-between}
     h1{margin:0;font-size:clamp(1.2rem,2.4vw,1.8rem)}
-    .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(15,23,42,0.06);margin-top:14px}
+    .card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 14px;
+
+  /* NEW */
+  border: 1.5px solid #d1d5db; /* darker visible border */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
     .grid{display:grid;grid-template-columns:1fr 340px;gap:16px}
     .controls{display:flex;flex-wrap:wrap;gap:8px}
     label{font-size:0.85rem;color:var(--muted)}
@@ -51,9 +61,25 @@
     .actions{display:flex;gap:8px;margin-top:8px}
     button{background:var(--accent);color:white;padding:10px 12px;border-radius:8px;border:0;cursor:pointer}
     table{width:100%;border-collapse:collapse}
-    th,td{padding:8px;border-bottom:1px solid #eef2f7;text-align:left}
+    th, td {
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  text-align: left;
+}
+
+table {
+  border: 1.5px solid #9ca3af;
+}
+
     .muted{color:var(--muted);font-size:0.9rem}
-    .ads-placeholder{background:#f3f4f6;border:2px dashed #e6e7eb;border-radius:8px;padding:12px;text-align:center;color:var(--muted)}
+    .ads-placeholder {
+  background: #f9fafb;
+  border: 2px dashed #9ca3af; /* darker */
+  border-radius: 8px;
+  padding: 14px;
+  min-height: 250px;
+}
+
     .small{font-size:0.85rem}
     footer{margin-top:18px;color:var(--muted);font-size:0.85rem}
     @media(max-width:880px){.grid{grid-template-columns:1fr}.container{padding:12px}}
@@ -182,7 +208,13 @@
 
 </div>
 
-          <div style="overflow:auto;max-height:320px">
+          <div style="
+  overflow:auto;
+  max-height:320px;
+  border:1.5px solid #9ca3af;
+  border-radius:8px;
+">
+
             <table id="amortTable" aria-live="polite">
               <thead>
                 <tr>
