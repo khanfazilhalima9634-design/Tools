@@ -571,7 +571,8 @@ ar_ae: {
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".ads-placeholder").forEach(function (ad) {
     if (!ad.innerHTML.trim()) {
-      const card = ad.closest(".card");
+     const card = ad.closest(".ads-placeholder");
+
       if (card) card.remove();
     }
   });
