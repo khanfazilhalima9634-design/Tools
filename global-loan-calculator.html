@@ -570,12 +570,13 @@ ar_ae: {
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".ads-placeholder").forEach(function (ad) {
-    if (!ad.innerHTML.trim()) {
-     const card = ad.closest(".ads-placeholder");
-
-      if (card) card.remove();
+    // Remove ONLY empty placeholders
+    if (!ad.querySelector("ins.adsbygoogle") && !ad.innerHTML.trim()) {
+      ad.remove();
     }
   });
+});
+
 });
 </script>
  <section class="card" style="margin-top:20px">
