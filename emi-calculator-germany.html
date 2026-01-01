@@ -1,1 +1,635 @@
 
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <!-- SEO: primary meta tags -->
+  <title>Loan & EMI Calculator — Fast, Multilingual & Multi-Currency</title>
+  <meta name="description" content="Free, responsive Loan & EMI calculators with multi-currency and multilingual support. Includes amortization schedule, CSV export and designated AdSense ad slots (place your Ad Unit ID easily).">
+<link rel="canonical" href="https://www.loanemi.de/global-loan-calculator.html">
+
+
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="Loan & EMI Calculator — Fast, Multilingual & Multi-Currency">
+  <meta property="og:description" content="Free Loan & EMI calculators with currency & language selectors, amortization schedule, and ad spaces for monetization.">
+  <meta property="og:type" content="website">
+
+  <!-- Structured data (JSON-LD) for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Loan & EMI Calculator",
+    "url": "https://www.loanemi.de/global-loan-calculator.html",
+
+    "applicationCategory": "FinanceApplication",
+    "description": "EMI & loan calculators with multi-currency and multilingual UI, and monetization ad slots for AdSense.",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
+  <style>
+    /* FIX LCP: show main heading fast */
+#page-title,
+#calculator-title {
+  content-visibility: auto;
+}
+
+    :root{
+      --bg:#f9fafb;--card:#ffffff;--muted:#6b7280;--accent:#0ea5a4;
+      --max-width:1100px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,'Helvetica Neue',Arial;color:#111827;background:var(--bg)}
+    .container{max-width:var(--max-width);margin:28px auto;padding:18px}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    h1{margin:0;font-size:clamp(1.2rem,2.4vw,1.8rem)}
+    .card {
+  background: var(--card);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 14px;
+
+  /* NEW */
+  border: 1.5px solid #d1d5db; /* darker visible border */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+    .grid{display:grid;grid-template-columns:1fr 340px;gap:16px}
+    .controls{display:flex;flex-wrap:wrap;gap:8px}
+    label{font-size:0.85rem;color:var(--muted)}
+    input[type=number],select,input[type=text]{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e7eb}
+    .actions{display:flex;gap:8px;margin-top:8px}
+    button{background:var(--accent);color:white;padding:10px 12px;border-radius:8px;border:0;cursor:pointer}
+    table{width:100%;border-collapse:collapse}
+    th, td {
+  padding: 8px;
+  border: 1px solid #d1d5db;
+  text-align: left;
+}
+
+table {
+  border: 1.5px solid #9ca3af;
+}
+
+    .muted{color:var(--muted);font-size:0.9rem}
+    .ads-placeholder {
+  background: #f9fafb;
+  border: 1.5px dashed #9ca3af;
+  border-radius: 8px;
+  padding: 10px;
+  min-height: 90px;      /* much smaller */
+}
+
+
+    .small{font-size:0.85rem}
+    footer{margin-top:18px;color:var(--muted);font-size:0.85rem}
+    @media(max-width:880px){.grid{grid-template-columns:1fr}.container{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1 id="page-title">Loan &amp; EMI Calculator</h1>
+        <p class="muted small">Multi-currency • Multi-language • SEO-friendly • Ad slots ready</p>
+      </div>
+
+      <div class="controls">
+        <!-- Language selector -->
+        <div style="min-width:150px">
+          <label for="lang">Language</label>
+          <select id="lang" aria-label="Select language"></select>
+        </div>
+
+        <!-- Currency selector -->
+        <div style="min-width:160px">
+          <label for="currency">Currency</label>
+          <select id="currency" aria-label="Select currency"></select>
+        </div>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section>
+        <div class="card">
+          <h2 id="calculator-title">Loan & EMI Calculator</h2>
+          <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
+            <div>
+              <label for="principal" data-i18n="label_principal">Loan amount</label>
+              <input id="principal" type="number" min="0" step="any" value="50000">
+            </div>
+
+            <div>
+              <label for="tenure" data-i18n="label_tenure">Tenure (years)</label>
+              <input id="tenure" type="number" min="0" step="any" value="5">
+            </div>
+
+            <div>
+              <label for="interest" data-i18n="label_interest">Interest rate (annual %)</label>
+              <input id="interest" type="number" min="0" step="any" value="8.5">
+            </div>
+
+            <div>
+              <label for="paymentsPerYear" data-i18n="label_payments">Payments per year</label>
+              <select id="paymentsPerYear">
+                <option value="12">Monthly</option>
+                <option value="4">Quarterly</option>
+                <option value="1">Yearly</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="calcBtn">Calculate EMI</button>
+            <button id="resetBtn" style="background:#ef4444">Reset</button>
+            <button id="exportBtn" style="background:#111827">Export CSV</button>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+            <div class="card" style="padding:12px;min-width:180px">
+              <div class="muted small">EMI</div>
+              <div id="emiValue" style="font-weight:700;font-size:1.2rem;">—</div>
+            </div>
+
+            <div class="card" style="padding:12px;min-width:180px">
+              <div class="muted small">Total Payment</div>
+              <div id="totalPayment">—</div>
+            </div>
+
+            <div class="card" style="padding:12px;min-width:180px">
+              <div class="muted small">Total Interest</div>
+              <div id="totalInterest">—</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Ad Slot (Inline) - editable placeholders for AdSense -->
+       <!-- Ad Slot 1 (Below results cards) -->
+
+          <!-- Example of where to insert asynchronous AdSense script. -->
+          <!--
+            To enable AdSense, replace the placeholder values below with your actual client/app IDs.
+            1) Replace YOUR-ADSENSE-CLIENT-ID with "ca-app-pub-6054784644895427/5351508998"
+            2) Replace YOUR-AD-UNIT-ID with your ad unit ID (e.g., "1234567890")
+
+            Notes: Google requires you to load the global script only once per page and to follow AdSense policies.
+          -->
+          <noscript class="small muted">AdSense code placeholder — enable JavaScript to load ads.</noscript>
+        
+
+   <!-- Amortization Schedule -->
+<div class="card" style="margin-top:12px">
+  <h3 class="small">Amortization Schedule</h3>
+
+  <!-- Ad Slot 1 (correct placement) -->
+  <div
+    id="ad-slot-1"
+    class="ads-placeholder"
+    aria-label="Advertisement"
+    style="margin:12px 0;">
+  </div>
+
+  <!-- Ad Slot 3 (optional) -->
+  <div
+    id="ad-slot-3"
+    class="ads-placeholder"
+    aria-label="Advertisement"
+    style="margin:10px 0;">
+  </div>
+
+  <!-- Table wrapper -->
+  <div
+    style="
+      overflow:auto;
+      max-height:320px;
+      border:1.5px solid #9ca3af;
+      border-radius:8px;
+    "
+  >
+    <table id="amortTable" aria-live="polite">
+      <thead>
+        <tr>
+          <th>Payment #</th>
+          <th>Payment</th>
+          <th>Principal</th>
+          <th>Interest</th>
+          <th>Balance</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+      </section>
+
+      <!-- Right column: currency table, language help, and Ad slot -->
+      <aside>
+        <div class="card">
+          <h3 class="small">Currencies</h3>
+          <p class="muted small">Add or edit currencies below. Exchange rates are placeholders — replace with live rates server-side if needed for SEO and accuracy.</p>
+          <table id="currencyTable">
+            <thead>
+              <tr><th>Code</th><th>Symbol</th><th>Name</th></tr>
+            </thead>
+            <tbody>
+              <!-- default currencies -->
+              <tr><td>USD</td><td>$</td><td>US Dollar</td></tr>
+              <tr><td>EUR</td><td>€</td><td>Euro</td></tr>
+              <tr><td>INR</td><td>₹</td><td>Indian Rupee</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:8px">
+            <input id="newCurCode" type="text" placeholder="Code (e.g. GBP)" style="width:40%;display:inline-block">
+            <input id="newCurSymbol" type="text" placeholder="Symbol" style="width:30%;display:inline-block">
+            <input id="newCurName" type="text" placeholder="Name" style="width:100%;display:inline-block;margin-top:6px">
+            <div style="margin-top:6px"><button id="addCurrencyBtn">Add Currency</button></div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3 class="small">Language Editor</h3>
+          <p class="muted small">Add additional translations (client-side). For SEO you should provide server-rendered localized pages or hreflang tags.</p>
+          <textarea id="langJson" rows="6" style="width:100%" placeholder='{"en":{"label_principal":"Loan amount"}}'></textarea>
+          <div style="margin-top:8px" class="actions"><button id="applyLangBtn">Apply</button></div>
+        </div>
+
+       <div class="card" style="margin-top:20px">
+  <div
+    id="ad-slot-2"
+    class="ads-placeholder"
+    aria-label="Advertisement">
+  </div>
+</div>
+
+</div>
+
+        </div>
+
+      </aside>
+    </main>
+
+    <footer>
+      <p class="muted small">Tip: To increase SEO visibility create dedicated localized pages and submit an XML sitemap; include canonical hreflang links for each language.</p>
+    </footer>
+  </div>
+
+  <!-- Core logic: EMI calculation, amortization, CSV export, language & currency management -->
+  <script>
+    // --- Utility functions ---
+    function formatMoney(amount, currencySymbol){
+      if (isNaN(amount) || amount === null) return '-';
+      return currencySymbol + Number(amount).toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2});
+    }
+
+    function calculateEMI(P, annualRatePct, years, paymentsPerYear){
+      const r = (annualRatePct/100)/paymentsPerYear; // periodic rate
+      const n = years * paymentsPerYear;
+      if (r === 0) return {emi: P/n, totalPayment: P, totalInterest: 0, schedule: []};
+
+      const pow = Math.pow(1+r,n);
+      const emi = P * r * pow / (pow - 1);
+      let balance = P;
+      const schedule = [];
+      for (let i=1;i<=n;i++){
+        const interest = balance * r;
+        const principal = emi - interest;
+        balance = Math.max(0, balance - principal);
+        schedule.push({paymentNo:i,payment:emi,principal:principal,interest:interest,balance:balance});
+      }
+      const totalPayment = emi * n;
+      const totalInterest = totalPayment - P;
+      return {emi,totalPayment,totalInterest,schedule};
+    }
+
+    // --- DOM elements ---
+    const principalEl = document.getElementById('principal');
+    const interestEl = document.getElementById('interest');
+    const tenureEl = document.getElementById('tenure');
+    const paymentsPerYearEl = document.getElementById('paymentsPerYear');
+    const calcBtn = document.getElementById('calcBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const emiValueEl = document.getElementById('emiValue');
+    const totalPaymentEl = document.getElementById('totalPayment');
+    const totalInterestEl = document.getElementById('totalInterest');
+    const amortBody = document.querySelector('#amortTable tbody');
+    const exportBtn = document.getElementById('exportBtn');
+    const currencyEl = document.getElementById('currency');
+    const currencyTable = document.getElementById('currencyTable').querySelector('tbody');
+    const addCurrencyBtn = document.getElementById('addCurrencyBtn');
+    const newCurCode = document.getElementById('newCurCode');
+    const newCurSymbol = document.getElementById('newCurSymbol');
+    const newCurName = document.getElementById('newCurName');
+    const langSelect = document.getElementById('lang');
+    const langJson = document.getElementById('langJson');
+    const applyLangBtn = document.getElementById('applyLangBtn');
+
+    // --- Default data ---
+    const currencies = [
+  { code: 'USD', symbol: '$', name: 'US Dollar', rate: 1 },
+  { code: 'EUR', symbol: '€', name: 'Euro', rate: 0.92 },
+  { code: 'INR', symbol: '₹', name: 'Indian Rupee', rate: 83 },
+  { code: 'GBP', symbol: '£', name: 'British Pound', rate: 0.78 },
+  { code: 'AUD', symbol: 'A$', name: 'Australian Dollar', rate: 1.52 },
+  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar', rate: 1.36 },
+  { code: 'AED', symbol: 'د.إ', name: 'UAE Dirham', rate: 3.67 }
+  
+
+];
+
+
+    // Simple i18n dictionary. You can add more languages via the editor.
+    const langStore = {
+      en: {
+        label_principal: 'Loan amount',
+        label_tenure: 'Tenure (years)',
+        label_interest: 'Interest rate (annual %)',
+        label_payments: 'Payments per year'
+      },
+      es: {
+        label_principal: 'Importe del préstamo',
+        label_tenure: 'Plazo (años)',
+        label_interest: 'Interés anual (%)',
+        label_payments: 'Pagos por año'
+      },
+      hi: {
+        label_principal: 'ऋण राशि',
+        label_tenure: 'अवधि (वर्ष)',
+        label_interest: 'वार्षिक ब्याज (%)',
+        label_payments: 'वर्ष में भुगतान'
+      },
+      de: {
+  label_principal: 'Darlehensbetrag',
+  label_tenure: 'Laufzeit (Jahre)',
+  label_interest: 'Zinssatz (jährlich %)',
+  label_payments: 'Zahlungen pro Jahr'
+},
+en_au: {
+  label_principal: 'Loan amount',
+  label_tenure: 'Loan term (years)',
+  label_interest: 'Interest rate (per annum %)',
+  label_payments: 'Repayments per year'
+},
+en_gb: {
+  label_principal: 'Loan amount',
+  label_tenure: 'Loan term (years)',
+  label_interest: 'Annual interest rate (%)',
+  label_payments: 'Payments per year'
+},
+en_ca: {
+  label_principal: 'Loan amount',
+  label_tenure: 'Loan duration (years)',
+  label_interest: 'Interest rate (annual %)',
+  label_payments: 'Payments per year'
+},
+ar_ae: {
+  label_principal: 'مبلغ القرض',
+  label_tenure: 'مدة القرض (بالسنوات)',
+  label_interest: 'سعر الفائدة السنوي (%)',
+  label_payments: 'عدد الدفعات في السنة'
+}
+
+    };
+
+    // --- Initialization ---
+    function init(){
+      // populate currency selector and table
+      refreshCurrencies();
+      // populate language selector
+      for (const k of Object.keys(langStore)){
+        const o = document.createElement('option'); o.value = k; o.textContent = k.toUpperCase(); langSelect.appendChild(o);
+      }
+      // set defaults
+      langSelect.value = 'en';
+      currencyEl.value = currencies[0].code;
+      applyLanguage('en');
+    }
+
+    function refreshCurrencies(){
+      currencyEl.innerHTML = '';
+      currencyTable.innerHTML = '';
+      currencies.forEach(c =>{
+        const opt = document.createElement('option'); opt.value = c.code; opt.textContent = c.code + ' — ' + c.name; currencyEl.appendChild(opt);
+        const tr = document.createElement('tr'); tr.innerHTML = `<td>${c.code}</td><td>${c.symbol}</td><td>${c.name}</td>`; currencyTable.appendChild(tr);
+      });
+    }
+
+    function applyLanguage(code){
+      const dict = langStore[code] || {};
+      document.querySelectorAll('[data-i18n]').forEach(el=>{
+        const key = el.getAttribute('data-i18n');
+        if (dict[key]) el.textContent = dict[key];
+      });
+      // update headings
+      document.getElementById('page-title').textContent = (code === 'es')? 'Calculadora de Préstamo y EMI' : (code === 'hi')? 'ऋण और EMI कैलकुलेटर' : 'Loan & EMI Calculator';
+    }
+
+    // --- Event handlers ---
+    calcBtn.addEventListener('click', () => {
+  // 1. Read inputs
+  const P = parseFloat(principalEl.value) || 0;
+  const annualRate = parseFloat(interestEl.value) || 0;
+  const years = parseFloat(tenureEl.value) || 0;
+  const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
+
+  const curCode = currencyEl.value;
+  const cur = currencies.find(c => c.code === curCode) || currencies[0];
+
+  // 2. Convert entered amount to base currency (USD)
+  const baseAmount = P / cur.rate;
+
+  // 3. Calculate EMI in USD
+  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+
+  // 4. Convert results back to selected currency
+  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
+  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
+  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+
+  // 5. Amortization table
+  amortBody.innerHTML = '';
+  res.schedule.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${row.paymentNo}</td>
+      <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
+    `;
+    amortBody.appendChild(tr);
+  });
+});
+
+   resetBtn.addEventListener('click', ()=>{
+      principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
+      emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
+    });
+
+    exportBtn.addEventListener('click', ()=>{
+      // build CSV from table
+      const rows = [['Payment #','Payment','Principal','Interest','Balance']];
+      Array.from(amortBody.querySelectorAll('tr')).forEach(tr=>{
+        const cols = Array.from(tr.querySelectorAll('td')).map(td=>td.textContent.replace(/,/g,''));
+        rows.push(cols);
+      });
+      if (rows.length === 1) { alert('No amortization data — calculate first.'); return; }
+      const csv = rows.map(r=>r.join(',')).join('\n');
+      const blob = new Blob([csv],{type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'amortization.csv'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    addCurrencyBtn.addEventListener('click', ()=>{
+      const code = (newCurCode.value||'').toUpperCase().trim();
+      const symbol = newCurSymbol.value||'';
+      const name = newCurName.value||'';
+      if (!code || !symbol) { alert('Provide at least a currency code and symbol.'); return; }
+      currencies.push({code,symbol,name});
+      newCurCode.value='';newCurSymbol.value='';newCurName.value='';
+      refreshCurrencies();
+    });
+
+    langSelect.addEventListener('change', ()=> applyLanguage(langSelect.value));
+
+    applyLangBtn.addEventListener('click', ()=>{
+      try{
+        const parsed = JSON.parse(langJson.value);
+        for (const [k,v] of Object.entries(parsed)){
+          langStore[k] = Object.assign({}, langStore[k]||{}, v);
+        }
+        // refresh language selector options
+        langSelect.innerHTML = '';
+        for (const k of Object.keys(langStore)){
+          const o = document.createElement('option'); o.value = k; o.textContent = k.toUpperCase(); langSelect.appendChild(o);
+        }
+        alert('Language entries applied (client-side). For SEO, create server-rendered locales.');
+      }catch(e){ alert('Invalid JSON: ' + e.message); }
+    });
+
+    // --- Ads injection helper (for AdSense) ---
+    // NOTE: This helper only creates a simple ad slot placeholder and demonstrates where to add AdSense.
+    // Replace the placeholders with your own AdSense values and follow Google policies.
+    function injectAdSense(){
+      const adSlots = document.querySelectorAll('[id^="ad-slot-"]');
+      if (!adSlots.length) return;
+      // Load global AdSense script only once — uncomment and replace YOUR-APP-ID if you intend to enable ads.
+      /*
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR-ADSENSE-CLIENT-ID';
+      s.crossOrigin = 'anonymous';
+      document.head.appendChild(s);
+      */
+
+      // For each slot you can create an ins.adsbygoogle and set data-ad-slot with your ad unit.
+      adSlots.forEach(slot =>{
+        const client = slot.dataset.adsClient || 'YOUR-ADSENSE-CLIENT-ID';
+        const unit = slot.dataset.adUnit || 'YOUR-AD-UNIT-ID';
+
+        // If you enable AdSense, uncomment the following block and set the client/unit.
+        /*
+        const ins = document.createElement('ins');
+        ins.className = 'adsbygoogle';
+        ins.style.display = 'block';
+        ins.setAttribute('data-ad-client', client);
+        ins.setAttribute('data-ad-slot', unit);
+        ins.setAttribute('data-ad-format', 'auto');
+        slot.innerHTML = ''; // clear placeholder
+        slot.appendChild(ins);
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        */
+      });
+    }
+
+    // Run init
+    window.addEventListener("load", init);
+
+    // injectAdSense(); // call this if you uncomment the AdSense enabling code above
+  </script>
+
+  <!--
+    HOW TO MONETIZE / CUSTOMIZE:
+    1) Insert your AdSense client ID (ca-app-pub-6054784644895427/5351508998) into the data-ads-client attributes on ad-slot divs.
+    2) Insert your ad unit IDs into data-ad-unit attributes.
+    3) Uncomment the script injection block in injectAdSense() and the per-slot block to actually create <ins class="adsbygoogle"> nodes.
+    4) For mobile-app monetization (AdMob) you would instead follow AdMob SDK integration on the app-side. This HTML provides placeholders only.
+
+    SEO BEST PRACTICES:
+    - For best SEO, pre-render localized pages server-side and set <link rel="alternate" hreflang="..."> tags.
+    - Provide unique title & meta descriptions per language and currency landing pages.
+    - Use server-provided exchange rates for accuracy; client-side rates aren't indexed reliably.
+  -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".ads-placeholder").forEach(function (ad) {
+    // Remove ONLY empty placeholders
+    if (!ad.querySelector("ins.adsbygoogle") && !ad.innerHTML.trim()) {
+      ad.remove();
+    }
+  });
+});
+
+</script>
+ <section class="card" style="margin-top:20px">
+  <h2>Loan EMI Planning Tips (2025)</h2>
+
+  <p>
+    Planning a loan in 2025 requires understanding how interest rates and tenure affect your monthly EMI.
+    A higher loan tenure reduces monthly EMI but increases total interest paid, while a lower tenure increases EMI
+    but saves interest. Using this EMI calculator helps you compare different loan scenarios instantly and choose
+    the most affordable repayment plan.
+  </p>
+
+  <h3>Frequently Asked Question</h3>
+  <p><strong>What factors affect my EMI amount?</strong></p>
+  <p>
+    Your EMI depends on the loan amount, interest rate, loan tenure, and payment frequency.
+    Even a small change in interest rate or tenure can significantly impact the total amount
+    you repay over time.
+  </p>
+
+  <h3>EMI Calculation Example</h3>
+  <p>
+    Example: If you take a loan of ₹5,00,000 at an annual interest rate of 8% for 10 years,
+    your approximate monthly EMI will be ₹6,066. Increasing the tenure reduces EMI but increases
+    total interest paid.
+  </p>
+</section>
+
+  <p>
+    This Loan & EMI Calculator helps you estimate monthly payments for personal loans,
+    home loans, car loans, and business loans. Simply enter the loan amount, interest rate,
+    and tenure to get instant EMI results along with a detailed amortization schedule.
+  </p>
+
+  <h3>Why use our EMI Calculator?</h3>
+  <ul>
+    <li>Supports multiple currencies and languages</li>
+    <li>Shows complete amortization schedule</li>
+    <li>Free and easy to use</li>
+    <li>No registration required</li>
+  </ul>
+
+<footer class="card" style="margin-top:20px">
+  <p class="small muted">
+    © 2025 Loan & EMI Calculator. All rights reserved.
+  </p>
+</footer>
+
+</body>
+</html>
+
