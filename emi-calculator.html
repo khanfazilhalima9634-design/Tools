@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <!-- SEO: primary meta tags -->
-  <title>EMI Calculator – Monthly Loan EMI Calculator</title>
+  <title>EMI Calculator</title>
 
  <meta name="description" content="Free EMI calculator to calculate monthly loan EMI, total interest, repayment amount, and amortization schedule for personal, home, car, education, and business loans.">
 <link rel="canonical" href="https://www.loanemi.de/emi-calculator.html">
@@ -103,7 +103,7 @@ table {
   <div class="container">
     <header>
       <div>
-      <h1 id="page-title">EMI Calculator – Monthly Loan EMI Calculator</h1>
+      <h1 id="page-title">EMI Calculator</h1>
 
         <p class="muted small">Multi-currency • Multi-language • SEO-friendly • Ad slots ready</p>
       </div>
@@ -126,7 +126,7 @@ table {
     <main class="grid">
       <section>
         <div class="card">
-          <h2 id="calculator-title">Loan & EMI Calculator</h2>
+          <h2 id="calculator-title">EMI Calculator</h2>
           <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
@@ -434,15 +434,27 @@ ar_ae: {
       });
     }
 
-    function applyLanguage(code){
-      const dict = langStore[code] || {};
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
+   function applyLanguage(code){
+    const dict = langStore[code] || {};
+
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
         const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-      });
-      // update headings
-      document.getElementById('page-title').textContent = (code === 'es')? 'Calculadora de Préstamo y EMI' : (code === 'hi')? 'ऋण और EMI कैलकुलेटर' : 'Loan & EMI Calculator';
-    }
+        if(dict[key]) el.textContent = dict[key];
+    });
+
+    const pageTitle = document.getElementById("page-title");
+    const calcTitle = document.getElementById("calculator-title");
+
+    // Get the original H1 text
+    const currentTitle = pageTitle.getAttribute("data-title") || pageTitle.textContent;
+
+    // Save it once
+    pageTitle.setAttribute("data-title", currentTitle);
+
+    // Apply to both H1 and H2
+    pageTitle.textContent = currentTitle;
+    calcTitle.textContent = currentTitle;
+}
 
     // --- Event handlers ---
     calcBtn.addEventListener('click', () => {
