@@ -432,16 +432,27 @@ ar_ae: {
         const tr = document.createElement('tr'); tr.innerHTML = `<td>${c.code}</td><td>${c.symbol}</td><td>${c.name}</td>`; currencyTable.appendChild(tr);
       });
     }
+function applyLanguage(code){
+    const dict = langStore[code] || {};
 
-    function applyLanguage(code){
-      const dict = langStore[code] || {};
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
         const key = el.getAttribute('data-i18n');
-        if (dict[key]) el.textContent = dict[key];
-      });
-      // update headings
-      document.getElementById('page-title').textContent = (code === 'es')? 'Calculadora de Préstamo y EMI' : (code === 'hi')? 'ऋण और EMI कैलकुलेटर' : 'Loan & EMI Calculator';
-    }
+        if(dict[key]) el.textContent = dict[key];
+    });
+
+    const pageTitle = document.getElementById("page-title");
+    const calcTitle = document.getElementById("calculator-title");
+
+    // Get the original H1 text
+    const currentTitle = pageTitle.getAttribute("data-title") || pageTitle.textContent;
+
+    // Save it once
+    pageTitle.setAttribute("data-title", currentTitle);
+
+    // Apply to both H1 and H2
+    pageTitle.textContent = currentTitle;
+    calcTitle.textContent = currentTitle;
+}
 
     // --- Event handlers ---
     calcBtn.addEventListener('click', () => {
