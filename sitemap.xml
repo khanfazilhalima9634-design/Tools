@@ -251,5 +251,46 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+  <loc>https://www.loanemi.de/privacy-policy.html</loc>
+  <lastmod>2026-07-02</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.3</priority>
+</url>
+
+<url>
+  <loc>https://www.loanemi.de/disclaimer.html</loc>
+  <lastmod>2026-07-02</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.3</priority>
+</url>
+
+<url>
+  <loc>https://www.loanemi.de/about.html</loc>
+  <lastmod>2026-07-02</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.5</priority>
+</url>
+
+<url>
+  <loc>https://www.loanemi.de/contact.html</loc>
+  <lastmod>2026-07-02</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.5</priority>
+</url>
+
+<url>
+  <loc>https://www.loanemi.de/calculators.html</loc>
+  <lastmod>2026-07-02</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<url>
+  <loc>https://www.loanemi.de/medical-loan-emi-calculator.html</loc>
+  <lastmod>2026-07-02</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
 
 </urlset>
