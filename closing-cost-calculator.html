@@ -213,9 +213,12 @@ table {
     <main class="grid">
       <section>
         <div class="card">
-          <h2 id="calculator-title">EMI Calculator</h2>
-          <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
+         <h2 id="calculator-title">Closing Cost Calculator</h2>
 
+<p class="muted small">
+Enter the home purchase price, estimated closing cost percentage,
+down payment and any additional fees.
+</p>
          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
 
   <div>
@@ -241,27 +244,34 @@ table {
 </div>
 
           <div class="actions">
-            <button id="calcBtn">Calculate EMI</button>
+           <button id="calcBtn">Calculate Closing Costs</button>
             <button id="resetBtn" style="background:#ef4444">Reset</button>
             <button id="exportBtn" style="background:#111827">Export CSV</button>
           </div>
 
           <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
-            <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">EMI</div>
-              <div id="emiValue" style="font-weight:700;font-size:1.2rem;">—</div>
-            </div>
 
-            <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">Total Payment</div>
-              <div id="totalPayment">—</div>
-            </div>
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Estimated Closing Costs</div>
+    <div id="closingCostValue" style="font-weight:700;font-size:1.2rem;">—</div>
+  </div>
 
-            <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">Total Interest</div>
-              <div id="totalInterest">—</div>
-            </div>
-          </div>
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Total Cash Required</div>
+    <div id="cashRequiredValue">—</div>
+  </div>
+
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Estimated Loan Amount</div>
+    <div id="loanAmountValue">—</div>
+  </div>
+
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Closing Cost Percentage</div>
+    <div id="closingPercentValue">—</div>
+  </div>
+
+</div>
 
         </div>
 
@@ -278,53 +288,6 @@ table {
           -->
           <noscript class="small muted">AdSense code placeholder — enable JavaScript to load ads.</noscript>
         
-
-   <!-- Amortization Schedule -->
-<div class="card" style="margin-top:12px">
-  <h3 class="small">Amortization Schedule</h3>
-
-  <!-- Ad Slot 1 (correct placement) -->
-  <div
-    id="ad-slot-1"
-    class="ads-placeholder"
-    aria-label="Advertisement"
-    style="margin:12px 0;">
-  </div>
-
-  <!-- Ad Slot 3 (optional) -->
-  <div
-    id="ad-slot-3"
-    class="ads-placeholder"
-    aria-label="Advertisement"
-    style="margin:10px 0;">
-  </div>
-
-  <!-- Table wrapper -->
-  <div
-    style="
-      overflow:auto;
-      max-height:320px;
-      border:1.5px solid #9ca3af;
-      border-radius:8px;
-    "
-  >
-    <table id="amortTable" aria-live="polite">
-      <thead>
-        <tr>
-          <th>Payment #</th>
-          <th>Payment</th>
-          <th>Principal</th>
-          <th>Interest</th>
-          <th>Balance</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</div>
-
-
-
 
       </section>
 
