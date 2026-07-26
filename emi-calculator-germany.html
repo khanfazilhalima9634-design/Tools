@@ -26,15 +26,15 @@
 
 
   <!-- Open Graph / Social -->
- <meta property="og:title" content="Germany EMI Calculator | Loan Calculator in Euro">
-<meta property="og:description" content="Calculate monthly loan repayments in Germany with our free Euro EMI Calculator.">
+<meta property="og:title" content="Germany Loan & EMI Calculator | Mortgage Repayment Calculator">
+<meta property="og:description" content="Calculate monthly mortgage, home, car and personal loan repayments in Germany with our free loan and EMI calculator.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.loanemi.de/emi-calculator-germany.html">
 <meta property="og:image" content="https://www.loanemi.de/images/germany-emi-calculator.jpg">
   
   <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Germany EMI Calculator">
-<meta name="twitter:description" content="Free Germany EMI Calculator with amortization schedule.">
+<meta name="twitter:title" content="Germany Loan & EMI Calculator | Mortgage Repayment Calculator">
+<meta name="twitter:description" content="Calculate mortgage and loan repayments in Germany with monthly payments, total interest and an amortization schedule.">
 <meta name="twitter:image" content="https://www.loanemi.de/images/germany-emi-calculator.jpg">
 
   <!-- Structured data (JSON-LD) for SEO -->
@@ -373,8 +373,8 @@ table {
 
     // --- Default data ---
     const currencies = [
-  { code: 'USD', symbol: '$', name: 'US Dollar', rate: 1 },
   { code: 'EUR', symbol: '€', name: 'Euro', rate: 0.92 },
+  { code: 'USD', symbol: '$', name: 'US Dollar', rate: 1 },
   { code: 'INR', symbol: '₹', name: 'Indian Rupee', rate: 83 },
   { code: 'GBP', symbol: '£', name: 'British Pound', rate: 0.78 },
   { code: 'AUD', symbol: 'A$', name: 'Australian Dollar', rate: 1.52 },
@@ -448,7 +448,7 @@ ar_ae: {
       }
       // set defaults
       langSelect.value = 'en';
-      currencyEl.value = currencies[0].code;
+     currencyEl.value = 'EUR';
       applyLanguage('en');
     }
 
