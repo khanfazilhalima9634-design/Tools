@@ -542,49 +542,98 @@ ar_ae: {
 }
 
     // --- Event handlers ---
-    calcBtn.addEventListener('click', () => {
-  // 1. Read inputs
-  const P = parseFloat(principalEl.value) || 0;
-  const annualRate = parseFloat(interestEl.value) || 0;
-  const drawPeriod = parseFloat(drawPeriodEl.value) || 0;    
-  const years = parseFloat(tenureEl.value) || 0;
-  const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
+   calcBtn.addEventListener('click', function () {
+
+  const P = Number(principalEl.value);
+  const annualRate = Number(interestEl.value);
+  const years = Number(tenureEl.value);
+  const paymentsPerYear = Number(paymentsPerYearEl.value);
+
+  // Validation
+  if (P <= 0) {
+    alert('Please enter a valid HELOC balance.');
+    return;
+  }
+
+  if (annualRate < 0) {
+    alert('Please enter a valid interest rate.');
+    return;
+  }
+
+  if (years <= 0) {
+    alert('Please enter a valid repayment term.');
+    return;
+  }
 
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
-  // Estimate monthly interest-only payment during the draw period
-const monthlyInterestRate = (annualRate / 100) / 12;
-const interestOnlyPayment = P * monthlyInterestRate;
 
-interestOnlyValueEl.textContent =
-  formatMoney(interestOnlyPayment, cur.symbol);    
+  // Interest-only monthly payment
+  const monthlyRate = (annualRate / 100) / 12;
+  const interestOnlyPayment = P * monthlyRate;
 
-  // 2. Convert entered amount to base currency (USD)
-  const baseAmount = P / cur.rate;
+  interestOnlyValueEl.textContent =
+    formatMoney(interestOnlyPayment, cur.symbol);
 
-  // 3. Calculate EMI in USD
-  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+  // Repayment calculation
+  const periodicRate = (annualRate / 100) / paymentsPerYear;
+  const numberOfPayments = years * paymentsPerYear;
 
-  // 4. Convert results back to selected currency
-  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
-  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
-  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+  let payment;
 
-  // 5. Amortization table
+  if (periodicRate === 0) {
+    payment = P / numberOfPayments;
+  } else {
+    payment =
+      P *
+      periodicRate *
+      Math.pow(1 + periodicRate, numberOfPayments) /
+      (Math.pow(1 + periodicRate, numberOfPayments) - 1);
+  }
+
+  const totalPayment = payment * numberOfPayments;
+  const totalInterest = totalPayment - P;
+
+  // Display results
+  emiValueEl.textContent =
+    formatMoney(payment, cur.symbol);
+
+  totalPaymentEl.textContent =
+    formatMoney(totalPayment, cur.symbol);
+
+  totalInterestEl.textContent =
+    formatMoney(totalInterest, cur.symbol);
+
+  // Amortization schedule
   amortBody.innerHTML = '';
-  res.schedule.forEach(row => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${row.paymentNo}</td>
-      <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
-    `;
-    amortBody.appendChild(tr);
-  });
-});
 
+  let balance = P;
+
+  for (let i = 1; i <= numberOfPayments; i++) {
+
+    const interestPayment = balance * periodicRate;
+    let principalPayment = payment - interestPayment;
+
+    if (principalPayment > balance) {
+      principalPayment = balance;
+    }
+
+    balance = Math.max(0, balance - principalPayment);
+
+    const tr = document.createElement('tr');
+
+    tr.innerHTML = `
+      <td>${i}</td>
+      <td>${formatMoney(payment, cur.symbol)}</td>
+      <td>${formatMoney(principalPayment, cur.symbol)}</td>
+      <td>${formatMoney(interestPayment, cur.symbol)}</td>
+      <td>${formatMoney(balance, cur.symbol)}</td>
+    `;
+
+    amortBody.appendChild(tr);
+  }
+
+});
   resetBtn.addEventListener('click', () => {
 
   principalEl.value = 50000;
