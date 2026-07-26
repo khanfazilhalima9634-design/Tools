@@ -482,16 +482,13 @@ function applyLanguage(code){
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
 
-  // 2. Convert entered amount to base currency (USD)
-  const baseAmount = P / cur.rate;
-
-  // 3. Calculate EMI in USD
-  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+  // Calculate loan payment directly in the selected currency
+const res = calculateEMI(P, annualRate, years, paymentsPerYear);
 
   // 4. Convert results back to selected currency
-  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
-  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
-  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+  emiValueEl.textContent = formatMoney(res.emi, cur.symbol);
+totalPaymentEl.textContent = formatMoney(res.totalPayment, cur.symbol);
+totalInterestEl.textContent = formatMoney(res.totalInterest, cur.symbol);
 
   // 5. Amortization table
   amortBody.innerHTML = '';
@@ -499,10 +496,10 @@ function applyLanguage(code){
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${row.paymentNo}</td>
-      <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
+     <td>${formatMoney(row.payment, cur.symbol)}</td>
+<td>${formatMoney(row.principal, cur.symbol)}</td>
+<td>${formatMoney(row.interest, cur.symbol)}</td>
+<td>${formatMoney(row.balance, cur.symbol)}</td>
     `;
     amortBody.appendChild(tr);
   });
