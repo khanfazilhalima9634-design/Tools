@@ -63,63 +63,53 @@
 
 <script type="application/ld+json">
 {
-      "@context":"https://schema.org",
-      "@type":"BreadcrumbList",
-      "itemListElement":[
-      {
-        "@type":"ListItem",
-        "position":1,
-        "name":"Home",
-        "item":"https://www.loanemi.de/"
-      },
-      {
-        "@type":"ListItem",
-        "position":2,
-        "name":"Loan Calculators",
-        "item":"https://www.loanemi.de/calculators.html"
-      },
-      {
-        "@type":"ListItem",
-        "position":3,
-        "name":"Closing Cost Calculator",
-        "item":"https://www.loanemi.de/closing-cost-calculator.html"
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a Closing Cost Calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Closing Cost Calculator estimates the upfront costs associated with buying a property, including estimated closing costs and additional fees."
       }
-      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are estimated closing costs calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Estimated closing costs are calculated using the home purchase price, the estimated closing cost percentage and any additional fees entered into the calculator."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is included in total cash required at closing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The calculator estimates total cash required by adding the down payment to the estimated closing costs and additional fees."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the down payment count as a closing cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The down payment is generally separate from closing costs, but both may contribute to the total amount of cash a buyer needs at closing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this Closing Cost Calculator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The Closing Cost Calculator is free to use and does not require registration."
+      }
     }
+  ]
+}
 </script>
 
-<script type="application/ld+json">
-{
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity":[
-        {
-          "@type":"Question",
-          "name":"What is Closing Cost Calculator?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Closing Cost Calculator helps you calculate monthly EMI, total interest and total repayment instantly."
-          }
-        },
-        {
-          "@type":"Question",
-          "name":"Is this calculator free?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Yes, this calculator is completely free."
-          }
-        },
-        {
-          "@type":"Question",
-          "name":"Can I use it for any bank?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Yes, it works for most banks and financial institutions."
-          }
-        }
-      ]
-    }
-</script>
 
   <style>
     /* FIX LCP: show main heading fast */
@@ -246,7 +236,7 @@ down payment and any additional fees.
           <div class="actions">
            <button id="calcBtn">Calculate Closing Costs</button>
             <button id="resetBtn" style="background:#ef4444">Reset</button>
-            <button id="exportBtn" style="background:#111827">Export CSV</button>
+            
           </div>
 
          <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
@@ -383,7 +373,7 @@ down payment and any additional fees.
     const cashRequiredValueEl = document.getElementById('cashRequiredValue');
     const loanAmountValueEl = document.getElementById('loanAmountValue');
     const closingPercentValueEl = document.getElementById('closingPercentValue');
-    const exportBtn = document.getElementById('exportBtn');
+    
     const currencyEl = document.getElementById('currency');
     const currencyTable = document.getElementById('currencyTable').querySelector('tbody');
     const addCurrencyBtn = document.getElementById('addCurrencyBtn');
@@ -561,26 +551,20 @@ ar_ae: {
     closingPercent.toFixed(2) + '%';
 
 });
+resetBtn.addEventListener('click', () => {
 
-   resetBtn.addEventListener('click', ()=>{
-      principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
-      emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
-    });
+  homePriceEl.value = 400000;
+  closingPercentEl.value = 3;
+  downPaymentEl.value = 80000;
+  additionalFeesEl.value = 0;
 
-    exportBtn.addEventListener('click', ()=>{
-      // build CSV from table
-      const rows = [['Payment #','Payment','Principal','Interest','Balance']];
-      Array.from(amortBody.querySelectorAll('tr')).forEach(tr=>{
-        const cols = Array.from(tr.querySelectorAll('td')).map(td=>td.textContent.replace(/,/g,''));
-        rows.push(cols);
-      });
-      if (rows.length === 1) { alert('No amortization data — calculate first.'); return; }
-      const csv = rows.map(r=>r.join(',')).join('\n');
-      const blob = new Blob([csv],{type:'text/csv'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a'); a.href = url; a.download = 'amortization.csv'; a.click(); URL.revokeObjectURL(url);
-    });
+  closingCostValueEl.textContent = '—';
+  cashRequiredValueEl.textContent = '—';
+  loanAmountValueEl.textContent = '—';
+  closingPercentValueEl.textContent = '—';
 
+});
+   
     addCurrencyBtn.addEventListener('click', ()=>{
       const code = (newCurCode.value||'').toUpperCase().trim();
       const symbol = newCurSymbol.value||'';
