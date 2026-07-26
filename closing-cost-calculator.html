@@ -249,7 +249,7 @@ down payment and any additional fees.
             <button id="exportBtn" style="background:#111827">Export CSV</button>
           </div>
 
-          <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+         <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
 
   <div class="card" style="padding:12px;min-width:180px">
     <div class="muted small">Estimated Closing Costs</div>
@@ -371,16 +371,18 @@ down payment and any additional fees.
     }
 
     // --- DOM elements ---
-    const principalEl = document.getElementById('principal');
-    const interestEl = document.getElementById('interest');
-    const tenureEl = document.getElementById('tenure');
-    const paymentsPerYearEl = document.getElementById('paymentsPerYear');
+   const homePriceEl = document.getElementById('homePrice');
+   const closingPercentEl = document.getElementById('closingPercent');
+   const downPaymentEl = document.getElementById('downPayment');
+    const additionalFeesEl = document.getElementById('additionalFees');
+
     const calcBtn = document.getElementById('calcBtn');
     const resetBtn = document.getElementById('resetBtn');
-    const emiValueEl = document.getElementById('emiValue');
-    const totalPaymentEl = document.getElementById('totalPayment');
-    const totalInterestEl = document.getElementById('totalInterest');
-    const amortBody = document.querySelector('#amortTable tbody');
+
+    const closingCostValueEl = document.getElementById('closingCostValue');
+    const cashRequiredValueEl = document.getElementById('cashRequiredValue');
+    const loanAmountValueEl = document.getElementById('loanAmountValue');
+    const closingPercentValueEl = document.getElementById('closingPercentValue');
     const exportBtn = document.getElementById('exportBtn');
     const currencyEl = document.getElementById('currency');
     const currencyTable = document.getElementById('currencyTable').querySelector('tbody');
@@ -506,39 +508,58 @@ ar_ae: {
 
     // --- Event handlers ---
     calcBtn.addEventListener('click', () => {
-  // 1. Read inputs
-  const P = parseFloat(principalEl.value) || 0;
-  const annualRate = parseFloat(interestEl.value) || 0;
-  const years = parseFloat(tenureEl.value) || 0;
-  const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
 
+  const homePrice = parseFloat(homePriceEl.value) || 0;
+  const closingPercent = parseFloat(closingPercentEl.value) || 0;
+  const downPayment = parseFloat(downPaymentEl.value) || 0;
+  const additionalFees = parseFloat(additionalFeesEl.value) || 0;
+
+  // Validate home price
+  if (homePrice <= 0) {
+    alert('Please enter a valid home purchase price.');
+    return;
+  }
+
+  // Validate other values
+  if (closingPercent < 0 || downPayment < 0 || additionalFees < 0) {
+    alert('Please enter values greater than or equal to zero.');
+    return;
+  }
+
+  // Down payment cannot exceed home price
+  if (downPayment > homePrice) {
+    alert('Down payment cannot be greater than the home purchase price.');
+    return;
+  }
+
+  // Get selected currency
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
 
-  // 2. Convert entered amount to base currency (USD)
-  const baseAmount = P / cur.rate;
+  // Calculate closing costs
+  const percentageCosts = homePrice * (closingPercent / 100);
 
-  // 3. Calculate EMI in USD
-  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+  const totalClosingCosts = percentageCosts + additionalFees;
 
-  // 4. Convert results back to selected currency
-  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
-  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
-  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+  // Calculate total cash needed at closing
+  const cashRequired = downPayment + totalClosingCosts;
 
-  // 5. Amortization table
-  amortBody.innerHTML = '';
-  res.schedule.forEach(row => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${row.paymentNo}</td>
-      <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
-    `;
-    amortBody.appendChild(tr);
-  });
+  // Calculate estimated loan amount
+  const loanAmount = homePrice - downPayment;
+
+  // Display results
+  closingCostValueEl.textContent =
+    formatMoney(totalClosingCosts, cur.symbol);
+
+  cashRequiredValueEl.textContent =
+    formatMoney(cashRequired, cur.symbol);
+
+  loanAmountValueEl.textContent =
+    formatMoney(loanAmount, cur.symbol);
+
+  closingPercentValueEl.textContent =
+    closingPercent.toFixed(2) + '%';
+
 });
 
    resetBtn.addEventListener('click', ()=>{
