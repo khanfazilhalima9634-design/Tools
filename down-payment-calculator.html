@@ -215,56 +215,77 @@ table {
       <section>
         <div class="card">
           <h2 id="calculator-title">EMI Calculator</h2>
-          <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
+          <p class="muted small">
+Enter the purchase price and down payment percentage to estimate your loan amount and monthly payment.
+</p>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
-            <div>
-              <label for="principal" data-i18n="label_principal">Loan amount</label>
-              <input id="principal" type="number" min="0" step="any" value="50000">
-            </div>
+         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
 
-            <div>
-              <label for="tenure" data-i18n="label_tenure">Tenure (years)</label>
-              <input id="tenure" type="number" min="0" step="any" value="5">
-            </div>
+  <div>
+    <label for="principal">Home / Purchase Price</label>
+    <input id="principal" type="number" min="0" step="any" value="400000">
+  </div>
 
-            <div>
-              <label for="interest" data-i18n="label_interest">Interest rate (annual %)</label>
-              <input id="interest" type="number" min="0" step="any" value="8.5">
-            </div>
+  <div>
+    <label for="downPaymentPercent">Down Payment (%)</label>
+    <input id="downPaymentPercent" type="number" min="0" max="100" step="any" value="20">
+  </div>
 
-            <div>
-              <label for="paymentsPerYear" data-i18n="label_payments">Payments per year</label>
-              <select id="paymentsPerYear">
-                <option value="12">Monthly</option>
-                <option value="4">Quarterly</option>
-                <option value="1">Yearly</option>
-              </select>
-            </div>
-          </div>
+  <div>
+    <label for="interest">Interest Rate (annual %)</label>
+    <input id="interest" type="number" min="0" step="any" value="6.25">
+  </div>
+
+  <div>
+    <label for="tenure">Loan Term (years)</label>
+    <input id="tenure" type="number" min="1" step="any" value="30">
+  </div>
+
+  <div>
+    <label for="paymentsPerYear">Payments per year</label>
+    <select id="paymentsPerYear">
+      <option value="12">Monthly</option>
+      <option value="4">Quarterly</option>
+      <option value="1">Yearly</option>
+    </select>
+  </div>
+
+</div>
 
           <div class="actions">
-            <button id="calcBtn">Calculate EMI</button>
+           <button id="calcBtn">Calculate Down Payment</button>
             <button id="resetBtn" style="background:#ef4444">Reset</button>
             <button id="exportBtn" style="background:#111827">Export CSV</button>
           </div>
 
           <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
-            <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">EMI</div>
-              <div id="emiValue" style="font-weight:700;font-size:1.2rem;">—</div>
-            </div>
 
-            <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">Total Payment</div>
-              <div id="totalPayment">—</div>
-            </div>
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Down Payment</div>
+    <div id="downPaymentValue" style="font-weight:700;font-size:1.2rem;">—</div>
+  </div>
 
-            <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">Total Interest</div>
-              <div id="totalInterest">—</div>
-            </div>
-          </div>
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Loan Amount</div>
+    <div id="loanAmountValue">—</div>
+  </div>
+
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Monthly Payment</div>
+    <div id="emiValue">—</div>
+  </div>
+
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Total Interest</div>
+    <div id="totalInterest">—</div>
+  </div>
+
+  <div class="card" style="padding:12px;min-width:180px">
+    <div class="muted small">Total Payment</div>
+    <div id="totalPayment">—</div>
+  </div>
+
+</div>
 
         </div>
 
@@ -412,6 +433,9 @@ table {
 
     // --- DOM elements ---
     const principalEl = document.getElementById('principal');
+    const downPaymentPercentEl = document.getElementById('downPaymentPercent');
+    const downPaymentValueEl = document.getElementById('downPaymentValue');
+    const loanAmountValueEl = document.getElementById('loanAmountValue');
     const interestEl = document.getElementById('interest');
     const tenureEl = document.getElementById('tenure');
     const paymentsPerYearEl = document.getElementById('paymentsPerYear');
@@ -545,31 +569,69 @@ ar_ae: {
 }
 
     // --- Event handlers ---
-    calcBtn.addEventListener('click', () => {
-  // 1. Read inputs
-  const P = parseFloat(principalEl.value) || 0;
+   calcBtn.addEventListener('click', () => {
+
+  // Read inputs
+  const purchasePrice = parseFloat(principalEl.value) || 0;
+  const downPaymentPercent = parseFloat(downPaymentPercentEl.value) || 0;
   const annualRate = parseFloat(interestEl.value) || 0;
   const years = parseFloat(tenureEl.value) || 0;
   const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
 
+  if (purchasePrice <= 0 || years <= 0) {
+    alert('Please enter a valid purchase price and loan term.');
+    return;
+  }
+
+  if (downPaymentPercent < 0 || downPaymentPercent > 100) {
+    alert('Down payment percentage must be between 0 and 100.');
+    return;
+  }
+
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
 
-  // 2. Convert entered amount to base currency (USD)
-  const baseAmount = P / cur.rate;
+  // Calculate down payment
+  const downPayment = purchasePrice * (downPaymentPercent / 100);
 
-  // 3. Calculate EMI in USD
-  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+  // Calculate remaining loan
+  const loanAmount = purchasePrice - downPayment;
 
-  // 4. Convert results back to selected currency
-  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
-  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
-  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+  // Convert loan amount to base currency
+  const baseLoanAmount = loanAmount / cur.rate;
 
-  // 5. Amortization table
+  // Calculate loan payments
+  const res = calculateEMI(
+    baseLoanAmount,
+    annualRate,
+    years,
+    paymentsPerYear
+  );
+
+  // Display down payment and loan amount
+  downPaymentValueEl.textContent =
+    formatMoney(downPayment, cur.symbol);
+
+  loanAmountValueEl.textContent =
+    formatMoney(loanAmount, cur.symbol);
+
+  // Display payment results
+  emiValueEl.textContent =
+    formatMoney(res.emi * cur.rate, cur.symbol);
+
+  totalPaymentEl.textContent =
+    formatMoney(res.totalPayment * cur.rate, cur.symbol);
+
+  totalInterestEl.textContent =
+    formatMoney(res.totalInterest * cur.rate, cur.symbol);
+
+  // Update amortization table
   amortBody.innerHTML = '';
+
   res.schedule.forEach(row => {
+
     const tr = document.createElement('tr');
+
     tr.innerHTML = `
       <td>${row.paymentNo}</td>
       <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
@@ -577,14 +639,29 @@ ar_ae: {
       <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
       <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
     `;
+
     amortBody.appendChild(tr);
   });
+
 });
 
-   resetBtn.addEventListener('click', ()=>{
-      principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
-      emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
-    });
+  resetBtn.addEventListener('click', () => {
+
+  principalEl.value = 400000;
+  downPaymentPercentEl.value = 20;
+  interestEl.value = 6.25;
+  tenureEl.value = 30;
+  paymentsPerYearEl.value = 12;
+
+  downPaymentValueEl.textContent = '—';
+  loanAmountValueEl.textContent = '—';
+  emiValueEl.textContent = '—';
+  totalPaymentEl.textContent = '—';
+  totalInterestEl.textContent = '—';
+
+  amortBody.innerHTML = '';
+
+});
 
     exportBtn.addEventListener('click', ()=>{
       // build CSV from table
