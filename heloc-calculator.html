@@ -586,10 +586,22 @@ interestOnlyValueEl.textContent =
   });
 });
 
-   resetBtn.addEventListener('click', ()=>{
-      principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
-      emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
-    });
+  resetBtn.addEventListener('click', () => {
+
+  principalEl.value = 50000;
+  interestEl.value = 8.5;
+  tenureEl.value = 5;
+  drawPeriodEl.value = 10;
+  paymentsPerYearEl.value = 12;
+
+  interestOnlyValueEl.textContent = '—';
+  emiValueEl.textContent = '—';
+  totalPaymentEl.textContent = '—';
+  totalInterestEl.textContent = '—';
+
+  amortBody.innerHTML = '';
+
+});
 
     exportBtn.addEventListener('click', ()=>{
       // build CSV from table
