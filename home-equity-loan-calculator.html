@@ -49,76 +49,53 @@
 <meta name="twitter:image" content="https://www.loanemi.de/images/loanemi-logo.jpg">
 
   <!-- Structured data (JSON-LD) for SEO -->
-  <script type="application/ld+json">
-{
-      "@context":"https://schema.org",
-      "@type":"WebApplication",
-      "name":"Home Equity Loan Calculator",
-      "url":"https://www.loanemi.de/home-equity-loan-calculator.html",
-      "description":"Estimate home equity loan payments.",
-      "applicationCategory":"FinanceApplication",
-      "operatingSystem":"Any"
-    }
-</script>
-
 <script type="application/ld+json">
 {
-      "@context":"https://schema.org",
-      "@type":"BreadcrumbList",
-      "itemListElement":[
-      {
-        "@type":"ListItem",
-        "position":1,
-        "name":"Home",
-        "item":"https://www.loanemi.de/"
-      },
-      {
-        "@type":"ListItem",
-        "position":2,
-        "name":"Loan Calculators",
-        "item":"https://www.loanemi.de/calculators.html"
-      },
-      {
-        "@type":"ListItem",
-        "position":3,
-        "name":"Home Equity Loan Calculator",
-        "item":"https://www.loanemi.de/home-equity-loan-calculator.html"
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a Home Equity Loan Calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Home Equity Loan Calculator estimates your monthly home equity loan payment based on the loan amount, interest rate, and repayment term."
       }
-      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are home equity loan payments calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Home equity loan payments are generally based on the amount borrowed, interest rate, and repayment term. The calculator uses these values to estimate the periodic principal and interest payment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use a home equity loan for any purpose?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many lenders allow home equity loans to be used for home improvements, debt consolidation, education, medical expenses, business investments, and other major financial needs. Loan terms may vary by lender."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does using the calculator affect my credit score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The calculator performs only financial calculations and does not access your credit report or affect your credit score."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this Home Equity Loan Calculator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This Home Equity Loan Calculator is free to use and does not require registration."
+      }
     }
-</script>
-
-<script type="application/ld+json">
-{
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity":[
-        {
-          "@type":"Question",
-          "name":"What is Home Equity Loan Calculator?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Home Equity Loan Calculator helps you calculate monthly EMI, total interest and total repayment instantly."
-          }
-        },
-        {
-          "@type":"Question",
-          "name":"Is this calculator free?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Yes, this calculator is completely free."
-          }
-        },
-        {
-          "@type":"Question",
-          "name":"Can I use it for any bank?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Yes, it works for most banks and financial institutions."
-          }
-        }
-      ]
-    }
+  ]
+}
 </script>
 
   <style>
@@ -213,22 +190,33 @@ table {
     <main class="grid">
       <section>
         <div class="card">
-          <h2 id="calculator-title">EMI Calculator</h2>
-          <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
+          <h2 id="calculator-title">Home Equity Loan Payment Calculator</h2>
+<p class="muted small">
+Enter your home equity loan amount, interest rate, and repayment term to estimate your monthly payment and total interest.
+</p>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
             <div>
-              <label for="principal" data-i18n="label_principal">Loan amount</label>
+         <label for="homeValue">Current Home Value</label>
+         <input id="homeValue" type="number" min="0" step="any" value="400000">
+         </div>
+
+          <div>
+        <label for="mortgageBalance">Current Mortgage Balance</label>
+       <input id="mortgageBalance" type="number" min="0" step="any" value="200000">
+        </div>
+            <div>
+             <label for="principal" data-i18n="label_principal">Home Equity Loan Amount</label>
               <input id="principal" type="number" min="0" step="any" value="50000">
             </div>
 
             <div>
-              <label for="tenure" data-i18n="label_tenure">Tenure (years)</label>
+             <label for="tenure" data-i18n="label_tenure">Repayment Term (years)</label>
               <input id="tenure" type="number" min="0" step="any" value="5">
             </div>
 
             <div>
-              <label for="interest" data-i18n="label_interest">Interest rate (annual %)</label>
+             <label for="interest" data-i18n="label_interest">Home Equity Loan Interest Rate (annual %)</label>
               <input id="interest" type="number" min="0" step="any" value="8.5">
             </div>
 
@@ -243,14 +231,23 @@ table {
           </div>
 
           <div class="actions">
-            <button id="calcBtn">Calculate EMI</button>
+           <button id="calcBtn">Calculate Home Equity Loan Payment</button>
             <button id="resetBtn" style="background:#ef4444">Reset</button>
             <button id="exportBtn" style="background:#111827">Export CSV</button>
           </div>
 
           <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
             <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">EMI</div>
+             <div class="card" style="padding:12px;min-width:180px">
+           <div class="muted small">Estimated Home Equity</div>
+            <div class="card" style="padding:12px;min-width:180px">
+         <div class="muted small">Combined Loan-to-Value (CLTV)</div>
+         <div id="ltvValue" style="font-weight:700;font-size:1.2rem;">—</div>
+        </div>   
+         <div id="homeEquityValue" style="font-weight:700;font-size:1.2rem;">—</div>
+          </div> 
+             <div class="muted small">Estimated Monthly Payment</div>
+          
               <div id="emiValue" style="font-weight:700;font-size:1.2rem;">—</div>
             </div>
 
@@ -410,6 +407,10 @@ table {
     }
 
     // --- DOM elements ---
+    const homeValueEl = document.getElementById('homeValue');
+    const mortgageBalanceEl = document.getElementById('mortgageBalance');
+    const homeEquityValueEl = document.getElementById('homeEquityValue');
+    const ltvValueEl = document.getElementById('ltvValue');
     const principalEl = document.getElementById('principal');
     const interestEl = document.getElementById('interest');
     const tenureEl = document.getElementById('tenure');
@@ -448,11 +449,11 @@ table {
     // Simple i18n dictionary. You can add more languages via the editor.
     const langStore = {
       en: {
-        label_principal: 'Loan amount',
-        label_tenure: 'Tenure (years)',
-        label_interest: 'Interest rate (annual %)',
+        label_principal: 'Home Equity Loan Amount',
+        label_tenure: 'Repayment Term (years)',
+        label_interest: 'Home Equity Loan Interest Rate (annual %)',
         label_payments: 'Payments per year'
-      },
+        },
       es: {
         label_principal: 'Importe del préstamo',
         label_tenure: 'Plazo (años)',
@@ -521,31 +522,23 @@ ar_ae: {
       });
     }
 
-   function applyLanguage(code){
+ function applyLanguage(code){
     const dict = langStore[code] || {};
 
-    document.querySelectorAll('[data-i18n]').forEach(el=>{
+    document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if(dict[key]) el.textContent = dict[key];
+
+        if (dict[key]) {
+            el.textContent = dict[key];
+        }
     });
-
-    const pageTitle = document.getElementById("page-title");
-    const calcTitle = document.getElementById("calculator-title");
-
-    // Get the original H1 text
-    const currentTitle = pageTitle.getAttribute("data-title") || pageTitle.textContent;
-
-    // Save it once
-    pageTitle.setAttribute("data-title", currentTitle);
-
-    // Apply to both H1 and H2
-    pageTitle.textContent = currentTitle;
-    calcTitle.textContent = currentTitle;
 }
 
     // --- Event handlers ---
     calcBtn.addEventListener('click', () => {
   // 1. Read inputs
+  const homeValue = parseFloat(homeValueEl.value) || 0;
+  const mortgageBalance = parseFloat(mortgageBalanceEl.value) || 0;   
   const P = parseFloat(principalEl.value) || 0;
   const annualRate = parseFloat(interestEl.value) || 0;
   const years = parseFloat(tenureEl.value) || 0;
@@ -553,6 +546,17 @@ ar_ae: {
 
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
+  // Calculate estimated home equity
+  const estimatedHomeEquity = Math.max(0, homeValue - mortgageBalance);
+
+  homeEquityValueEl.textContent =
+  formatMoney(estimatedHomeEquity, cur.symbol);
+  // Calculate Combined Loan-to-Value (CLTV)
+   const cltv = homeValue > 0
+  ? ((mortgageBalance + P) / homeValue) * 100
+  : 0;
+
+ltvValueEl.textContent = cltv.toFixed(2) + '%';    
 
   // 2. Convert entered amount to base currency (USD)
   const baseAmount = P / cur.rate;
@@ -580,10 +584,29 @@ ar_ae: {
   });
 });
 
-   resetBtn.addEventListener('click', ()=>{
-      principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
-      emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
-    });
+   resetBtn.addEventListener('click', () => {
+
+  // Reset home equity inputs
+  homeValueEl.value = 400000;
+  mortgageBalanceEl.value = 200000;
+
+  // Reset loan inputs
+  principalEl.value = 50000;
+  interestEl.value = 8.5;
+  tenureEl.value = 5;
+  paymentsPerYearEl.value = 12;
+
+  // Clear results
+  homeEquityValueEl.textContent = '—';
+  ltvValueEl.textContent = '—';
+  emiValueEl.textContent = '—';
+  totalPaymentEl.textContent = '—';
+  totalInterestEl.textContent = '—';
+
+  // Clear amortization schedule
+  amortBody.innerHTML = '';
+
+});
 
     exportBtn.addEventListener('click', ()=>{
       // build CSV from table
@@ -808,29 +831,29 @@ A longer repayment period lowers your monthly EMI but increases the total intere
 <h2>Frequently Asked Questions</h2>
 
 <h3>What is a Home Equity Loan Calculator?</h3>
-
 <p>
-It is an online tool that estimates your monthly home equity loan repayment based on the loan amount, interest rate, and repayment tenure.
+A Home Equity Loan Calculator estimates your monthly home equity loan payment based on the loan amount, interest rate, and repayment term.
 </p>
 
-<h3>Is this calculator free?</h3>
-
+<h3>How are home equity loan payments calculated?</h3>
 <p>
-Yes. It is completely free to use without registration.
+Home equity loan payments are generally based on the amount borrowed, interest rate, and repayment term. The calculator uses these values to estimate the periodic principal and interest payment.
 </p>
 
 <h3>Can I use a home equity loan for any purpose?</h3>
-
 <p>
 Many lenders allow home equity loans to be used for home improvements, debt consolidation, education, medical expenses, business investments, and other major financial needs. Loan terms may vary by lender.
 </p>
 
 <h3>Does using the calculator affect my credit score?</h3>
-
 <p>
 No. The calculator performs only financial calculations and does not access your credit report or affect your credit score.
 </p>
 
+<h3>Is this Home Equity Loan Calculator free?</h3>
+<p>
+Yes. This Home Equity Loan Calculator is free to use and does not require registration.
+</p>
 <h2>Related Calculators</h2>
 
 <ul>
@@ -875,7 +898,7 @@ A Home Equity Loan Calculator is an essential financial planning tool for homeow
 <li><a href="tractor-loan-emi-calculator.html">Tractor Loan EMI Calculator</a></li>
 <li><a href="boat-loan-emi-calculator.html">Boat Loan EMI Calculator</a></li>
 <li><a href="construction-loan-emi-calculator.html">Construction Loan EMI Calculator</a></li>
-<li><a href="medical-loan-calculator.html">Medical Loan Calculator</a></li>
+<li><a href="medical-loan-emi-calculator.html">Medical Loan Calculator</a></li>
 <li><a href="travel-loan-emi-calculator.html">Travel Loan EMI Calculator</a></li>
 <li><a href="wedding-loan-emi-calculator.html">Wedding Loan EMI Calculator</a></li>
 <li><a href="used-car-loan-emi-calculator.html">Used Car Loan EMI Calculator</a></li>
