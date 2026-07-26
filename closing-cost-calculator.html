@@ -216,31 +216,29 @@ table {
           <h2 id="calculator-title">EMI Calculator</h2>
           <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
-            <div>
-              <label for="principal" data-i18n="label_principal">Loan amount</label>
-              <input id="principal" type="number" min="0" step="any" value="50000">
-            </div>
+         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
 
-            <div>
-              <label for="tenure" data-i18n="label_tenure">Tenure (years)</label>
-              <input id="tenure" type="number" min="0" step="any" value="5">
-            </div>
+  <div>
+    <label for="homePrice">Home Purchase Price</label>
+    <input id="homePrice" type="number" min="0" step="any" value="400000">
+  </div>
 
-            <div>
-              <label for="interest" data-i18n="label_interest">Interest rate (annual %)</label>
-              <input id="interest" type="number" min="0" step="any" value="8.5">
-            </div>
+  <div>
+    <label for="closingPercent">Estimated Closing Costs (%)</label>
+    <input id="closingPercent" type="number" min="0" step="any" value="3">
+  </div>
 
-            <div>
-              <label for="paymentsPerYear" data-i18n="label_payments">Payments per year</label>
-              <select id="paymentsPerYear">
-                <option value="12">Monthly</option>
-                <option value="4">Quarterly</option>
-                <option value="1">Yearly</option>
-              </select>
-            </div>
-          </div>
+  <div>
+    <label for="downPayment">Down Payment</label>
+    <input id="downPayment" type="number" min="0" step="any" value="80000">
+  </div>
+
+  <div>
+    <label for="additionalFees">Additional Fees</label>
+    <input id="additionalFees" type="number" min="0" step="any" value="0">
+  </div>
+
+</div>
 
           <div class="actions">
             <button id="calcBtn">Calculate EMI</button>
