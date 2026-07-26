@@ -51,74 +51,59 @@
   <!-- Structured data (JSON-LD) for SEO -->
   <script type="application/ld+json">
 {
-      "@context":"https://schema.org",
-      "@type":"WebApplication",
-      "name":"HELOC Calculator",
-      "url":"https://www.loanemi.de/heloc-calculator.html",
-      "description":"Estimate your HELOC payments.",
-      "applicationCategory":"FinanceApplication",
-      "operatingSystem":"Any"
-    }
-</script>
-
-<script type="application/ld+json">
-{
-      "@context":"https://schema.org",
-      "@type":"BreadcrumbList",
-      "itemListElement":[
-      {
-        "@type":"ListItem",
-        "position":1,
-        "name":"Home",
-        "item":"https://www.loanemi.de/"
-      },
-      {
-        "@type":"ListItem",
-        "position":2,
-        "name":"Loan Calculators",
-        "item":"https://www.loanemi.de/calculators.html"
-      },
-      {
-        "@type":"ListItem",
-        "position":3,
-        "name":"HELOC Calculator",
-        "item":"https://www.loanemi.de/heloc-calculator.html"
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a HELOC Calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A HELOC Calculator estimates payments for a Home Equity Line of Credit based on the amount borrowed, interest rate, and repayment term."
       }
-      ]
+    },
+    {
+      "@type": "Question",
+      "name": "How are HELOC payments calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HELOC payments depend on the amount borrowed, interest rate, repayment structure, and loan term. During repayment, payments may include both principal and interest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between a HELOC and a Home Equity Loan?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A HELOC is a revolving line of credit that allows borrowing up to an approved limit, while a Home Equity Loan generally provides a lump sum that is repaid over a specified term."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does a HELOC have a variable interest rate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many HELOCs have variable interest rates, which means the rate and payment may change over time. Terms vary by lender."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does using this HELOC Calculator affect my credit score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Using this calculator does not access your credit report or affect your credit score."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this HELOC Calculator free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. This HELOC Calculator is free to use and does not require registration."
+      }
     }
-</script>
-
-<script type="application/ld+json">
-{
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity":[
-        {
-          "@type":"Question",
-          "name":"What is HELOC Calculator?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"HELOC Calculator helps you calculate monthly EMI, total interest and total repayment instantly."
-          }
-        },
-        {
-          "@type":"Question",
-          "name":"Is this calculator free?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Yes, this calculator is completely free."
-          }
-        },
-        {
-          "@type":"Question",
-          "name":"Can I use it for any bank?",
-          "acceptedAnswer":{
-            "@type":"Answer",
-            "text":"Yes, it works for most banks and financial institutions."
-          }
-        }
-      ]
-    }
+  ]
+}
 </script>
 
   <style>
@@ -213,23 +198,29 @@ table {
     <main class="grid">
       <section>
         <div class="card">
-          <h2 id="calculator-title">EMI Calculator</h2>
-          <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
+          <h2 id="calculator-title">HELOC Payment Calculator</h2>
+<p class="muted small">
+Enter your HELOC balance, interest rate, and repayment term to estimate monthly payments and total interest.
+</p>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
             <div>
-              <label for="principal" data-i18n="label_principal">Loan amount</label>
+             <label for="principal" data-i18n="label_principal">HELOC Balance</label>
               <input id="principal" type="number" min="0" step="any" value="50000">
             </div>
 
             <div>
-              <label for="tenure" data-i18n="label_tenure">Tenure (years)</label>
+             <label for="tenure" data-i18n="label_tenure">Repayment Term (years)</label>
               <input id="tenure" type="number" min="0" step="any" value="5">
             </div>
 
             <div>
-              <label for="interest" data-i18n="label_interest">Interest rate (annual %)</label>
+              <label for="interest" data-i18n="label_interest">HELOC Interest Rate (annual %)</label>
               <input id="interest" type="number" min="0" step="any" value="8.5">
+            </div>
+            <div>
+           <label for="drawPeriod">Draw Period (years)</label>
+            <input id="drawPeriod" type="number" min="0" step="1" value="10">
             </div>
 
             <div>
@@ -243,14 +234,20 @@ table {
           </div>
 
           <div class="actions">
-            <button id="calcBtn">Calculate EMI</button>
+            <button id="calcBtn">Calculate HELOC Payment</button>
             <button id="resetBtn" style="background:#ef4444">Reset</button>
             <button id="exportBtn" style="background:#111827">Export CSV</button>
           </div>
 
           <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
             <div class="card" style="padding:12px;min-width:180px">
-              <div class="muted small">EMI</div>
+              <div style="margin-top:12px;display:flex;gap:12px;flex-wrap:wrap">
+
+          <div class="card" style="padding:12px;min-width:180px">
+          <div class="muted small">Estimated HELOC Payment</div>
+        <div id="emiValue" style="font-weight:700;font-size:1.2rem;">—</div>
+           </div>
+             <div class="muted small">Estimated HELOC Payment</div>
               <div id="emiValue" style="font-weight:700;font-size:1.2rem;">—</div>
             </div>
 
@@ -413,10 +410,12 @@ table {
     const principalEl = document.getElementById('principal');
     const interestEl = document.getElementById('interest');
     const tenureEl = document.getElementById('tenure');
+    const drawPeriodEl = document.getElementById('drawPeriod');
     const paymentsPerYearEl = document.getElementById('paymentsPerYear');
     const calcBtn = document.getElementById('calcBtn');
     const resetBtn = document.getElementById('resetBtn');
     const emiValueEl = document.getElementById('emiValue');
+    const interestOnlyValueEl = document.getElementById('interestOnlyValue');
     const totalPaymentEl = document.getElementById('totalPayment');
     const totalInterestEl = document.getElementById('totalInterest');
     const amortBody = document.querySelector('#amortTable tbody');
@@ -548,11 +547,18 @@ ar_ae: {
   // 1. Read inputs
   const P = parseFloat(principalEl.value) || 0;
   const annualRate = parseFloat(interestEl.value) || 0;
+  const drawPeriod = parseFloat(drawPeriodEl.value) || 0;    
   const years = parseFloat(tenureEl.value) || 0;
   const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
 
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
+  // Estimate monthly interest-only payment during the draw period
+const monthlyInterestRate = (annualRate / 100) / 12;
+const interestOnlyPayment = P * monthlyInterestRate;
+
+interestOnlyValueEl.textContent =
+  formatMoney(interestOnlyPayment, cur.symbol);    
 
   // 2. Convert entered amount to base currency (USD)
   const baseAmount = P / cur.rate;
@@ -808,29 +814,34 @@ A longer repayment period reduces monthly payments but increases the total inter
 <h2>Frequently Asked Questions</h2>
 
 <h3>What is a HELOC Calculator?</h3>
-
 <p>
-It is an online tool that estimates monthly payments for a Home Equity Line of Credit based on the amount borrowed, interest rate, and repayment period.
+A HELOC Calculator estimates payments for a Home Equity Line of Credit based on the amount borrowed, interest rate, and repayment term.
 </p>
 
-<h3>Is this calculator free?</h3>
-
+<h3>How are HELOC payments calculated?</h3>
 <p>
-Yes. It is completely free to use without registration.
+HELOC payments depend on the amount borrowed, interest rate, repayment structure, and loan term. During repayment, payments may include both principal and interest.
 </p>
 
 <h3>What is the difference between a HELOC and a Home Equity Loan?</h3>
-
 <p>
-A HELOC is a revolving line of credit that lets you borrow as needed up to an approved limit, while a Home Equity Loan provides a lump sum with fixed repayment terms.
+A HELOC is a revolving line of credit that allows borrowing up to an approved limit, while a Home Equity Loan generally provides a lump sum that is repaid over a specified term.
 </p>
 
-<h3>Does using this calculator affect my credit score?</h3>
-
+<h3>Does a HELOC have a variable interest rate?</h3>
 <p>
-No. This calculator performs only financial calculations and does not access your credit report or affect your credit score.
+Many HELOCs have variable interest rates, which means the rate and payment may change over time. Terms vary by lender.
 </p>
 
+<h3>Does using this HELOC Calculator affect my credit score?</h3>
+<p>
+No. Using this calculator does not access your credit report or affect your credit score.
+</p>
+
+<h3>Is this HELOC Calculator free?</h3>
+<p>
+Yes. This HELOC Calculator is free to use and does not require registration.
+</p>
 <h2>Related Calculators</h2>
 
 <ul>
@@ -875,7 +886,7 @@ A HELOC Calculator is an essential financial planning tool for homeowners consid
 <li><a href="tractor-loan-emi-calculator.html">Tractor Loan EMI Calculator</a></li>
 <li><a href="boat-loan-emi-calculator.html">Boat Loan EMI Calculator</a></li>
 <li><a href="construction-loan-emi-calculator.html">Construction Loan EMI Calculator</a></li>
-<li><a href="medical-loan-calculator.html">Medical Loan Calculator</a></li>
+<li><a href="medical-loan-emi-calculator.html">Medical Loan Calculator</a></li>
 <li><a href="travel-loan-emi-calculator.html">Travel Loan EMI Calculator</a></li>
 <li><a href="wedding-loan-emi-calculator.html">Wedding Loan EMI Calculator</a></li>
 <li><a href="used-car-loan-emi-calculator.html">Used Car Loan EMI Calculator</a></li>
