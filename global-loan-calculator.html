@@ -547,8 +547,17 @@ totalInterestEl.textContent = formatMoney(res.totalInterest, cur.symbol);
       const code = (newCurCode.value||'').toUpperCase().trim();
       const symbol = newCurSymbol.value||'';
       const name = newCurName.value||'';
-      if (!code || !symbol) { alert('Provide at least a currency code and symbol.'); return; }
-      currencies.push({code,symbol,name});
+      if (!code || !symbol) {
+  alert('Provide at least a currency code and symbol.');
+  return;
+}
+
+if (currencies.some(c => c.code === code)) {
+  alert('This currency already exists.');
+  return;
+}
+
+currencies.push({ code, symbol, name });
       newCurCode.value='';newCurSymbol.value='';newCurName.value='';
       refreshCurrencies();
     });
