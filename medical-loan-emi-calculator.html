@@ -6,9 +6,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
 
   <!-- SEO: primary meta tags -->
-  <title>Medical Loan EMI Calculator</title>
+  <title>Medical Loan Calculator & EMI Calculator</title>
 
-<meta name="description" content="Calculate Medical Loan EMI instantly with our free calculator. Estimate monthly installments, total interest payable, and repayment schedule for medical financing needs.">
+<meta name="description" content="Use our Medical Loan Calculator to estimate monthly EMI, total interest and total repayment for medical expenses, healthcare costs and treatment financing.">
  <meta name="keywords" content="medical loan calculator">
 <link rel="canonical" href="https://www.loanemi.de/medical-loan-emi-calculator.html">
 <script type="application/ld+json">
@@ -204,37 +204,39 @@ table {
     <main class="grid">
       <section>
         <div class="card">
-          <h2 id="calculator-title">EMI Calculator</h2>
+         <h2 id="calculator-title">Medical Loan EMI Calculator</h2>
           <p class="muted small">Enter loan details and press <strong>Calculate EMI</strong>.</p>
 
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
-            <div>
-              <label for="principal" data-i18n="label_principal">Loan amount</label>
-              <input id="principal" type="number" min="0" step="any" value="50000">
-            </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
 
-            <div>
-              <label for="tenure" data-i18n="label_tenure">Tenure (years)</label>
-              <input id="tenure" type="number" min="0" step="any" value="5">
-            </div>
+  <div>
+    <label for="principal">Medical Loan Amount</label>
+    <input id="principal" type="number" min="0" step="any" value="10000">
+  </div>
 
-            <div>
-              <label for="interest" data-i18n="label_interest">Interest rate (annual %)</label>
-              <input id="interest" type="number" min="0" step="any" value="8.5">
-            </div>
+  <div>
+    <label for="tenure">Loan Term (Years)</label>
+    <input id="tenure" type="number" min="0" step="any" value="3">
+  </div>
 
-            <div>
-              <label for="paymentsPerYear" data-i18n="label_payments">Payments per year</label>
-              <select id="paymentsPerYear">
-                <option value="12">Monthly</option>
-                <option value="4">Quarterly</option>
-                <option value="1">Yearly</option>
-              </select>
-            </div>
-          </div>
+  <div>
+    <label for="interest">Annual Interest Rate (%)</label>
+    <input id="interest" type="number" min="0" step="any" value="8">
+  </div>
+
+  <div>
+    <label for="paymentsPerYear">Payment Frequency</label>
+    <select id="paymentsPerYear">
+      <option value="12">Monthly</option>
+      <option value="4">Quarterly</option>
+      <option value="1">Yearly</option>
+    </select>
+  </div>
+
+</div>
 
           <div class="actions">
-            <button id="calcBtn">Calculate EMI</button>
+           <button id="calcBtn">Calculate Medical Loan EMI</button>
             <button id="resetBtn" style="background:#ef4444">Reset</button>
             <button id="exportBtn" style="background:#111827">Export CSV</button>
           </div>
