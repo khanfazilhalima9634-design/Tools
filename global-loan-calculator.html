@@ -480,6 +480,23 @@ function applyLanguage(code){
   const annualRate = parseFloat(interestEl.value) || 0;
   const years = parseFloat(tenureEl.value) || 0;
   const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
+  if (P <= 0) {
+  alert('Please enter a loan amount greater than 0.');
+  principalEl.focus();
+  return;
+}
+
+if (years <= 0) {
+  alert('Please enter a loan tenure greater than 0 years.');
+  tenureEl.focus();
+  return;
+}
+
+if (annualRate < 0) {
+  alert('Interest rate cannot be negative.');
+  interestEl.focus();
+  return;
+}    
 
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
