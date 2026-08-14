@@ -26,15 +26,15 @@
 
 
   <!-- Open Graph / Social -->
-<meta property="og:title" content="Germany Loan & EMI Calculator | Mortgage Repayment Calculator">
-<meta property="og:description" content="Calculate monthly mortgage, home, car and personal loan repayments in Germany with our free loan and EMI calculator.">
+<meta property="og:title" content="Germany Mortgage & Loan Calculator | Repayment Calculator">
+<meta property="og:description" content="Calculate estimated mortgage and loan repayments in Germany, including monthly payment, total interest, total repayment and amortization schedule.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.loanemi.de/emi-calculator-germany.html">
 <meta property="og:image" content="https://www.loanemi.de/images/germany-emi-calculator.jpg">
   
   <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Germany Loan & EMI Calculator | Mortgage Repayment Calculator">
-<meta name="twitter:description" content="Calculate mortgage and loan repayments in Germany with monthly payments, total interest and an amortization schedule.">
+<meta name="twitter:title" content="Germany Mortgage & Loan Calculator | Repayment Calculator">
+<meta name="twitter:description" content="Calculate estimated mortgage and loan repayments in Germany with monthly payments, total interest and an amortization schedule.">
 <meta name="twitter:image" content="https://www.loanemi.de/images/germany-emi-calculator.jpg">
 
   <!-- Structured data (JSON-LD) for SEO -->
@@ -124,9 +124,11 @@ table {
   <div class="container">
     <header>
       <div>
-      <h1 id="page-title">Germany Loan & EMI Calculator</h1>
+      <h1 id="page-title">Germany Mortgage & Loan Calculator</h1>
 
-       <p class="muted small">Germany Loan & Mortgage Repayment Calculator • Euro Supported • Free to Use</p>
+<p class="muted small">
+  Calculate estimated mortgage and loan repayments in Germany in euros (€), including monthly payment, total interest, total repayment and amortization.
+</p>
       </div>
 
       <div class="controls">
@@ -155,12 +157,15 @@ table {
     <main class="grid">
       <section>
         <div class="card">
-          <h2 id="calculator-title">Germany Loan & EMI Repayment Calculator</h2>
-<p class="muted small">Calculate monthly loan and mortgage repayments in Germany. Enter the loan amount, interest rate and repayment term to estimate your EMI and total interest.</p>
+          <h2 id="calculator-title">Calculate Your Germany Loan Repayment</h2>
+
+<p class="muted small">
+  Enter your loan amount, annual interest rate and repayment term to estimate your periodic payment and total borrowing cost.
+</p>
 
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">
             <div>
-              <label for="principal" data-i18n="label_principal">Loan amount</label>
+            <label for="principal" data-i18n="label_principal">Loan amount (€)</label>
               <input id="principal" type="number" min="0" step="any" value="50000">
             </div>
 
@@ -336,25 +341,91 @@ table {
       return currencySymbol + Number(amount).toLocaleString(undefined, {minimumFractionDigits:2,maximumFractionDigits:2});
     }
 
-    function calculateEMI(P, annualRatePct, years, paymentsPerYear){
-      const r = (annualRatePct/100)/paymentsPerYear; // periodic rate
-      const n = years * paymentsPerYear;
-      if (r === 0) return {emi: P/n, totalPayment: P, totalInterest: 0, schedule: []};
+    function calculateEMI(P, annualRatePct, years, paymentsPerYear) {
 
-      const pow = Math.pow(1+r,n);
-      const emi = P * r * pow / (pow - 1);
-      let balance = P;
-      const schedule = [];
-      for (let i=1;i<=n;i++){
-        const interest = balance * r;
-        const principal = emi - interest;
-        balance = Math.max(0, balance - principal);
-        schedule.push({paymentNo:i,payment:emi,principal:principal,interest:interest,balance:balance});
-      }
-      const totalPayment = emi * n;
-      const totalInterest = totalPayment - P;
-      return {emi,totalPayment,totalInterest,schedule};
+  const n = Math.round(years * paymentsPerYear);
+  const r = (annualRatePct / 100) / paymentsPerYear;
+
+  if (n <= 0) {
+    return {
+      emi: 0,
+      totalPayment: 0,
+      totalInterest: 0,
+      schedule: []
+    };
+  }
+
+  // 0% interest
+  if (r === 0) {
+
+    const payment = P / n;
+    let balance = P;
+    const schedule = [];
+
+    for (let i = 1; i <= n; i++) {
+
+      const principal = i === n ? balance : payment;
+      balance = Math.max(0, balance - principal);
+
+      schedule.push({
+        paymentNo: i,
+        payment: principal,
+        principal: principal,
+        interest: 0,
+        balance: balance
+      });
     }
+
+    return {
+      emi: payment,
+      totalPayment: P,
+      totalInterest: 0,
+      schedule: schedule
+    };
+  }
+
+  const pow = Math.pow(1 + r, n);
+  const emi = P * r * pow / (pow - 1);
+
+  let balance = P;
+  const schedule = [];
+
+  for (let i = 1; i <= n; i++) {
+
+    const interest = balance * r;
+
+    let principal = emi - interest;
+
+    // Prevent tiny floating-point remainder
+    if (i === n) {
+      principal = balance;
+    }
+
+    balance = Math.max(0, balance - principal);
+
+    schedule.push({
+      paymentNo: i,
+      payment: principal + interest,
+      principal: principal,
+      interest: interest,
+      balance: balance
+    });
+  }
+
+  const totalPayment = schedule.reduce(
+    (sum, row) => sum + row.payment,
+    0
+  );
+
+  const totalInterest = totalPayment - P;
+
+  return {
+    emi: schedule[0].payment,
+    totalPayment: totalPayment,
+    totalInterest: totalInterest,
+    schedule: schedule
+  };
+}
 
     // --- DOM elements ---
     const principalEl = document.getElementById('principal');
@@ -492,43 +563,70 @@ ar_ae: {
 
     // --- Event handlers ---
     calcBtn.addEventListener('click', () => {
-  // 1. Read inputs
-  const P = parseFloat(principalEl.value) || 0;
-  const annualRate = parseFloat(interestEl.value) || 0;
-  const years = parseFloat(tenureEl.value) || 0;
-  const paymentsPerYear = parseInt(paymentsPerYearEl.value) || 12;
+
+  const P = parseFloat(principalEl.value);
+  const annualRate = parseFloat(interestEl.value);
+  const years = parseFloat(tenureEl.value);
+  const paymentsPerYear = parseInt(paymentsPerYearEl.value);
+
+  // Validate inputs
+  if (!Number.isFinite(P) || P <= 0) {
+    alert('Please enter a loan amount greater than €0.');
+    return;
+  }
+
+  if (!Number.isFinite(annualRate) || annualRate < 0) {
+    alert('Please enter an interest rate of 0% or higher.');
+    return;
+  }
+
+  if (!Number.isFinite(years) || years <= 0) {
+    alert('Please enter a loan term greater than 0 years.');
+    return;
+  }
+
+  if (!Number.isFinite(paymentsPerYear) || paymentsPerYear <= 0) {
+    alert('Please select a valid payment frequency.');
+    return;
+  }
 
   const curCode = currencyEl.value;
   const cur = currencies.find(c => c.code === curCode) || currencies[0];
 
-  // 2. Convert entered amount to base currency (USD)
-  const baseAmount = P / cur.rate;
+  const res = calculateEMI(
+    P,
+    annualRate,
+    years,
+    paymentsPerYear
+  );
 
-  // 3. Calculate EMI in USD
-  const res = calculateEMI(baseAmount, annualRate, years, paymentsPerYear);
+  emiValueEl.textContent =
+    formatMoney(res.emi, cur.symbol);
 
-  // 4. Convert results back to selected currency
-  emiValueEl.textContent = formatMoney(res.emi * cur.rate, cur.symbol);
-  totalPaymentEl.textContent = formatMoney(res.totalPayment * cur.rate, cur.symbol);
-  totalInterestEl.textContent = formatMoney(res.totalInterest * cur.rate, cur.symbol);
+  totalPaymentEl.textContent =
+    formatMoney(res.totalPayment, cur.symbol);
 
-  // 5. Amortization table
+  totalInterestEl.textContent =
+    formatMoney(res.totalInterest, cur.symbol);
+
   amortBody.innerHTML = '';
+
   res.schedule.forEach(row => {
     const tr = document.createElement('tr');
+
     tr.innerHTML = `
       <td>${row.paymentNo}</td>
-      <td>${formatMoney(row.payment * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.principal * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.interest * cur.rate, cur.symbol)}</td>
-      <td>${formatMoney(row.balance * cur.rate, cur.symbol)}</td>
+      <td>${formatMoney(row.payment, cur.symbol)}</td>
+      <td>${formatMoney(row.principal, cur.symbol)}</td>
+      <td>${formatMoney(row.interest, cur.symbol)}</td>
+      <td>${formatMoney(row.balance, cur.symbol)}</td>
     `;
+
     amortBody.appendChild(tr);
   });
 });
-
    resetBtn.addEventListener('click', ()=>{
-      principalEl.value = 50000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
+      principalEl.value = 250000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
       emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
     });
 
@@ -637,12 +735,51 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
- <section class="card" style="margin-top:20px">
+<section class="card" style="margin-top:20px">
 
 <h2>Germany Mortgage & Loan Repayment Calculator</h2>
 
 <p>
-Buying a home, financing a new car, or taking a personal loan in Germany requires careful financial planning. One of the easiest ways to estimate your monthly repayment is by using a Germany EMI Calculator. This calculator helps borrowers understand how much they will pay every month, estimate the total interest payable, and know the overall repayment amount before applying for a loan.
+Planning a mortgage, home loan, car loan or personal loan in Germany?
+Our Germany Mortgage & Loan Calculator helps you estimate your periodic repayment, total interest and total repayment amount before comparing financing options.
+</p>
+
+<p>
+Enter the amount you want to borrow, your annual interest rate and the repayment term. The calculator then produces an estimated payment and an amortization schedule showing how the balance changes over time.
+</p>
+
+<p>
+For mortgage planning, you can also use the calculator to compare different loan amounts, interest rates and repayment periods. Results are estimates for planning purposes and may differ from the figures offered by a bank or lender.
+</p>
+
+<h2>How the Germany Loan Calculator Works</h2>
+
+<p>
+The calculator uses a standard fixed-rate loan amortization formula. Each repayment consists of an interest portion and a principal portion. As the outstanding balance decreases, the interest amount generally decreases as well.
+</p>
+
+<h3>Loan Amount</h3>
+
+<p>
+Enter the amount you plan to borrow. For a German mortgage, this would generally represent the financed loan amount rather than the full purchase price of the property.
+</p>
+
+<h3>Interest Rate</h3>
+
+<p>
+Enter the annual interest rate used for your estimate. Your actual rate may depend on factors such as the lender, loan structure, property, borrower profile and financing conditions.
+</p>
+
+<h3>Repayment Term</h3>
+
+<p>
+Enter the expected repayment period in years. A longer term can reduce the periodic payment but may increase the total interest paid.
+</p>
+
+<h3>Payment Frequency</h3>
+
+<p>
+Monthly payments are selected by default. The calculator also allows other payment frequencies for comparison purposes.
 </p>
 <p>
 Use this Germany loan calculator to estimate monthly repayments for mortgages, home loans, car loans and personal loans. Enter your loan amount, annual interest rate and repayment term to calculate your estimated monthly payment, total interest and total repayment amount in euros.
