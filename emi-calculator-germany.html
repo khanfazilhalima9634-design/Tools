@@ -626,7 +626,10 @@ ar_ae: {
   });
 });
    resetBtn.addEventListener('click', ()=>{
-      principalEl.value = 250000; interestEl.value = 8.5; tenureEl.value = 5; paymentsPerYearEl.value = 12;
+      principalEl.value = 250000;
+interestEl.value = 4;
+tenureEl.value = 20;
+paymentsPerYearEl.value = 12;
       emiValueEl.textContent = '—'; totalPaymentEl.textContent='—'; totalInterestEl.textContent='—'; amortBody.innerHTML = '';
     });
 
