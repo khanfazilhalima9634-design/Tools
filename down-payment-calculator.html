@@ -12,7 +12,7 @@
 <link rel="canonical" href="https://www.loanemi.de/down-payment-calculator.html">
 <link rel="alternate" hreflang="en" href="https://www.loanemi.de/down-payment-calculator.html">
 <link rel="alternate" hreflang="x-default" href="https://www.loanemi.de/down-payment-calculator.html"> 
- <link rel="alternate" hreflang="de" href="https://www.loanemi.de/de/anzahlung-rechner.html">
+ 
 <script type="application/ld+json">
 {
   "@context":"https://schema.org",
@@ -607,18 +607,20 @@ ar_ae: {
         if(dict[key]) el.textContent = dict[key];
     });
 
-    const pageTitle = document.getElementById("page-title");
-    const calcTitle = document.getElementById("calculator-title");
+   const pageTitle = document.getElementById("page-title");
+const calcTitle = document.getElementById("calculator-title");
 
-    // Get the original H1 text
-    const currentTitle = pageTitle.getAttribute("data-title") || pageTitle.textContent;
+const originalH1 =
+  pageTitle.getAttribute("data-title") || pageTitle.textContent;
 
-    // Save it once
-    pageTitle.setAttribute("data-title", currentTitle);
+const originalH2 =
+  calcTitle.getAttribute("data-title") || calcTitle.textContent;
 
-    // Apply to both H1 and H2
-    pageTitle.textContent = currentTitle;
-    calcTitle.textContent = currentTitle;
+pageTitle.setAttribute("data-title", originalH1);
+calcTitle.setAttribute("data-title", originalH2);
+
+pageTitle.textContent = originalH1;
+calcTitle.textContent = originalH2;
 }
 
     // --- Event handlers ---
@@ -897,7 +899,7 @@ If a home costs $400,000 and you choose a 20% down payment:
 The calculator then uses the mortgage amount, interest rate and loan term to estimate the periodic payment and total interest.
 </p>
 
-<h2>Down Payment Calculator Example</h2>
+<h2 id="examples">Down Payment Calculator Example</h2>
 
 <p>
 Suppose you are purchasing a home for $400,000 and want to make a 20% down payment.
@@ -1054,7 +1056,7 @@ A 25% down payment on a $400,000 home is $100,000, leaving $300,000 to finance.
 A 30% down payment on a $400,000 home is $120,000, leaving $280,000 to finance.
 </p>
 
-<h2>Benefits of Using a Down Payment Calculator</h2>
+<h2 id="benefits">Benefits of Using a Down Payment Calculator</h2>
 
 <ul>
 <li>Estimate your required upfront payment instantly.</li>
@@ -1116,7 +1118,7 @@ Longer repayment terms reduce monthly payments but increase the total interest p
 <p>Yes. You can calculate a down payment for any country by entering the home price, down payment percentage, interest rate, and loan term.</p>
 </section>   
 
-<h2>Frequently Asked Questions About Down Payments</h2>
+<h2 id="faq">Frequently Asked Questions About Down Payments</h2>
 
 <h3>How do I calculate a down payment?</h3>
 <p>
@@ -1190,7 +1192,7 @@ A Down Payment Calculator is an essential financial planning tool for anyone pre
 <!-- INTERNAL LINKS END -->
 
 <section class="card" style="margin-top:20px">
-  <h2>More Loan & Mortgage Calculators</h2>
+ <h2 id="related-calculators">More Loan & Mortgage Calculators</h2>
   <p class="muted small">Explore all our free financial calculators.</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:15px">
@@ -1269,5 +1271,5 @@ A Down Payment Calculator is an essential financial planning tool for anyone pre
 </section>
 </body>
 </html>
-</html>
+
 
